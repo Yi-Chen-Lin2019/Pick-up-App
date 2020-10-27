@@ -9,5 +9,6 @@ setup of environment: visual studio (.NET Framework)
 scrum boards: IceScrum 
 when to meet: should be everyday for stand-up meetings... but we’ll probably meet twice a week since there’re lectures 
 
+(start of sprint0)
 26/10: estimation and planning poker for user stories on iceScrum
 
