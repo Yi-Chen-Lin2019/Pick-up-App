@@ -6,7 +6,7 @@ namespace UnitTestProject
     [TestClass]
     public class TestCreateProduct
     {
-        [Test]
+        [TestMethod]
         public void TestValidProductInput() {
             //arrange
             string name = "Milk";
@@ -25,7 +25,7 @@ namespace UnitTestProject
             Assert.AreEqual(expected, status, "order created correctly");
         }
 
-        [Test]
+        [TestMethod]
         public void TestInValidPriceProductInput()
         {
             //arrange
@@ -45,7 +45,7 @@ namespace UnitTestProject
             Assert.AreEqual(expected, status, "order created correctly");
         }
 
-        [Test]
+        [TestMethod]
         public void TestInValidStockQuantityProductInput()
         {
             //arrange
@@ -65,7 +65,7 @@ namespace UnitTestProject
             Assert.AreEqual(expected, status, "order created correctly");
         }
 
-        [Test]
+        [TestMethod]
         public void TestInValidCategoryProductInput()
         {
             //arrange
