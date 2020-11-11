@@ -10,7 +10,7 @@ namespace UnitTestProject
         public void TestValidProductInput() {
             //arrange
             string name = "Milk";
-            string barcode = "09567432Z";
+            string barcode = "08567432Z";
             decimal price = 15;
             long stockQuantity = 100;
             string category = "grocery";
