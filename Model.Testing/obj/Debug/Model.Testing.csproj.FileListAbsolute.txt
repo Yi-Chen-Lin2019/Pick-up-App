@@ -1,0 +1,16 @@
+X:\PickUpAppProject\Git\Pick-up-App\Model.Testing\obj\Debug\Model.Testing.csprojAssemblyReference.cache
+X:\PickUpAppProject\Git\Pick-up-App\Model.Testing\obj\Debug\Model.Testing.csproj.CoreCompileInputs.cache
+X:\PickUpAppProject\Git\Pick-up-App\Model.Testing\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
+X:\PickUpAppProject\Git\Pick-up-App\Model.Testing\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
+X:\PickUpAppProject\Git\Pick-up-App\Model.Testing\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
+X:\PickUpAppProject\Git\Pick-up-App\Model.Testing\bin\Debug\Model.Testing.dll
+X:\PickUpAppProject\Git\Pick-up-App\Model.Testing\bin\Debug\Model.Testing.pdb
+X:\PickUpAppProject\Git\Pick-up-App\Model.Testing\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.dll
+X:\PickUpAppProject\Git\Pick-up-App\Model.Testing\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll
+X:\PickUpAppProject\Git\Pick-up-App\Model.Testing\bin\Debug\Model.dll
+X:\PickUpAppProject\Git\Pick-up-App\Model.Testing\bin\Debug\Model.pdb
+X:\PickUpAppProject\Git\Pick-up-App\Model.Testing\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.xml
+X:\PickUpAppProject\Git\Pick-up-App\Model.Testing\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.xml
+X:\PickUpAppProject\Git\Pick-up-App\Model.Testing\obj\Debug\Model.Testing.csproj.CopyComplete
+X:\PickUpAppProject\Git\Pick-up-App\Model.Testing\obj\Debug\Model.Testing.dll
+X:\PickUpAppProject\Git\Pick-up-App\Model.Testing\obj\Debug\Model.Testing.pdb

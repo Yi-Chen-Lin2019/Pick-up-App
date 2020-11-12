@@ -1,0 +1,9 @@
+X:\PickUpAppProject\Git\Pick-up-App\DAL\bin\Debug\netstandard2.0\DAL.deps.json
+X:\PickUpAppProject\Git\Pick-up-App\DAL\bin\Debug\netstandard2.0\DAL.dll
+X:\PickUpAppProject\Git\Pick-up-App\DAL\bin\Debug\netstandard2.0\DAL.pdb
+X:\PickUpAppProject\Git\Pick-up-App\DAL\obj\Debug\netstandard2.0\DAL.csprojAssemblyReference.cache
+X:\PickUpAppProject\Git\Pick-up-App\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfoInputs.cache
+X:\PickUpAppProject\Git\Pick-up-App\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfo.cs
+X:\PickUpAppProject\Git\Pick-up-App\DAL\obj\Debug\netstandard2.0\DAL.csproj.CoreCompileInputs.cache
+X:\PickUpAppProject\Git\Pick-up-App\DAL\obj\Debug\netstandard2.0\DAL.dll
+X:\PickUpAppProject\Git\Pick-up-App\DAL\obj\Debug\netstandard2.0\DAL.pdb

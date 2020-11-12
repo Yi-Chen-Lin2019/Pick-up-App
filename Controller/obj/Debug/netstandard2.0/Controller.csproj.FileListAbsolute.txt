@@ -1,0 +1,9 @@
+X:\PickUpAppProject\Git\Pick-up-App\Controller\bin\Debug\netstandard2.0\Controller.deps.json
+X:\PickUpAppProject\Git\Pick-up-App\Controller\bin\Debug\netstandard2.0\Controller.dll
+X:\PickUpAppProject\Git\Pick-up-App\Controller\bin\Debug\netstandard2.0\Controller.pdb
+X:\PickUpAppProject\Git\Pick-up-App\Controller\obj\Debug\netstandard2.0\Controller.csprojAssemblyReference.cache
+X:\PickUpAppProject\Git\Pick-up-App\Controller\obj\Debug\netstandard2.0\Controller.AssemblyInfoInputs.cache
+X:\PickUpAppProject\Git\Pick-up-App\Controller\obj\Debug\netstandard2.0\Controller.AssemblyInfo.cs
+X:\PickUpAppProject\Git\Pick-up-App\Controller\obj\Debug\netstandard2.0\Controller.csproj.CoreCompileInputs.cache
+X:\PickUpAppProject\Git\Pick-up-App\Controller\obj\Debug\netstandard2.0\Controller.dll
+X:\PickUpAppProject\Git\Pick-up-App\Controller\obj\Debug\netstandard2.0\Controller.pdb

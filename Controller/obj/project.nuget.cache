@@ -1,11 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "6awyXa7ngMz9TAn1jQc0307k8j7StXZimtpupfDK6To5t9Lm0ABlFjvrQzDJvLePHdXcR9supwPE7gs4QsaxHg==",
+  "dgSpecHash": "pS6KU/j1gPfZw4KXr3ylCZtaOFXOncs4X5u1d+Gk0cMLmSnnX1CvC8qT6z3kKOgsr3doW2MIuAr69bHzdaT2/A==",
   "success": true,
-  "projectFilePath": "C:\\Users\\miki\\source\\repos\\Semester3Project\\Controller\\Controller.csproj",
+  "projectFilePath": "X:\\PickUpAppProject\\Git\\Pick-up-App\\Controller\\Controller.csproj",
   "expectedPackageFiles": [
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
+    "C:\\Users\\Rodi\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\Rodi\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
   ],
   "logs": []
 }
