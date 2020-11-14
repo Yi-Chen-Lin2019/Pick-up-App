@@ -17,7 +17,10 @@ namespace REST.Controllers
 
         public List<Product> GetAllProducts()
         {
-            throw new System.NotImplementedException();
+            return new List<Product> {
+                new Product("Milk", "12345", 100, 200, null),
+                new Product()
+            };
         }
 
         public Product GetProductById(int productID)
