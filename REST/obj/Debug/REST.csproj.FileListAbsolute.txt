@@ -121,3 +121,5 @@ C:\Users\kidsk\Source\Repos\Pick-up-App\REST\obj\Debug\REST.csprojAssemblyRefere
 C:\Users\kidsk\Source\Repos\Pick-up-App\REST\obj\Debug\REST.csproj.CoreCompileInputs.cache
 C:\Users\kidsk\Source\Repos\Pick-up-App\REST\obj\Debug\REST.dll
 C:\Users\kidsk\Source\Repos\Pick-up-App\REST\obj\Debug\REST.pdb
+C:\Users\kidsk\OneDrive\桌面\api_branch\REST\obj\Debug\REST.csprojAssemblyReference.cache
+C:\Users\kidsk\OneDrive\桌面\api_branch\REST\obj\Debug\REST.csproj.CoreCompileInputs.cache

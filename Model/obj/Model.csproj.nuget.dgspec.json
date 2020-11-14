@@ -1,23 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\miki\\source\\repos\\Semester3Project\\Model\\Model.csproj": {}
+    "C:\\Users\\kidsk\\OneDrive\\桌面\\api_branch\\Model\\Model.csproj": {}
   },
   "projects": {
-    "C:\\Users\\miki\\source\\repos\\Semester3Project\\Model\\Model.csproj": {
+    "C:\\Users\\kidsk\\OneDrive\\桌面\\api_branch\\Model\\Model.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\miki\\source\\repos\\Semester3Project\\Model\\Model.csproj",
+        "projectUniqueName": "C:\\Users\\kidsk\\OneDrive\\桌面\\api_branch\\Model\\Model.csproj",
         "projectName": "Model",
-        "projectPath": "C:\\Users\\miki\\source\\repos\\Semester3Project\\Model\\Model.csproj",
-        "packagesPath": "C:\\Users\\miki\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\miki\\source\\repos\\Semester3Project\\Model\\obj\\",
+        "projectPath": "C:\\Users\\kidsk\\OneDrive\\桌面\\api_branch\\Model\\Model.csproj",
+        "packagesPath": "C:\\Users\\kidsk\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\kidsk\\OneDrive\\桌面\\api_branch\\Model\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\miki\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\kidsk\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -58,7 +55,7 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.403\\RuntimeIdentifierGraph.json"
         }
       }
     }

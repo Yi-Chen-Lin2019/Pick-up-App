@@ -12,19 +12,42 @@ namespace REST.Controllers
 {
     public class ProductController : ApiController
     {
+        private static readonly List<Product> Products = new List<Product>
+        { 
+            new Product { 
+            Name = "Milk", 
+            Barcode = "12345", 
+            Category = new Category{ Name = "grocery"}
+            },
+            new Product {
+            Name = "chocolate",
+            Barcode = "6666",
+            Category = new Category{ Name = "snack"}
+            }
+
+
+
+        };
+
         /// <summary>
-        /// Get all  products. 
+        /// Get all products
         /// </summary>
+        /// <remarks>
+        /// Get a list of products
+        /// </remarks>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>List&lt;Product&gt;</returns>
+        /// <response code = "200"></response>
         [Route("Products")]
         [HttpGet]
         public IHttpActionResult Get()
         {
+            /*
             IProductRepository pRepo = new ProductRepository();
             IEnumerable<Product> foundProducts = pRepo.GetAllProducts();
             if (foundProducts == null) { return InternalServerError(); }
-            else { return Ok(foundProducts); }
+            else { return Ok(foundProducts); } */
+            return Ok(Products);
         }
 
 
