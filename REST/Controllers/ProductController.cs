@@ -18,10 +18,12 @@ namespace REST.Controllers
         /// <returns>List&lt;Product&gt;</returns>
         [Route("Products")]
         [HttpGet]
-        public List<Product> Get()
+        public IHttpActionResult Get()
         {
-            IProductRepository prepo = new ProductRepository();
-            return prepo.GetAllProducts();
+            IProductRepository pRepo = new ProductRepository();
+            IEnumerable<Product> foundProducts = pRepo.GetAllProducts();
+            if (foundProducts == null) { return InternalServerError(); }
+            else { return Ok(foundProducts); }
         }
 
 
@@ -33,10 +35,12 @@ namespace REST.Controllers
         /// <returns>List&lt;Product&gt;</returns>
         [Route("Products/{productID}")]
         [HttpGet]
-        public Product Get(int productID)
+        public IHttpActionResult Get(int productID)
         {
             IProductRepository prepo = new ProductRepository();
-            return prepo.GetProductById(productID);
+            Product result = prepo.GetProductById(productID);
+            if (result == null) { return InternalServerError(); }
+            else { return Ok(result); }
            
         }
 
