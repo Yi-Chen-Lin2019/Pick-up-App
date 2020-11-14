@@ -5,6 +5,11 @@ namespace REST.Controllers
 {
     internal class ProductRepository : IProductRepository
     {
+        public Product DeleteProduct(int id)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public Product Get(int productID)
         {
             throw new System.NotImplementedException();
@@ -20,7 +25,12 @@ namespace REST.Controllers
             throw new System.NotImplementedException();
         }
 
-        public void InsertProduct(Product product)
+        public Product InsertProduct(Product product)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Product UpdateProduct(int id, Product product)
         {
             throw new System.NotImplementedException();
         }

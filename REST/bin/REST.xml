@@ -498,10 +498,27 @@
         </member>
         <member name="M:REST.Controllers.ProductController.Post(REST.Models.Product)">
             <summary>
-            Adds a product to the system
+            Add a product to the system
             </summary>
             <exception cref="!:IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
             <param name="product">Product to add (optional)</param>
+            <returns></returns>
+        </member>
+        <member name="M:REST.Controllers.ProductController.Put(System.Int32,REST.Models.Product)">
+            <summary>
+            Update a product by ID
+            </summary>
+            <exception cref="!:IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+            <param name="productID">Product ID</param>
+            <param name="product">Product to update (optional)</param>
+            <returns></returns>
+        </member>
+        <member name="M:REST.Controllers.ProductController.Delete(System.Int32)">
+            <summary>
+            Delete a product in the system
+            </summary>
+            <exception cref="!:IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+            <param name="productID">Product ID.</param>
             <returns></returns>
         </member>
         <member name="T:REST.Models.Category">
