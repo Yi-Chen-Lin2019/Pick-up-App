@@ -84,13 +84,13 @@ namespace REST.Controllers
         [Route("Orders")]
         [HttpDelete]
         // DELETE api/<controller>/5
-        public IHttpActionResult Delete(int id)
+        public IHttpActionResult Delete(int orderID)
         {
             IOrderRepository prepo = new OrderRepository();
-            Order result = prepo.DeleteOrder(id);
+            Order result = prepo.DeleteOrder(orderID);
             if (result == null) { return InternalServerError(); }
             else { return Ok(result); }
         }
     }
 }
-}
+

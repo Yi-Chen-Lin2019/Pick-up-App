@@ -70,10 +70,10 @@ namespace REST.Controllers
         /// <returns></returns>
         [Route("Products")]
         [HttpPut]
-        public IHttpActionResult Put(int id, [FromBody] Product product)
+        public IHttpActionResult Put(int productID, [FromBody] Product product)
         {
             IProductRepository prepo = new ProductRepository();
-            Product result = prepo.UpdateProduct(id, product);
+            Product result = prepo.UpdateProduct(productID, product);
             if (result == null) { return InternalServerError(); }
             else { return Ok(result); }
         }
@@ -87,10 +87,10 @@ namespace REST.Controllers
         [Route("Products")]
         [HttpDelete]
         // DELETE api/<controller>/5
-        public IHttpActionResult Delete(int id)
+        public IHttpActionResult Delete(int productID)
         {
             IProductRepository prepo = new ProductRepository();
-            Product result = prepo.DeleteProduct(id);
+            Product result = prepo.DeleteProduct(productID);
             if (result == null) { return InternalServerError(); }
             else { return Ok(result); }
         }
