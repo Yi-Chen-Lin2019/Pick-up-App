@@ -1,5 +1,6 @@
 ﻿
 using REST.Models;
+using Swashbuckle.Swagger.Annotations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,28 +46,53 @@ namespace REST.Controllers
         }
 
         /// <summary>
-        /// Adds a product to the system
+        /// Add a product to the system
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="product">Product to add (optional)</param>
         /// <returns></returns>
         [Route("Products")]
         [HttpPost]
-        public void Post([FromBody] Product product)
+        public IHttpActionResult Post([FromBody] Product product)
         {
             IProductRepository prepo = new ProductRepository();
-            prepo.InsertProduct(product);
+            Product result = prepo.InsertProduct(product);
+            if (result == null) { return InternalServerError(); }
+            else { return Ok(result); }
         }
 
+        /// <summary>
+        /// Update a product by ID
+        /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="productID">Product ID</param>
+        /// <param name="product">Product to update (optional)</param>
+        /// <returns></returns>
         [Route("Products")]
         [HttpPut]
-        public void Put(int id, [FromBody] string value)
+        public IHttpActionResult Put(int id, [FromBody] Product product)
         {
+            IProductRepository prepo = new ProductRepository();
+            Product result = prepo.UpdateProduct(id, product);
+            if (result == null) { return InternalServerError(); }
+            else { return Ok(result); }
         }
 
+        /// <summary>
+        /// Delete a product in the system
+        /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="productID">Product ID.</param>
+        /// <returns></returns>
+        [Route("Products")]
+        [HttpDelete]
         // DELETE api/<controller>/5
-        public void Delete(int id)
+        public IHttpActionResult Delete(int id)
         {
+            IProductRepository prepo = new ProductRepository();
+            Product result = prepo.DeleteProduct(id);
+            if (result == null) { return InternalServerError(); }
+            else { return Ok(result); }
         }
     }
 }

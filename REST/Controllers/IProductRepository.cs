@@ -5,9 +5,11 @@ namespace REST.Controllers
 {
     internal interface IProductRepository
     {
-        void InsertProduct(Product product);
+        Product InsertProduct(Product product);
         Product Get(int productID);
         Product GetProductById(int productID);
         List<Product> GetAllProducts();
+        Product UpdateProduct(int id, Product product);
+        Product DeleteProduct(int id);
     }
 }
