@@ -42,12 +42,12 @@ namespace REST.Controllers
         [HttpGet]
         public IHttpActionResult Get()
         {
-            /*
+            
             IProductRepository pRepo = new ProductRepository();
             IEnumerable<Product> foundProducts = pRepo.GetAllProducts();
             if (foundProducts == null) { return InternalServerError(); }
-            else { return Ok(foundProducts); } */
-            return Ok(Products);
+            else { return Ok(foundProducts); } 
+            //return Ok(Products);
         }
 
 
