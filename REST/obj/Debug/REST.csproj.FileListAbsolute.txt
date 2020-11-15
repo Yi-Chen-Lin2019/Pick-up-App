@@ -241,4 +241,3 @@ C:\Users\kidsk\OneDrive\桌面\project\REST\bin\Microsoft.CodeDom.Providers.DotN
 C:\Users\kidsk\OneDrive\桌面\project\REST\obj\Debug\REST.csproj.CopyComplete
 C:\Users\kidsk\OneDrive\桌面\project\REST\obj\Debug\REST.dll
 C:\Users\kidsk\OneDrive\桌面\project\REST\obj\Debug\REST.pdb
-C:\Users\kidsk\OneDrive\桌面\project\REST\obj\Debug\REST.csprojAssemblyReference.cache
