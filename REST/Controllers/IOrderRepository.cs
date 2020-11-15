@@ -10,5 +10,6 @@ namespace REST.Controllers
         Order DeleteOrder(int orderID);
         Order GetOrderById(int orderID);
         IEnumerable<Order> GetAllOrders();
+        Order UpdateOrder(Order order);
     }
 }

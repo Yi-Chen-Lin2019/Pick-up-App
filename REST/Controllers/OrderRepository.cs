@@ -29,5 +29,10 @@ namespace REST.Controllers
         {
             throw new System.NotImplementedException();
         }
+
+        public Order UpdateOrder(Order order)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

@@ -123,7 +123,6 @@ C:\Users\kidsk\Source\Repos\Pick-up-App\REST\obj\Debug\REST.dll
 C:\Users\kidsk\Source\Repos\Pick-up-App\REST\obj\Debug\REST.pdb
 C:\Users\kidsk\OneDrive\桌面\api_branch\REST\obj\Debug\REST.csprojAssemblyReference.cache
 C:\Users\kidsk\OneDrive\桌面\api_branch\REST\obj\Debug\REST.csproj.CoreCompileInputs.cache
-C:\Users\kidsk\OneDrive\桌面\project\REST\obj\Debug\REST.csprojAssemblyReference.cache
 C:\Users\kidsk\OneDrive\桌面\project\REST\obj\Debug\REST.csproj.CoreCompileInputs.cache
 C:\Users\kidsk\OneDrive\桌面\project\REST\bin\REST.dll.config
 C:\Users\kidsk\OneDrive\桌面\project\REST\bin\REST.xml
@@ -242,3 +241,4 @@ C:\Users\kidsk\OneDrive\桌面\project\REST\bin\Microsoft.CodeDom.Providers.DotN
 C:\Users\kidsk\OneDrive\桌面\project\REST\obj\Debug\REST.csproj.CopyComplete
 C:\Users\kidsk\OneDrive\桌面\project\REST\obj\Debug\REST.dll
 C:\Users\kidsk\OneDrive\桌面\project\REST\obj\Debug\REST.pdb
+C:\Users\kidsk\OneDrive\桌面\project\REST\obj\Debug\REST.csprojAssemblyReference.cache
