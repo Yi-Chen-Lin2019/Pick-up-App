@@ -7,28 +7,29 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Description;
 
 namespace REST.Controllers
 {
     public class ProductController : ApiController
     {
-        private static readonly List<Product> Products = new List<Product>
-        { 
-            new Product { 
-            Name = "Milk", 
-            Barcode = "12345", 
-            Category = new Category{ Name = "grocery"}
-            },
-            new Product {
-            Name = "chocolate",
-            Barcode = "6666",
-            Category = new Category{ Name = "snack"}
-            }
-
-
-
+        private static readonly IEnumerable<Product> Products = new List<Product>
+        {
+            new Product (
+                "Milk",
+                "12345",
+                100,
+                500,
+                new Category("grocery")
+                ),
+                new Product (
+                "chocolate",
+                "6666",
+                 100,
+                 40,
+                new Category( "snack")
+                )
         };
-
         /// <summary>
         /// Get all products
         /// </summary>
@@ -40,15 +41,19 @@ namespace REST.Controllers
         /// <response code = "200"></response>
         [Route("Products")]
         [HttpGet]
+        [ResponseType(typeof(IEnumerable<Product>))]
         public IHttpActionResult Get()
         {
-            
+            /*
             IProductRepository pRepo = new ProductRepository();
             IEnumerable<Product> foundProducts = pRepo.GetAllProducts();
             if (foundProducts == null) { return InternalServerError(); }
             else { return Ok(foundProducts); } 
-            //return Ok(Products);
-        }
+            */
+
+            //test
+            return Ok(Products);
+         }
 
 
         /// <summary>
@@ -57,8 +62,11 @@ namespace REST.Controllers
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="productID">Put in product ID.</param>
         /// <returns>List&lt;Product&gt;</returns>
+        /// <response code = "200">Product found</response>
+        /// <response code = "404">Product not found</response>
         [Route("Products/{productID}")]
         [HttpGet]
+        [ResponseType(typeof(Product))]
         public IHttpActionResult Get(int productID)
         {
             IProductRepository prepo = new ProductRepository();
@@ -74,8 +82,10 @@ namespace REST.Controllers
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="product">Product to add (optional)</param>
         /// <returns></returns>
+        /// <response code = "201">Product created</response>
         [Route("Products")]
         [HttpPost]
+        [ResponseType(typeof(Product))]
         public IHttpActionResult Post([FromBody] Product product)
         {
             IProductRepository prepo = new ProductRepository();
@@ -89,14 +99,16 @@ namespace REST.Controllers
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="productID">Product ID</param>
-        /// <param name="product">Product to update (optional)</param>
+        /// <param name="product">Product to update</param>
         /// <returns></returns>
-        [Route("Products")]
+        /// <response code = "200">Product updated</response>
+        [Route("Products/{productID}")]
         [HttpPut]
-        public IHttpActionResult Put(int productID, [FromBody] Product product)
+        [ResponseType(typeof(Product))]
+        public IHttpActionResult Put([FromBody] Product product)
         {
             IProductRepository prepo = new ProductRepository();
-            Product result = prepo.UpdateProduct(productID, product);
+            Product result = prepo.UpdateProduct(product);
             if (result == null) { return InternalServerError(); }
             else { return Ok(result); }
         }
@@ -107,7 +119,8 @@ namespace REST.Controllers
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="productID">Product ID.</param>
         /// <returns></returns>
-        [Route("Products")]
+        /// <response code = "200">Product deleted</response>
+        [Route("Products/{productID}")]
         [HttpDelete]
         // DELETE api/<controller>/5
         public IHttpActionResult Delete(int productID)

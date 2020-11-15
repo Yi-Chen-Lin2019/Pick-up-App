@@ -11,5 +11,6 @@ namespace REST.Controllers
         List<Product> GetAllProducts();
         Product UpdateProduct(int id, Product product);
         Product DeleteProduct(int id);
+        Product UpdateProduct(Product product);
     }
 }

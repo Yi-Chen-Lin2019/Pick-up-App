@@ -37,5 +37,10 @@ namespace REST.Controllers
         {
             throw new System.NotImplementedException();
         }
+
+        public Product UpdateProduct(Product product)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

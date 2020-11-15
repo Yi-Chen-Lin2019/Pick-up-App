@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Description;
 
 namespace REST.Controllers
 {
@@ -15,8 +16,10 @@ namespace REST.Controllers
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>List&lt;Order&gt;</returns>
+        /// <response code = "200"></response>
         [Route("Orders")]
         [HttpGet]
+        [ResponseType(typeof(IEnumerable<Order>))]
         public IHttpActionResult Get()
         {
             IOrderRepository pRepo = new OrderRepository();
@@ -32,8 +35,11 @@ namespace REST.Controllers
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderID">Put in order ID.</param>
         /// <returns>List&lt;Order&gt;</returns>
+        /// <response code = "200">Order found</response>
+        /// <response code = "404">Order not found</response>
         [Route("Orders/{orderID}")]
         [HttpGet]
+        [ResponseType(typeof(Order))]
         public IHttpActionResult Get(int orderID)
         {
             IOrderRepository prepo = new OrderRepository();
@@ -49,8 +55,10 @@ namespace REST.Controllers
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="order">Order to add (optional)</param>
         /// <returns></returns>
+        /// <response code = "201">Order created</response>
         [Route("Orders")]
         [HttpPost]
+        [ResponseType(typeof(Order))]
         public IHttpActionResult Post([FromBody] Order order)
         {
             IOrderRepository prepo = new OrderRepository();
@@ -64,14 +72,16 @@ namespace REST.Controllers
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderID">Order ID</param>
-        /// <param name="order">Order to update (optional)</param>
+        /// <param name="order">Order to update</param>
         /// <returns></returns>
-        [Route("Orders")]
+        /// <response code = "200">Order updated</response>
+        [Route("Orders/{orderID}")]
         [HttpPut]
-        public IHttpActionResult Put(int id, [FromBody] Order order)
+        [ResponseType(typeof(Order))]
+        public IHttpActionResult Put([FromBody] Order order)
         {
             IOrderRepository prepo = new OrderRepository();
-            Order result = prepo.UpdateOrder(id, order);
+            Order result = prepo.UpdateOrder(order);
             if (result == null) { return InternalServerError(); }
             else { return Ok(result); }
         }
@@ -82,7 +92,8 @@ namespace REST.Controllers
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderID">Order ID.</param>
         /// <returns></returns>
-        [Route("Orders")]
+        /// <response code = "200">Order deleted</response>
+        [Route("Orders/{orderID}")]
         [HttpDelete]
         // DELETE api/<controller>/5
         public IHttpActionResult Delete(int orderID)
