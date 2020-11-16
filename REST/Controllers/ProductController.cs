@@ -44,15 +44,15 @@ namespace REST.Controllers
         [ResponseType(typeof(IEnumerable<Product>))]
         public IHttpActionResult Get()
         {
-            /*
+            
             IProductRepository pRepo = new ProductRepository();
             IEnumerable<Product> foundProducts = pRepo.GetAllProducts();
             if (foundProducts == null) { return InternalServerError(); }
             else { return Ok(foundProducts); } 
-            */
+            
 
             //test
-            return Ok(Products);
+            //return Ok(Products);
          }
 
 

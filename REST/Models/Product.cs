@@ -128,7 +128,7 @@ namespace REST.Models
             sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("  Barcode: ").Append(Barcode).Append("\n");
             sb.Append("  Price: ").Append(Price).Append("\n");
-            sb.Append("  StockQuantity: ").Append(StockQuantity).Append("\n");
+            sb.Append("  Quantity of stock: ").Append(StockQuantity).Append("\n");
             sb.Append("  Category: ").Append(Category).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
