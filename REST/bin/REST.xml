@@ -548,7 +548,7 @@
             <response code = "200">Product found</response>
             <response code = "404">Product not found</response>
         </member>
-        <member name="M:REST.Controllers.ProductController.Post(REST.Models.Product)">
+        <member name="M:REST.Controllers.ProductController.Post(Model.Product)">
             <summary>
             Add a product to the system
             </summary>
@@ -557,7 +557,7 @@
             <returns></returns>
             <response code = "201">Product created</response>
         </member>
-        <member name="M:REST.Controllers.ProductController.Put(REST.Models.Product)">
+        <member name="M:REST.Controllers.ProductController.Put(Model.Product)">
             <summary>
             Update a product by ID
             </summary>
@@ -724,7 +724,7 @@
             Initializes a new instance of the <see cref="T:REST.Models.Order" /> class.
             </summary>
         </member>
-        <member name="M:REST.Models.Order.#ctor(REST.Models.Customer,REST.Models.Product,System.Nullable{System.DateTime},System.String)">
+        <member name="M:REST.Models.Order.#ctor(REST.Models.Customer,Model.Product,System.Nullable{System.DateTime},System.String)">
             <summary>
             Initializes a new instance of the <see cref="T:REST.Models.Order" /> class.
             </summary>
@@ -786,90 +786,6 @@
             <returns>Hash code</returns>
         </member>
         <member name="M:REST.Models.Order.System#ComponentModel#DataAnnotations#IValidatableObject#Validate(System.ComponentModel.DataAnnotations.ValidationContext)">
-            <summary>
-            To validate all properties of the instance
-            </summary>
-            <param name="validationContext">Validation context</param>
-            <returns>Validation Result</returns>
-        </member>
-        <member name="T:REST.Models.Product">
-            <summary>
-            Product
-            </summary>
-        </member>
-        <member name="M:REST.Models.Product.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="T:REST.Models.Product" /> class.
-            </summary>
-        </member>
-        <member name="M:REST.Models.Product.#ctor(System.String,System.String,System.Nullable{System.Int32},System.Nullable{System.Int32},REST.Models.Category)">
-            <summary>
-            Initializes a new instance of the <see cref="T:REST.Models.Product" /> class.
-            </summary>
-            <param name="name">name (required).</param>
-            <param name="barcode">barcode (required).</param>
-            <param name="price">price (required).</param>
-            <param name="stockQuantity">stockQuantity (required).</param>
-            <param name="category">category (required).</param>
-        </member>
-        <member name="P:REST.Models.Product.Name">
-            <summary>
-            Gets or Sets Name
-            </summary>
-        </member>
-        <member name="P:REST.Models.Product.Barcode">
-            <summary>
-            Gets or Sets Barcode
-            </summary>
-        </member>
-        <member name="P:REST.Models.Product.Price">
-            <summary>
-            Gets or Sets Price
-            </summary>
-        </member>
-        <member name="P:REST.Models.Product.StockQuantity">
-            <summary>
-            Gets or Sets StockQuantity
-            </summary>
-        </member>
-        <member name="P:REST.Models.Product.Category">
-            <summary>
-            Gets or Sets Category
-            </summary>
-        </member>
-        <member name="M:REST.Models.Product.ToString">
-            <summary>
-            Returns the string presentation of the object
-            </summary>
-            <returns>String presentation of the object</returns>
-        </member>
-        <member name="M:REST.Models.Product.ToJson">
-            <summary>
-            Returns the JSON string presentation of the object
-            </summary>
-            <returns>JSON string presentation of the object</returns>
-        </member>
-        <member name="M:REST.Models.Product.Equals(System.Object)">
-            <summary>
-            Returns true if objects are equal
-            </summary>
-            <param name="input">Object to be compared</param>
-            <returns>Boolean</returns>
-        </member>
-        <member name="M:REST.Models.Product.Equals(REST.Models.Product)">
-            <summary>
-            Returns true if Product instances are equal
-            </summary>
-            <param name="input">Instance of Product to be compared</param>
-            <returns>Boolean</returns>
-        </member>
-        <member name="M:REST.Models.Product.GetHashCode">
-            <summary>
-            Gets the hash code
-            </summary>
-            <returns>Hash code</returns>
-        </member>
-        <member name="M:REST.Models.Product.System#ComponentModel#DataAnnotations#IValidatableObject#Validate(System.ComponentModel.DataAnnotations.ValidationContext)">
             <summary>
             To validate all properties of the instance
             </summary>
