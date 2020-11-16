@@ -16,23 +16,6 @@ namespace REST.Controllers
 {
     public class ProductController : ApiController
     {
-        private static readonly IEnumerable<Product> Products = new List<Product>
-        {
-            new Product {
-                Name = "Milk",
-                Barcode = 12345,
-                Price = 100,
-                StockQuantity = 500,
-                Category = new Category ("grocery")
-        },
-                new Product {
-                 Name = "Chocolate",
-                Barcode = 66666,
-                Price = 100,
-                StockQuantity = 500,
-                Category = new Category ("grocery")
-                }
-        };
         /// <summary>
         /// Get all products
         /// </summary>
@@ -48,13 +31,9 @@ namespace REST.Controllers
         public IHttpActionResult Get()
         {
             ProductManagement pm = new ProductManagement();
-            IEnumerable<Product> foundProducts = pm.GetAll();
+            IEnumerable<Product> foundProducts = pm.GetAllProducts();
             if (foundProducts == null) { return InternalServerError(); }
             else { return Ok(foundProducts); } 
-            
-
-            //test
-            //return Ok(Products);
          }
 
 

@@ -1,4 +1,6 @@
-﻿using REST.Models;
+﻿
+using BusinessLayer;
+using Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,8 +24,8 @@ namespace REST.Controllers
         [ResponseType(typeof(IEnumerable<Order>))]
         public IHttpActionResult Get()
         {
-            IOrderRepository pRepo = new OrderRepository();
-            IEnumerable<Order> foundOrders = pRepo.GetAllOrders();
+            OrderManagement om = new OrderManagement();
+            IEnumerable<Order> foundOrders = om.GetAllOrders();
             if (foundOrders == null) { return InternalServerError(); }
             else { return Ok(foundOrders); }
         }
@@ -42,8 +44,8 @@ namespace REST.Controllers
         [ResponseType(typeof(Order))]
         public IHttpActionResult Get(int orderID)
         {
-            IOrderRepository prepo = new OrderRepository();
-            Order result = prepo.GetOrderById(orderID);
+            OrderManagement om = new OrderManagement();
+            Order result = om.GetOrderById(orderID);
             if (result == null) { return InternalServerError(); }
             else { return Ok(result); }
 
@@ -61,8 +63,8 @@ namespace REST.Controllers
         [ResponseType(typeof(Order))]
         public IHttpActionResult Post([FromBody] Order order)
         {
-            IOrderRepository prepo = new OrderRepository();
-            Order result = prepo.InsertOrder(order);
+            OrderManagement om = new OrderManagement();
+            Order result = om.InsertOrder(order);
             if (result == null) { return InternalServerError(); }
             else { return Ok(result); }
         }
@@ -80,8 +82,8 @@ namespace REST.Controllers
         [ResponseType(typeof(Order))]
         public IHttpActionResult Put([FromBody] Order order)
         {
-            IOrderRepository prepo = new OrderRepository();
-            Order result = prepo.UpdateOrder(order);
+            OrderManagement om = new OrderManagement();
+            Order result = om.UpdateOrder(order);
             if (result == null) { return InternalServerError(); }
             else { return Ok(result); }
         }
@@ -98,8 +100,8 @@ namespace REST.Controllers
         // DELETE api/<controller>/5
         public IHttpActionResult Delete(int orderID)
         {
-            IOrderRepository prepo = new OrderRepository();
-            Order result = prepo.DeleteOrder(orderID);
+            OrderManagement om = new OrderManagement();
+            Order result = om.DeleteOrder(orderID);
             if (result == null) { return InternalServerError(); }
             else { return Ok(result); }
         }
