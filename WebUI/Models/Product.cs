@@ -14,6 +14,10 @@ namespace WebUI.Models
         public string image { get; set; }
         public Category category { get; set; }
 
+        public Product()
+        {
+
+        }
         public Product(int id, string name, double price, string image, Category category)
         {
             this.id = id;

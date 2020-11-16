@@ -3,89 +3,78 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WebUI.Models;
 
 namespace WebUI.Controllers
 {
     public class ShoppingCartController : Controller
     {
+        public Order shoppingCart { get; set; }
+
         // GET: ShoppingCart
         public ActionResult Index()
         {
-            return View();
+            return Details();
         }
 
         // GET: ShoppingCart/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details()
         {
-            return View();
+            return View((Order)Order.Current);
         }
 
         // GET: ShoppingCart/Create
-        public ActionResult AddToCart(int productId)
-        {
-            Session["TestSession1"] = productId;
-
-            return this.Json(new { success = true, text = Session["TestSession1"] });
-        }
-
-        // POST: ShoppingCart/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult AddToCart(int productId, double price, string name, string image, int quantity, bool isSNProduct)
         {
-            try
-            {
-                // TODO: Add insert logic here
 
-                return RedirectToAction("Index");
-            }
-            catch
+
+            shoppingCart = Order.Current;
+
+            Product product;
+            if (isSNProduct)
             {
-                return View();
+                product = new SNProduct();
             }
+            else
+            {
+                product = new Product();
+            }
+
+            product.id = productId;
+            product.name = name;
+            product.image = image;
+            product.price = price;
+
+
+            OrderLine orderLine = new OrderLine(quantity, product);
+
+            if (product is SNProduct)
+            {
+                shoppingCart.snProductList.Add((SNProduct)product);
+            }
+            else
+            {
+                shoppingCart.orderLineList.Add(orderLine);
+            }
+
+
+            Session["Cart"] = shoppingCart;
+            return this.Json(new { success = true, text = "Item added to your shopping cart" });
         }
 
-        // GET: ShoppingCart/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: ShoppingCart/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
 
         // GET: ShoppingCart/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: ShoppingCart/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult RemoveFromCart(int productId)
         {
-            try
-            {
-                // TODO: Add delete logic here
+            shoppingCart = Order.Current;
+            shoppingCart.orderLineList.Remove(shoppingCart.orderLineList.Find(x => x.product.id == productId));
+            shoppingCart.snProductList.Remove(shoppingCart.snProductList.Find(x => x.id == productId));
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+
+            Session["Cart"] = shoppingCart;
+            return this.Json(new { success = true, text = "Item removed from your shopping cart" });
         }
     }
 }

@@ -35,7 +35,16 @@ namespace WebUI.Controllers
 
             for (int i = 0; i < 21; i++)
             {
-                products.Add(new Product(i ,"test Name " + i.ToString(), (i + 1) * 7, imageString, categories[i % 3]));
+                if (i % 2 == 1)
+                {
+                    products.Add(new Product(i, "test Name " + i.ToString(), i + 13.50, imageString, categories[i % 3]));
+                }
+                else
+                {
+                    SNProduct sNProduct = new SNProduct(i, "test Name " + i.ToString(), i + 33.5, imageString, categories[i % 3], "serialNo" + i.ToString());
+                    products.Add(sNProduct);
+
+                }
             };
 
         }

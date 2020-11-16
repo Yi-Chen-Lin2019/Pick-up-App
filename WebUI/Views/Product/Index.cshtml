@@ -1,13 +1,29 @@
 ﻿@model WebUI.ViewModels.ProductViewModel
-
 <script>
-    function addToCart(product_id) {
-        $(function () {
-            $.post('/ShoppingCart/AddToCart',
-                { productId: product_id }, function (data) {
-                alert("Success " + data.success);
+    function addToCart(productId, price, name, image, isSNProduct){
+        var quantity = 0;
+        if (isSNProduct == 'false') {
+            quantity = parseInt(prompt("Please enter quantity", "1"));
+        }
+        else {
+            quantity = 1;
+        }
+
+
+        if (quantity != null && quantity != NaN && quantity != 0) {
+            $(function () {
+                $.post('/ShoppingCart/AddToCart',
+                    { productId: productId, price: price, name: name, image: image, quantity: quantity, isSNProduct: isSNProduct }, function (data) {
+                        if (data.success) {
+                            alert("Item added to cart.");
+                        }
+                        else {
+                            alert("Failure!");
+                        }
+                    });
             });
-        });
+        }
+
     }
 </script>
 
@@ -71,18 +87,28 @@
 
     </div>
     @*PRODUCT_LIST*@
-<div class="col-sm-10">
-    @foreach (var item in Model.products)
-    {
-    <div class="col-lg-12">
-        @Html.Partial("~/Views/Product/Details.cshtml", item)
-        <input type="button" value="Add to Cart" 
-               onclick="addToCart(@item.id)" />
-    </div>
+    <div class="col-sm-10">
+        @foreach (var item in Model.products)
+        {
+        <div class="col-lg-12">
+            @Html.Partial("~/Views/Product/Details.cshtml", item)
+
+            @if (item is WebUI.Models.SNProduct)
+            {
+                <input type="button" value="Add to Cart"
+                       onclick='addToCart(@item.id, "@item.price", "@item.name", "@item.image", "true")' />
+            }
+            else
+            {
+                <input type="button" value="Add to Cart"
+                       onclick='addToCart(@item.id, "@item.price", "@item.name", "@item.image", "false")' />
+            }
+
+        </div>
         
    
-    }
-</div>
+        }
+    </div>
 </div>
 
 
