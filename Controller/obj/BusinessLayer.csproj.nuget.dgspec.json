@@ -1,15 +1,15 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\kidsk\\OneDrive\\桌面\\project\\Controller\\Controller.csproj": {}
+    "C:\\Users\\kidsk\\OneDrive\\桌面\\project\\Controller\\BusinessLayer.csproj": {}
   },
   "projects": {
-    "C:\\Users\\kidsk\\OneDrive\\桌面\\project\\Controller\\Controller.csproj": {
+    "C:\\Users\\kidsk\\OneDrive\\桌面\\project\\Controller\\BusinessLayer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\kidsk\\OneDrive\\桌面\\project\\Controller\\Controller.csproj",
-        "projectName": "Controller",
-        "projectPath": "C:\\Users\\kidsk\\OneDrive\\桌面\\project\\Controller\\Controller.csproj",
+        "projectUniqueName": "C:\\Users\\kidsk\\OneDrive\\桌面\\project\\Controller\\BusinessLayer.csproj",
+        "projectName": "BusinessLayer",
+        "projectPath": "C:\\Users\\kidsk\\OneDrive\\桌面\\project\\Controller\\BusinessLayer.csproj",
         "packagesPath": "C:\\Users\\kidsk\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\kidsk\\OneDrive\\桌面\\project\\Controller\\obj\\",
         "projectStyle": "PackageReference",
