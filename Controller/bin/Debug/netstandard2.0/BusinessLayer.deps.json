@@ -9,6 +9,7 @@
     ".NETStandard,Version=v2.0/": {
       "BusinessLayer/1.0.0": {
         "dependencies": {
+          "DAL": "1.0.0",
           "Model": "1.0.0",
           "NETStandard.Library": "2.0.3",
           "Newtonsoft.Json": "12.0.3",
@@ -30,6 +31,14 @@
             "assemblyVersion": "12.0.0.0",
             "fileVersion": "12.0.3.23909"
           }
+        }
+      },
+      "DAL/1.0.0": {
+        "dependencies": {
+          "Model": "1.0.0"
+        },
+        "runtime": {
+          "DAL.dll": {}
         }
       },
       "Model/1.0.0": {
@@ -89,6 +98,11 @@
       "sha512": "sha512-6mgjfnRB4jKMlzHSl+VD+oUc1IebOZabkbyWj2RiTgWwYPPuaK1H97G1sHqGwPlS5npiF5Q0OrxN1wni2n5QWg==",
       "path": "newtonsoft.json/12.0.3",
       "hashPath": "newtonsoft.json.12.0.3.nupkg.sha512"
+    },
+    "DAL/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     },
     "Model/1.0.0": {
       "type": "project",

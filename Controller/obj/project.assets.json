@@ -35,6 +35,19 @@
           "lib/netstandard2.0/Newtonsoft.Json.dll": {}
         }
       },
+      "DAL/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.0",
+        "dependencies": {
+          "Model": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/DAL.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/DAL.dll": {}
+        }
+      },
       "Model/1.0.0": {
         "type": "project",
         "framework": ".NETStandard,Version=v2.0",
@@ -222,6 +235,11 @@
         "packageIcon.png"
       ]
     },
+    "DAL/1.0.0": {
+      "type": "project",
+      "path": "../DAL/DAL.csproj",
+      "msbuildProject": "../DAL/DAL.csproj"
+    },
     "Model/1.0.0": {
       "type": "project",
       "path": "../Model/Model.csproj",
@@ -230,6 +248,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETStandard,Version=v2.0": [
+      "DAL >= 1.0.0",
       "Model >= 1.0.0",
       "NETStandard.Library >= 2.0.3",
       "Newtonsoft.Json >= 12.0.3"
@@ -261,6 +280,9 @@
       "frameworks": {
         "netstandard2.0": {
           "projectReferences": {
+            "C:\\Users\\kidsk\\OneDrive\\桌面\\project\\DAL\\DAL.csproj": {
+              "projectPath": "C:\\Users\\kidsk\\OneDrive\\桌面\\project\\DAL\\DAL.csproj"
+            },
             "C:\\Users\\kidsk\\OneDrive\\桌面\\project\\Model\\Model.csproj": {
               "projectPath": "C:\\Users\\kidsk\\OneDrive\\桌面\\project\\Model\\Model.csproj"
             }
