@@ -1,5 +1,7 @@
 ﻿
-using REST.Models;
+
+using BusinessLayer;
+using Model;
 using Swashbuckle.Swagger.Annotations;
 using System;
 using System.Collections.Generic;
@@ -9,26 +11,27 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 
+
 namespace REST.Controllers
 {
     public class ProductController : ApiController
     {
         private static readonly IEnumerable<Product> Products = new List<Product>
         {
-            new Product (
-                "Milk",
-                "12345",
-                100,
-                500,
-                new Category("grocery")
-                ),
-                new Product (
-                "chocolate",
-                "6666",
-                 100,
-                 40,
-                new Category( "snack")
-                )
+            new Product {
+                Name = "Milk",
+                Barcode = 12345,
+                Price = 100,
+                StockQuantity = 500,
+                Category = new Category ("grocery")
+        },
+                new Product {
+                 Name = "Chocolate",
+                Barcode = 66666,
+                Price = 100,
+                StockQuantity = 500,
+                Category = new Category ("grocery")
+                }
         };
         /// <summary>
         /// Get all products
@@ -44,9 +47,8 @@ namespace REST.Controllers
         [ResponseType(typeof(IEnumerable<Product>))]
         public IHttpActionResult Get()
         {
-            
-            IProductRepository pRepo = new ProductRepository();
-            IEnumerable<Product> foundProducts = pRepo.GetAllProducts();
+            ProductManagement pm = new ProductManagement();
+            IEnumerable<Product> foundProducts = pm.GetAll();
             if (foundProducts == null) { return InternalServerError(); }
             else { return Ok(foundProducts); } 
             
@@ -69,8 +71,8 @@ namespace REST.Controllers
         [ResponseType(typeof(Product))]
         public IHttpActionResult Get(int productID)
         {
-            IProductRepository prepo = new ProductRepository();
-            Product result = prepo.GetProductById(productID);
+            ProductManagement pm = new ProductManagement();
+            Product result = pm.GetProductById(productID);
             if (result == null) { return InternalServerError(); }
             else { return Ok(result); }
            
@@ -88,8 +90,8 @@ namespace REST.Controllers
         [ResponseType(typeof(Product))]
         public IHttpActionResult Post([FromBody] Product product)
         {
-            IProductRepository prepo = new ProductRepository();
-            Product result = prepo.InsertProduct(product);
+            ProductManagement pm = new ProductManagement();
+            Product result = pm.InsertProduct(product);
             if (result == null) { return InternalServerError(); }
             else { return Ok(result); }
         }
@@ -107,8 +109,8 @@ namespace REST.Controllers
         [ResponseType(typeof(Product))]
         public IHttpActionResult Put([FromBody] Product product)
         {
-            IProductRepository prepo = new ProductRepository();
-            Product result = prepo.UpdateProduct(product);
+            ProductManagement pm = new ProductManagement();
+            Product result = pm.UpdateProduct(product);
             if (result == null) { return InternalServerError(); }
             else { return Ok(result); }
         }
@@ -125,8 +127,8 @@ namespace REST.Controllers
         // DELETE api/<controller>/5
         public IHttpActionResult Delete(int productID)
         {
-            IProductRepository prepo = new ProductRepository();
-            Product result = prepo.DeleteProduct(productID);
+            ProductManagement pm = new ProductManagement();
+            Product result = pm.DeleteProduct(productID);
             if (result == null) { return InternalServerError(); }
             else { return Ok(result); }
         }
