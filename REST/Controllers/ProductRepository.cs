@@ -18,8 +18,8 @@ namespace REST.Controllers
         public List<Product> GetAllProducts()
         {
             return new List<Product> {
-                new Product("Milk", "12345", 100, 200, null),
-                new Product()
+                new Product("Milk", "12345", 100, 200, new Category("grocery")),
+                new Product("Apple", "12345", 100, 200, new Category("grocery"))
             };
         }
 

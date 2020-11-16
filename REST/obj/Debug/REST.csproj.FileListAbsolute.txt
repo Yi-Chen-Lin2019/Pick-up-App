@@ -245,3 +245,4 @@ C:\Users\kidsk\OneDrive\桌面\project\REST\bin\Dapper.Contrib.dll
 C:\Users\kidsk\OneDrive\桌面\project\REST\bin\Dapper.dll
 C:\Users\kidsk\OneDrive\桌面\project\REST\bin\Dapper.xml
 C:\Users\kidsk\OneDrive\桌面\project\REST\bin\Dapper.Contrib.xml
+C:\Users\kidsk\OneDrive\桌面\project\REST\obj\Debug\REST.csprojAssemblyReference.cache
