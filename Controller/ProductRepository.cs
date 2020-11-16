@@ -1,4 +1,5 @@
 ﻿
+using Model;
 using System.Collections.Generic;
 
 namespace BusinessLayer
@@ -17,9 +18,23 @@ namespace BusinessLayer
 
         public List<Product> GetAllProducts()
         {
-            return new List<Product> {
-                new Product("Milk", "12345", 100, 200, new Category("grocery")),
-                new Product("Apple", "12345", 100, 200, new Category("grocery"))
+            return new List<Product> 
+                {
+            new Product {
+                Name = "Milk",
+                Barcode = 12345,
+                Price = 100,
+                StockQuantity = 500,
+                Category = new Category ("grocery")
+        },
+                new Product {
+                 Name = "Chocolate",
+                Barcode = 66666,
+                Price = 100,
+                StockQuantity = 500,
+                Category = new Category ("grocery")
+                }
+        
             };
         }
 
