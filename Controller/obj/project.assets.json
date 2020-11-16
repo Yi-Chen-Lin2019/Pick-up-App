@@ -184,11 +184,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\kidsk\\OneDrive\\桌面\\api_branch\\Controller\\Controller.csproj",
-      "projectName": "Controller",
-      "projectPath": "C:\\Users\\kidsk\\OneDrive\\桌面\\api_branch\\Controller\\Controller.csproj",
+      "projectUniqueName": "C:\\Users\\kidsk\\OneDrive\\桌面\\project\\Controller\\BusinessLayer.csproj",
+      "projectName": "BusinessLayer",
+      "projectPath": "C:\\Users\\kidsk\\OneDrive\\桌面\\project\\Controller\\BusinessLayer.csproj",
       "packagesPath": "C:\\Users\\kidsk\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\kidsk\\OneDrive\\桌面\\api_branch\\Controller\\obj\\",
+      "outputPath": "C:\\Users\\kidsk\\OneDrive\\桌面\\project\\Controller\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\kidsk\\AppData\\Roaming\\NuGet\\NuGet.Config",
