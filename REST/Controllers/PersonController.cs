@@ -20,7 +20,7 @@ namespace REST.Controllers
             _db = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
         }
 
-        [AllowAnonymous]
+        [Authorize(Roles ="Admin")]
         [HttpGet]
         [Route("Users/GetAllUsers")]
         public List<Person> GetAllUsers()
