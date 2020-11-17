@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using WebUI.Models;
+using WebUI.ViewModels;
 
 namespace WebUI.Controllers
 {
     public class ShoppingCartController : Controller
     {
-        public Order shoppingCart { get; set; }
+        public OrderViewModel shoppingCart { get; set; }
 
         // GET: ShoppingCart
         public ActionResult Index()
@@ -20,7 +20,7 @@ namespace WebUI.Controllers
         // GET: ShoppingCart/Details/5
         public ActionResult Details()
         {
-            return View((Order)Order.Current);
+            return View((OrderViewModel)OrderViewModel.Current);
         }
 
         // GET: ShoppingCart/Create
@@ -29,16 +29,16 @@ namespace WebUI.Controllers
         {
 
 
-            shoppingCart = Order.Current;
+            shoppingCart = OrderViewModel.Current;
 
-            Product product;
+            ProductViewModel product;
             if (isSNProduct)
             {
-                product = new SNProduct();
+                product = new SNProductViewModel();
             }
             else
             {
-                product = new Product();
+                product = new ProductViewModel();
             }
 
             product.id = productId;
@@ -47,11 +47,11 @@ namespace WebUI.Controllers
             product.price = price;
 
 
-            OrderLine orderLine = new OrderLine(quantity, product);
+            OrderLineViewModel orderLine = new OrderLineViewModel(quantity, product);
 
-            if (product is SNProduct)
+            if (product is SNProductViewModel)
             {
-                shoppingCart.snProductList.Add((SNProduct)product);
+                shoppingCart.snProductList.Add((SNProductViewModel)product);
             }
             else
             {
@@ -68,7 +68,7 @@ namespace WebUI.Controllers
         [HttpPost]
         public ActionResult RemoveFromCart(int productId)
         {
-            shoppingCart = Order.Current;
+            shoppingCart = OrderViewModel.Current;
             shoppingCart.orderLineList.Remove(shoppingCart.orderLineList.Find(x => x.product.id == productId));
             shoppingCart.snProductList.Remove(shoppingCart.snProductList.Find(x => x.id == productId));
 
