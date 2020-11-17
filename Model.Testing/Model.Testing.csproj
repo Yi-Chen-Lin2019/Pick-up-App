@@ -51,11 +51,19 @@
   <ItemGroup>
     <Compile Include="ModelTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DalTests_PersonRepository.cs" />
+    <Compile Include="DalTests_ProductRepository.cs" />
+    <Compile Include="DalTests_OrderRepository.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DAL\DAL.csproj">
+      <Project>{42dfec10-7534-4e78-addc-296e1fcb4e5c}</Project>
+      <Name>DAL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Model\Model.csproj">
       <Project>{e00a9536-db04-42e8-9e17-50b651e8a597}</Project>
       <Name>Model</Name>

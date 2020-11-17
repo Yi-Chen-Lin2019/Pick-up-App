@@ -6,13 +6,16 @@ namespace Model
 {
     public class OrderLine
     {
-        int quantity;
-        NoSNProduct noSNProduct;
-        public OrderLine(int quantity, NoSNProduct noSNProduct)
+        public OrderLine(int Quantity)
         {
-            this.quantity = quantity;
-            this.noSNProduct = noSNProduct;
+            this.Quantity = Quantity;
         }
+        public OrderLine(int Quantity, int OrderId)
+        {
+            this.Quantity = Quantity;
+            this.OrderId = OrderId;
+        }
+        public int OrderId { get; set; }
         public int Quantity { get; set; }
         public NoSNProduct NoSNProduct { get; set; }
     }

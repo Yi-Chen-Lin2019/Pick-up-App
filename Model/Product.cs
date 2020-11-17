@@ -6,24 +6,29 @@ namespace Model
 {
     public class Product
     {
-        String name;
-        int barcode;
-        double price;
-        int stockQuantity;
-        Category category;
-        public Product(String name, int barcode, double price, Category category)
+        public Product(String ProductName, int Barcode, decimal ProductPrice, int StockQuantity)
         {
-            this.name = name;
-            this.barcode = barcode;
-            this.price = price;
-            this.category = category;
+            this.ProductName = ProductName;
+            this.Barcode = Barcode;
+            this.ProductPrice = ProductPrice;
+            this.StockQuantity = StockQuantity;
+        }
+        public Product(int ProductId, String ProductName, int Barcode, decimal ProductPrice, int StockQuantity)
+        {
+            this.ProductId = ProductId;
+            this.ProductName = ProductName;
+            this.Barcode = Barcode;
+            this.ProductPrice = ProductPrice;
+            this.StockQuantity = StockQuantity;
         }
 
-        public String Name { get; set; }
+        public int ProductId { get; set; }
+
+        public String ProductName { get; set; }
 
         public int Barcode { get; set; }
 
-        public double Price { get; set; }
+        public decimal ProductPrice { get; set; }
 
         public int StockQuantity { get; set; }
 

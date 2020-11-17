@@ -6,6 +6,11 @@ namespace Model
 {
     public class EmployeeRole
     {
-        public EmployeeRole() { }
+        public EmployeeRole() {}
+
+        public EmployeeRole(int EmployeeRoleId) {
+            this.EmployeeRoleId = EmployeeRoleId;
+        }
+        public int EmployeeRoleId { get; set; }
     }
 }

@@ -6,25 +6,27 @@ namespace Model
 {
     public class Person
     {
-        String firstName;
-        String lastName;
-        String email;
-        int phoneNumber;
-        CustomerRole customerRole = null;
-        EmployeeRole employeeRole = null;
-
-        public Person(String firstName, String lastName, String email, int phoneNumber)
+        public Person(String Email, String FirstName, String LastName, int Phone)
         {
-            this.firstName = firstName;
-            this.lastName = lastName;
-            this.email = email;
-            this.phoneNumber = phoneNumber;
+            this.FirstName = FirstName;
+            this.LastName = LastName;
+            this.Email = Email;
+            this.Phone = Phone;
+        }
+        public Person(int PersonId, String Email, String FirstName, String LastName, int Phone)
+        {
+            this.PersonId = PersonId;
+            this.FirstName = FirstName;
+            this.LastName = LastName;
+            this.Email = Email;
+            this.Phone = Phone;
         }
 
+        public int PersonId { get; set; }
         public String FirstName { get; set; }
         public String LastName { get; set; }
         public String Email { get; set; }
-        public int PhoneNumber { get; set; }
+        public int Phone { get; set; }
         public CustomerRole CustomerRole { get; set; }
         public EmployeeRole EmployeeRole { get; set; }
     }

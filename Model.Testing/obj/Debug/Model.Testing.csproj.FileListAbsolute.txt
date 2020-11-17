@@ -14,3 +14,9 @@ X:\PickUpAppProject\Git\Pick-up-App\Model.Testing\bin\Debug\Microsoft.VisualStud
 X:\PickUpAppProject\Git\Pick-up-App\Model.Testing\obj\Debug\Model.Testing.csproj.CopyComplete
 X:\PickUpAppProject\Git\Pick-up-App\Model.Testing\obj\Debug\Model.Testing.dll
 X:\PickUpAppProject\Git\Pick-up-App\Model.Testing\obj\Debug\Model.Testing.pdb
+X:\PickUpAppProject\Git\Pick-up-App\Model.Testing\bin\Debug\DAL.exe
+X:\PickUpAppProject\Git\Pick-up-App\Model.Testing\bin\Debug\DAL.pdb
+X:\PickUpAppProject\Git\Pick-up-App\Model.Testing\bin\Debug\DAL.exe.config
+X:\PickUpAppProject\Git\Pick-up-App\Model.Testing\bin\Debug\Model.Testing.dll.config
+X:\PickUpAppProject\Git\Pick-up-App\Model.Testing\bin\Debug\Dapper.dll
+X:\PickUpAppProject\Git\Pick-up-App\Model.Testing\bin\Debug\Dapper.xml

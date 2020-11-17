@@ -6,11 +6,17 @@ namespace Model
 {
     public class Category
     {
-        String name;
-
-        public Category(String name)
+        public Category(String CategoryName)
         {
-            this.name = name;
+            this.CategoryName = CategoryName;
         }
+        public Category(int CategoryId, String CategoryName)
+        {
+            this.CategoryId = CategoryId;
+            this.CategoryName = CategoryName;
+        }
+
+        public int CategoryId { get; set; }
+        public String CategoryName { get; set; }
     }
 }

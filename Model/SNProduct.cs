@@ -6,15 +6,21 @@ namespace Model
 {
     public class SNProduct
     {
-        Product product;
-        String serialNumber;
-        public SNProduct(Product product, String serialNumber)
+        public SNProduct(String SerialNumber)
         {
-            this.serialNumber = serialNumber;
-            this.product = product;
+            this.SerialNumber = SerialNumber;
+        }
+        public SNProduct(int SNProductId, String SerialNumber)
+        {
+            this.SNProductId = SNProductId;
+            this.SerialNumber = SerialNumber;
         }
 
+        public int SNProductId { get; set; }
+
         public String SerialNumber { get; set; }
+
+        public int OrderId { get; set; }
 
         public Product Product { get; set; }
     }
