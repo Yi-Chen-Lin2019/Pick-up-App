@@ -8,6 +8,6 @@ namespace WebUI.ViewModels
     public class BrowseViewModel
     {
         public IEnumerable<CategoryViewModel> categories { get; set; }
-        public IEnumerable<Models.ProductViewModel> products { get; set; }
+        public IEnumerable<ProductViewModel> products { get; set; }
     }
 }

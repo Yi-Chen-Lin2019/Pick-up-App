@@ -14,7 +14,10 @@ namespace WebUI.ViewModels
         public double price { get; set; }
         public string image { get; set; }
         public CategoryViewModel category { get; set; }
+        public ProductViewModel()
+        {
 
+        }
         public ProductViewModel(Product product)
         {
             //TODO

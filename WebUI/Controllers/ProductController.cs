@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using WebUI.ServiceLayer;
@@ -22,58 +23,59 @@ namespace WebUI.Controllers
         {
             products = new List<ProductViewModel>();
             categories = new List<CategoryViewModel>();
-            
 
             //stubs
-            Image image = new Bitmap(123, 321);
-            System.IO.MemoryStream ms = new MemoryStream();
-            image.Save(ms, ImageFormat.Jpeg);
-            byte[] byteImage = ms.ToArray();
-            string imageString = Convert.ToBase64String(byteImage);
+            //Image image = new Bitmap(123, 321);
+            //System.IO.MemoryStream ms = new MemoryStream();
+            //image.Save(ms, ImageFormat.Jpeg);
+            //byte[] byteImage = ms.ToArray();
+            //string imageString = Convert.ToBase64String(byteImage);
            
-            categories.Add(new CategoryViewModel(1, "Cat 1"));
-            categories.Add(new CategoryViewModel(2, "Cat 2"));
-            categories.Add(new CategoryViewModel(3, "Cat 3"));
+            //categories.Add(new CategoryViewModel(1, "Cat 1"));
+            //categories.Add(new CategoryViewModel(2, "Cat 2"));
+            //categories.Add(new CategoryViewModel(3, "Cat 3"));
 
-            for (int i = 0; i < 21; i++)
-            {
-                if (i % 2 == 1)
-                {
-                    products.Add(new ProductViewModel(i, "test Name " + i.ToString(), i + 13.50, imageString, categories[i % 3]));
-                }
-                else
-                {
-                    SNProductViewModel sNProduct = new SNProductViewModel(i, "test Name " + i.ToString(), i + 33.5, imageString, categories[i % 3], "serialNo" + i.ToString());
-                    products.Add(sNProduct);
+            //for (int i = 0; i < 21; i++)
+            //{
+            //    if (i % 2 == 1)
+            //    {
+            //        products.Add(new ProductViewModel(i, "test Name " + i.ToString(), i + 13.50, imageString, categories[i % 3]));
+            //    }
+            //    else
+            //    {
+            //        SNProductViewModel sNProduct = new SNProductViewModel(i, "test Name " + i.ToString(), i + 33.5, imageString, categories[i % 3], "serialNo" + i.ToString());
+            //        products.Add(sNProduct);
 
-                }
-            };
+            //    }
+            //};
 
         }
 
-        public async System.Threading.Tasks.Task<ActionResult> IndexAsync(string sortOrder, int category = 0)
+        private async Task fetchItemsAsync()
         {
             LocalService service = new LocalService();
             List<Product> foundProducts = await service.GetAllProducts();
+
             foreach (var item in foundProducts)
             {
                 products.Add(new ProductViewModel(item));
-
-
-
-                //if (!categories.Exists(c => c.id == item.Category.id)
-                //{
-                //    categories.Add(new CategoryViewModel(item.Category));
-                //}
-                //
-                //
+                //TODO: separate Product from SNProduct
             }
-            //OR 
+
             List<Category> foundCategories = await service.GetAllCategories();
             foreach (var item in foundCategories)
             {
                 categories.Add(new CategoryViewModel(item));
             }
+        }
+
+        public ActionResult Index(string sortOrder, int category = 0)
+        {
+            Task t = Task.Factory.StartNew(async () => {
+                await fetchItemsAsync();
+            });
+            t.Wait();
+            
 
             List<ProductViewModel> prods = products; 
             switch (sortOrder)
@@ -101,6 +103,8 @@ namespace WebUI.Controllers
 
             return View(new ViewModels.BrowseViewModel() { categories = this.categories, products = prods });
         }
+
+        
 
         public ActionResult Search(string query)
         {

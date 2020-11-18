@@ -1,4 +1,4 @@
-﻿@model WebUI.ViewModels.ProductViewModel
+﻿@model WebUI.ViewModels.BrowseViewModel
 <script>
     function addToCart(productId, price, name, image, isSNProduct){
         var quantity = 0;
@@ -75,7 +75,7 @@
     @*CATEGORY_LIST*@
     <div class="col-sm-2">
         @{
-            IEnumerable<WebUI.Models.Category> cats = Model.categories;
+            IEnumerable<WebUI.ViewModels.CategoryViewModel> cats = Model.categories;
             foreach (var item in cats)
             {
                 <div>
@@ -93,7 +93,7 @@
         <div class="col-lg-12">
             @Html.Partial("~/Views/Product/Details.cshtml", item)
 
-            @if (item is WebUI.Models.SNProduct)
+            @if (item is WebUI.ViewModels.SNProductViewModel)
             {
                 <input type="button" value="Add to Cart"
                        onclick='addToCart(@item.id, "@item.price", "@item.name", "@item.image", "true")' />
