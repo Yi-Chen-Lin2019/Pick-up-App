@@ -1,0 +1,2 @@
+C:\Users\kidsk\OneDrive\桌面\project\BusinessLayer\obj\Debug\BusinessLayer.csprojAssemblyReference.cache
+C:\Users\kidsk\OneDrive\桌面\project\BusinessLayer\obj\Debug\BusinessLayer.csproj.CoreCompileInputs.cache
