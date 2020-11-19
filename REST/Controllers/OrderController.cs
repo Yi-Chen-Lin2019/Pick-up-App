@@ -18,7 +18,7 @@ namespace REST.Controllers
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>List&lt;Order&gt;</returns>
-        /// <response code = "200"></response>
+        /// <response code = "200">Orders found</response>
         [Route("Orders")]
         [HttpGet]
         [ResponseType(typeof(IEnumerable<Order>))]
@@ -80,8 +80,9 @@ namespace REST.Controllers
         [Route("Orders/{orderID}")]
         [HttpPut]
         [ResponseType(typeof(Order))]
-        public IHttpActionResult Put([FromBody] Order order)
+        public IHttpActionResult Put(int orderID, [FromBody] Order order)
         {
+            if (orderID != order.OrderId) { return BadRequest(); };
             OrderManagement om = new OrderManagement();
             Order result = om.UpdateOrder(order);
             if (result == null) { return InternalServerError(); }
