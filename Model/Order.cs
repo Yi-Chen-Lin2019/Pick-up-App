@@ -9,10 +9,13 @@ namespace Model
 {
     public class Order
     {
-        public Order(int OrderId, String OrderStatus)
+        public Order(int OrderId, String OrderStatus, DateTime PickUpTime, DateTime OrderedTime, decimal TotalPrice)
         {
             this.OrderId = OrderId;
             this.OrderStatus = OrderStatus;
+            this.PickUpTime = PickUpTime;
+            this.OrderedTime = OrderedTime;
+            this.TotalPrice = TotalPrice;
             
             SnProductList = new List<SNProduct>();
             OrderLineList = new List<OrderLine>();
@@ -57,6 +60,7 @@ namespace Model
         public Person Employee { get; set; }
 
         public DateTime PickUpTime { get; set; }
+        public DateTime OrderedTime { get; set; }
 
         public decimal TotalPrice { get; set; }
 

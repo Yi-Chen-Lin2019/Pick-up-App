@@ -15,11 +15,11 @@ namespace DAL
 
         Person GetPersonByPhone(int phone);
 
-        bool InsertCustomerRoleToPerson(Person person);
+        CustomerRole InsertCustomerRoleToPerson(Person person);
 
-        bool InsertEmployeeRoleToPerson(Person person);
+        EmployeeRole InsertEmployeeRoleToPerson(Person person);
 
-        bool InsertPerson(Person person);
+        Person InsertPerson(Person person);
 
         bool UpdatePerson(Person person);
     }

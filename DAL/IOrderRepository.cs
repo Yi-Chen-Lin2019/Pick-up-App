@@ -10,9 +10,9 @@ namespace DAL
     public interface IOrderRepository
     {
         List<Order> GetAllOrders();
-        List<Order> GetOrdersByStatus();
-        Order GetOrderById();
-        bool InsertOrder(Order order);
+        List<Order> GetOrdersByStatus(String status);
+        Order GetOrderById(int id);
+        Order InsertOrder(Order order);
         bool UpdateOrder(Order order);
     }
 }

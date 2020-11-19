@@ -52,15 +52,16 @@ namespace DAL
             if (rowsAffected >= 1) { return true; }
             else { return false; }
         }
-        public bool InsertCategory(Category category)
+        public Category InsertCategory(Category category)
         {
             conn.Open();
 
             int rowsAffected = conn.Execute(@"INSERT INTO [Category] VALUES(@CategoryName)", new { CategoryName = category.CategoryName });
+            category.CategoryId = conn.Query<int>("SELECT @@IDENTITY").FirstOrDefault();
             conn.Close();
 
-            if(rowsAffected >= 1) { return true; }
-            else { return false; }
+            if(rowsAffected >= 1) { return category; }
+            else { return null; }
 
         }
         public bool DeleteCategory(Category category)
@@ -106,7 +107,7 @@ namespace DAL
             return snProduct;
         }
 
-        public bool InsertSNProduct(SNProduct snProduct)
+        public SNProduct InsertSNProduct(SNProduct snProduct)
         {
             conn.Open();
             int rowsAffected = 0;
@@ -118,8 +119,8 @@ namespace DAL
 
             conn.Close();
 
-            if (rowsAffected >= 1) { return true; }
-            else { return false; }
+            if (rowsAffected >= 1) { return GetSNProductBySerialNumber(snProduct.SerialNumber); }
+            else { return null; }
         }
 
         public bool UpdateSNProduct(SNProduct snProduct)
@@ -163,17 +164,17 @@ namespace DAL
             return productList;
         }
 
-        public bool InsertNoSNProduct(NoSNProduct noSNProduct)
+        public NoSNProduct InsertNoSNProduct(NoSNProduct noSNProduct)
         {
             conn.Open();
 
             int rowsAffected = conn.Execute(@"INSERT INTO [NoSNProduct] VALUES(@ProductId)",
                 new { ProductId = noSNProduct.ProductId});
-
+            noSNProduct.NoSNProductId = conn.Query<int>("SELECT @@IDENTITY").FirstOrDefault();
             conn.Close();
 
-            if (rowsAffected >= 1) { return true; }
-            else { return false; }
+            if (rowsAffected >= 1) { return noSNProduct; }
+            else { return null; }
         }
 
         public bool UpdateNoSNProduct(NoSNProduct noSNProduct)
@@ -248,20 +249,21 @@ namespace DAL
             return result;
         }
 
-        public bool InsertProduct(Product product)
+        public Product InsertProduct(Product product)
         {
             conn.Open();
             int rowsAffected = 0;
             try {
                 rowsAffected = conn.Execute(@"INSERT INTO [Product] VALUES(@ProductName, @Barcode, @ProductPrice, @StockQuantity, @CategoryId)",
               new { ProductName = product.ProductName, Barcode = product.Barcode, ProductPrice = product.Barcode, StockQuantity = product.StockQuantity, CategoryId = product.Category.CategoryId });
+                product.ProductId = conn.Query<int>("SELECT @@IDENTITY").FirstOrDefault();
             }
-            catch(NullReferenceException e) { Debug.WriteLine("Product didn't have category variable."); }
+            catch(NullReferenceException) { Debug.WriteLine("Product didn't have category variable."); }
 
             conn.Close();
 
-            if (rowsAffected >= 1) { return true; }
-            else { return false; }
+            if (rowsAffected >= 1) { return product; }
+            else { return null; }
         }
 
         public bool UpdateProduct(Product product)

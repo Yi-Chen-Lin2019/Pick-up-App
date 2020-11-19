@@ -10,11 +10,13 @@ namespace Model
         {
             this.Quantity = Quantity;
         }
-        public OrderLine(int Quantity, int OrderId)
+        public OrderLine(int OrderLineId, int Quantity, int OrderId)
         {
+            this.OrderLineId = OrderLineId;
             this.Quantity = Quantity;
             this.OrderId = OrderId;
         }
+        public int OrderLineId { get; set; }
         public int OrderId { get; set; }
         public int Quantity { get; set; }
         public NoSNProduct NoSNProduct { get; set; }

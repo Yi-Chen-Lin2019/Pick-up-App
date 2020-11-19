@@ -83,7 +83,7 @@ namespace DAL
             return result;
         }
         
-        public bool InsertCustomerRoleToPerson(Person person)
+        public CustomerRole InsertCustomerRoleToPerson(Person person)
         {
             conn.Open();
 
@@ -94,12 +94,12 @@ namespace DAL
                 conn.Execute("UPDATE [Person] SET CustomerRoleId = @CustomerRoleId WHERE PersonId = @PersonId", new { CustomerRoleId = id, PersonId = person.PersonId});
                 conn.Close();
                 person.CustomerRole = new CustomerRole(id);
-                return true;
+                return person.CustomerRole;
             }
-            else { conn.Close(); return false; }
+            else { conn.Close(); return null; }
         }
 
-        public bool InsertEmployeeRoleToPerson(Person person)
+        public EmployeeRole InsertEmployeeRoleToPerson(Person person)
         {
             conn.Open();
 
@@ -110,14 +110,14 @@ namespace DAL
                 conn.Execute("UPDATE [Person] SET EmployeeRoleId = @EmployeeRoleId WHERE PersonId = @PersonId", new { EmployeeRoleId = id, PersonId = person.PersonId });
                 conn.Close();
                 person.EmployeeRole = new EmployeeRole(id);
-                return true;
+                return person.EmployeeRole;
             }
-            else { conn.Close(); return false; }
+            else { conn.Close(); return null; }
 
             
         }
 
-        public bool InsertPerson(Person person)
+        public Person InsertPerson(Person person)
         {
             conn.Open();
             //Set string variables to either existing customer/employee id or to null, further passed in person insert query
@@ -131,11 +131,13 @@ namespace DAL
 
             int rowsAffected = conn.Execute(@"INSERT INTO [Person] VALUES(@Email, @FirstName, @LastName, @Phone, @CustomerRoleId, @EmployeeRoleId, @Password)",
                 new { Email = person.Email, FirstName = person.FirstName, LastName = person.LastName, Phone = person.Phone, CustomerRoleId = customerRoleId, EmployeeRoleId = employeeRoleId, Password = "default"});
-            
+
+            int id = conn.Query<int>("SELECT @@IDENTITY").SingleOrDefault();
+
             conn.Close();
 
-            if (rowsAffected >= 1) { return true; }
-            else { return false; }
+            if (rowsAffected >= 1) { person.PersonId = id; return person; }
+            else { return null; }
         }
 
         public bool UpdatePerson(Person person)
@@ -153,7 +155,9 @@ namespace DAL
 
             int rowsAffected = conn.Execute("UPDATE [Person] SET Email = @Email, FirstName = @FirstName, LastName = @LastName, Phone = @Phone, Password = @Password WHERE PersonId = @PersonId",
                 new { Email = person.Email, FirstName = person.FirstName, LastName = person.LastName, Phone = person.Phone, Password = "default", PersonId = person.PersonId });
+            
             conn.Close();
+
             if (rowsAffected >= 1) { return true; }
             else { return false; }
         }

@@ -25,10 +25,10 @@ namespace Model.Testing
             Category category = new Category("Meat");
 
             //Act
-            bool isSuccessful = pr.InsertCategory(category);
+            Category retrievedCategory = pr.InsertCategory(category);
 
             //Assert
-            Assert.IsTrue(isSuccessful);
+            Assert.IsNotNull(retrievedCategory);
             Assert.AreEqual("Meat", pr.GetCategoryByName("Meat").CategoryName);
         }
 
@@ -103,9 +103,9 @@ namespace Model.Testing
                 product.Category = pr.GetCategoryByName("Dairy");
 
                 //Act
-                bool isSuccess = pr.InsertProduct(product);
+                Product retrievedProduct = pr.InsertProduct(product);
                 //Assert
-                Assert.IsTrue(isSuccess);
+                Assert.IsNotNull(retrievedProduct);
             }
             //Assert
             Assert.IsNotNull(pr.GetProductByName("Milk"));
@@ -124,10 +124,10 @@ namespace Model.Testing
                 snProduct.Product = pr.GetProductByName("Milk")[0];
 
                 //Act
-                bool isSuccess = pr.InsertSNProduct(snProduct);
+                SNProduct retrievedSNProduct = pr.InsertSNProduct(snProduct);
 
                 //Assert
-                Assert.IsTrue(isSuccess);
+                Assert.IsNotNull(retrievedSNProduct);
             }
             //Assert
             Assert.AreEqual("ENFN4883", pr.GetSNProductBySerialNumber("ENFN4883").SerialNumber);
@@ -194,10 +194,10 @@ namespace Model.Testing
                 //Act
                 pr.InsertProduct((Product)product);
                 product.ProductId = pr.GetProductByName("Bread")[0].ProductId;
-                bool isSuccessful = pr.InsertNoSNProduct(product);
+                NoSNProduct retrievedNoSNProduct = pr.InsertNoSNProduct(product);
 
                 //Assert
-                Assert.IsTrue(isSuccessful);
+                Assert.IsNotNull(retrievedNoSNProduct);
             }
             //Assert
             Assert.AreEqual("Bread", pr.GetAllNoSNProduct()[0].ProductName);
