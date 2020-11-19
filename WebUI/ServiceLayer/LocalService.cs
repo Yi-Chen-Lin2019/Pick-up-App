@@ -22,7 +22,7 @@ namespace WebUI.ServiceLayer
         {
             _client = new HttpClient();
             _baseUrl = _ipDomain + ":" + 44386;
-            _restUrl = _baseUrl + "/api/";
+            _restUrl = _baseUrl + "/";
         }
 
         public async Task<List<Product>> GetAllProducts()
@@ -50,9 +50,9 @@ namespace WebUI.ServiceLayer
                     throw (new Exception());
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
             return productsFromService;
         }

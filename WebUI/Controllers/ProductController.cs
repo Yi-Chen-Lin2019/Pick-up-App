@@ -62,11 +62,11 @@ namespace WebUI.Controllers
                 //TODO: separate Product from SNProduct
             }
 
-            List<Category> foundCategories = await service.GetAllCategories();
-            foreach (var item in foundCategories)
-            {
-                categories.Add(new CategoryViewModel(item));
-            }
+            //List<Category> foundCategories = await service.GetAllCategories();
+            //foreach (var item in foundCategories)
+            //{
+            //    categories.Add(new CategoryViewModel(item));
+            //}
         }
 
         public ActionResult Index(string sortOrder, int category = 0)

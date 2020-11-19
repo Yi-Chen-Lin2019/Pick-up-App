@@ -21,12 +21,14 @@ namespace WebUI.ViewModels
         public ProductViewModel(Product product)
         {
             //TODO
-           // this.id = product.id;
-            this.name = product.Name;
-            this.price = product.Price;
-            //TODO 
-            //this.image = "";
-           // this.category = new CategoryViewModel(product.Category.id, product.Category.name);
+            //
+            this.id = product.ProductId;
+            this.name = product.ProductName;
+            //TODO check maybe it wouldn't break to change the viewmodel to decimal too
+            this.price = (double)product.ProductPrice;
+            //TODO set image
+            this.image = "";
+            this.category = new CategoryViewModel(product.Category.CategoryId, product.Category.CategoryName);
         }
         public ProductViewModel(int id, string name, double price, string image, CategoryViewModel category)
         {
