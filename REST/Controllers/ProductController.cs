@@ -13,6 +13,7 @@ using Model;
 using Swashbuckle.Swagger.Annotations;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -99,12 +100,20 @@ namespace REST.Controllers
         public IHttpActionResult Put(int productID, [FromBody] Product product)
         {
             if (productID != product.ProductId) { return BadRequest(); };
-            ProductManagement pm = new ProductManagement();
-            Product result = pm.UpdateProduct(product);
-            if (result == null) { return InternalServerError(); }
-            else { return Ok(result); }
+            try
+            {
+                ProductManagement pm = new ProductManagement();
+                bool result = pm.UpdateProduct(product);
+            }
+            catch (SqlException)
+            {
+
+                throw;
+            }
+            return Ok();
         }
 
+        /*
         /// <summary>
         /// Delete a product in the system
         /// </summary>
@@ -122,5 +131,6 @@ namespace REST.Controllers
             if (result == null) { return InternalServerError(); }
             else { return Ok(result); }
         }
+        */
     }
 }

@@ -250,5 +250,6 @@ C:\Users\kidsk\OneDrive\桌面\project\REST\bin\BusinessLayer.dll
 C:\Users\kidsk\OneDrive\桌面\project\REST\bin\BusinessLayer.pdb
 C:\Users\kidsk\OneDrive\桌面\project\REST\bin\Model.dll
 C:\Users\kidsk\OneDrive\桌面\project\REST\bin\Model.pdb
-C:\Users\kidsk\OneDrive\桌面\project\REST\bin\DAL.dll
 C:\Users\kidsk\OneDrive\桌面\project\REST\bin\DAL.pdb
+C:\Users\kidsk\OneDrive\桌面\project\REST\bin\DAL.exe
+C:\Users\kidsk\OneDrive\桌面\project\REST\bin\DAL.exe.config

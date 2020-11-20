@@ -487,7 +487,7 @@
             </summary>
             <exception cref="!:IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
             <returns>List&lt;Order&gt;</returns>
-            <response code = "200"></response>
+            <response code = "200">Orders found</response>
         </member>
         <member name="M:REST.Controllers.OrderController.Get(System.Int32)">
             <summary>
@@ -508,7 +508,7 @@
             <returns></returns>
             <response code = "201">Order created</response>
         </member>
-        <member name="M:REST.Controllers.OrderController.Put(Model.Order)">
+        <member name="M:REST.Controllers.OrderController.Put(System.Int32,Model.Order)">
             <summary>
             Update an order by ID
             </summary>
@@ -517,15 +517,6 @@
             <param name="order">Order to update</param>
             <returns></returns>
             <response code = "200">Order updated</response>
-        </member>
-        <member name="M:REST.Controllers.OrderController.Delete(System.Int32)">
-            <summary>
-            Delete an order in the system
-            </summary>
-            <exception cref="!:IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-            <param name="orderID">Order ID.</param>
-            <returns></returns>
-            <response code = "200">Order deleted</response>
         </member>
         <member name="M:REST.Controllers.ProductController.Get">
             <summary>
@@ -536,7 +527,7 @@
             </remarks>
             <exception cref="!:IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
             <returns>List&lt;Product&gt;</returns>
-            <response code = "200"></response>
+            <response code = "200">Products found</response>
         </member>
         <member name="M:REST.Controllers.ProductController.Get(System.Int32)">
             <summary>
@@ -557,7 +548,7 @@
             <returns></returns>
             <response code = "201">Product created</response>
         </member>
-        <member name="M:REST.Controllers.ProductController.Put(Model.Product)">
+        <member name="M:REST.Controllers.ProductController.Put(System.Int32,Model.Product)">
             <summary>
             Update a product by ID
             </summary>
@@ -566,15 +557,6 @@
             <param name="product">Product to update</param>
             <returns></returns>
             <response code = "200">Product updated</response>
-        </member>
-        <member name="M:REST.Controllers.ProductController.Delete(System.Int32)">
-            <summary>
-            Delete a product in the system
-            </summary>
-            <exception cref="!:IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-            <param name="productID">Product ID.</param>
-            <returns></returns>
-            <response code = "200">Product deleted</response>
         </member>
         <member name="T:REST.Models.Customer">
             <summary>

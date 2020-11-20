@@ -1,2 +1,14 @@
 C:\Users\kidsk\OneDrive\桌面\project\BusinessLayer\obj\Debug\BusinessLayer.csprojAssemblyReference.cache
 C:\Users\kidsk\OneDrive\桌面\project\BusinessLayer\obj\Debug\BusinessLayer.csproj.CoreCompileInputs.cache
+C:\Users\kidsk\OneDrive\桌面\project\BusinessLayer\bin\Debug\BusinessLayer.dll
+C:\Users\kidsk\OneDrive\桌面\project\BusinessLayer\bin\Debug\BusinessLayer.pdb
+C:\Users\kidsk\OneDrive\桌面\project\BusinessLayer\bin\Debug\DAL.exe
+C:\Users\kidsk\OneDrive\桌面\project\BusinessLayer\bin\Debug\Model.dll
+C:\Users\kidsk\OneDrive\桌面\project\BusinessLayer\bin\Debug\Dapper.dll
+C:\Users\kidsk\OneDrive\桌面\project\BusinessLayer\bin\Debug\DAL.pdb
+C:\Users\kidsk\OneDrive\桌面\project\BusinessLayer\bin\Debug\DAL.exe.config
+C:\Users\kidsk\OneDrive\桌面\project\BusinessLayer\bin\Debug\Model.pdb
+C:\Users\kidsk\OneDrive\桌面\project\BusinessLayer\bin\Debug\Dapper.xml
+C:\Users\kidsk\OneDrive\桌面\project\BusinessLayer\obj\Debug\BusinessLayer.csproj.CopyComplete
+C:\Users\kidsk\OneDrive\桌面\project\BusinessLayer\obj\Debug\BusinessLayer.dll
+C:\Users\kidsk\OneDrive\桌面\project\BusinessLayer\obj\Debug\BusinessLayer.pdb
