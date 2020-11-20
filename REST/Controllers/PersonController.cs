@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Dapper.Contrib.Extensions;
+using Model;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -14,10 +15,11 @@ namespace REST.Controllers
 {
     public class PersonController : ApiController
     {
+        /*
         private readonly IDbConnection _db;
         public PersonController()
         {
-            _db = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+            _db = new SqlConnection(ConfigurationManager.ConnectionStrings["AuthenticationConnection"].ConnectionString);
         }
 
         [Authorize(Roles ="Admin")]
@@ -30,6 +32,6 @@ namespace REST.Controllers
             return output;
 
         
-        }
+        }*/
     }
 }

@@ -3,6 +3,7 @@ using BusinessLayer;
 using Model;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -83,12 +84,20 @@ namespace REST.Controllers
         public IHttpActionResult Put(int orderID, [FromBody] Order order)
         {
             if (orderID != order.OrderId) { return BadRequest(); };
-            OrderManagement om = new OrderManagement();
-            Order result = om.UpdateOrder(order);
-            if (result == null) { return InternalServerError(); }
-            else { return Ok(result); }
+            try
+            {
+                OrderManagement om = new OrderManagement();
+                bool result = om.UpdateOrder(order);
+            }
+            catch (SqlException)
+            {
+
+                throw;
+            }
+            return Ok();
         }
 
+        /*
         /// <summary>
         /// Delete an order in the system
         /// </summary>
@@ -106,6 +115,7 @@ namespace REST.Controllers
             if (result == null) { return InternalServerError(); }
             else { return Ok(result); }
         }
+        */
     }
 }
 

@@ -15,13 +15,14 @@ namespace BusinessLayer
 
         }
 
-        public Order DeleteOrder(int orderID)
+        /*
+        public bool DeleteOrder(int orderID)
         {
             IOrderRepository pRepo = new OrderRepository();
             return pRepo.DeleteOrder(orderID);
         }
-
-        public Order UpdateOrder(Order order)
+        */
+        public bool UpdateOrder(Order order)
         {
             IOrderRepository pRepo = new OrderRepository();
             return pRepo.UpdateOrder(order);

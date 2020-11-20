@@ -16,13 +16,14 @@ namespace BusinessLayer
             
         }
 
-        public Product DeleteProduct(int productID)
+        /*
+        public bool DeleteProduct(int productID)
         {
             IProductRepository pRepo = new ProductRepository();
             return pRepo.DeleteProduct(productID);
         }
-
-        public Product UpdateProduct(Product product)
+        */
+        public bool UpdateProduct(Product product)
         {
             IProductRepository pRepo = new ProductRepository();
             return pRepo.UpdateProduct(product);
