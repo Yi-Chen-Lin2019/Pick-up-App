@@ -1,0 +1,45 @@
+﻿@model WebUI.ViewModels.ProductViewModel
+
+@*<div>
+    <h4>Product</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.price)
+        </dd>
+
+    </dl>
+</div>*@
+
+<div class="col-sm-3">
+    <div class="row">
+        <div class="col-sm-9 bg-primary">
+            <b>@Html.DisplayFor(model => model.name)</b>
+        </div>
+        <div class="col-sm-3 bg-primary">
+            <b>@Html.DisplayFor(model => model.price)</b>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <img height="80" width="200" src="@String.Format("data:image/png;base64,{0}", Model.image)" />
+        </div>
+    </div>
+
+    <div class="row">
+        ----
+    </div>
+</div>
