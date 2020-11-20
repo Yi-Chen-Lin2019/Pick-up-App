@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -69,13 +70,9 @@ namespace WebUI.Controllers
             //}
         }
 
-        public ActionResult Index(string sortOrder, int category = 0)
+        public async Task<ActionResult> Index(string sortOrder, int category = 0)
         {
-            Task t = Task.Factory.StartNew(async () => {
-                await fetchItemsAsync();
-            });
-            t.Wait();
-            
+            await fetchItemsAsync();
 
             List<ProductViewModel> prods = products; 
             switch (sortOrder)
