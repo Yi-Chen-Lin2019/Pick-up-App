@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "2JDxrvdbf2m8FWOyhIMuemV8wa4D/6SUNbRoOpdlTp/Q35Ae1raSYRsVbSs3wb4MoipOlimJ5ubUVnAPZRzJVQ==",
+  "dgSpecHash": "b/dh7/IU6G3v3TyhH1VrwVAwwvjkXkPQcU+f2Ym4uZ1AVRSSmDG/h8cg4xMH0ooWD6hZm6njmNsAamyIAh/uxA==",
   "success": true,
   "projectFilePath": "C:\\Users\\kidsk\\OneDrive\\桌面\\project\\Model\\Model.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\kidsk\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
-    "C:\\Users\\kidsk\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
+    "C:\\Users\\kidsk\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512",
+    "C:\\Users\\kidsk\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512"
   ],
   "logs": []
 }
