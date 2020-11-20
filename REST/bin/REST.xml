@@ -481,6 +481,46 @@
             </summary>
             <param name="documentPath">The physical path to XML document.</param>
         </member>
+        <member name="M:REST.Controllers.CategoryController.Get">
+            <summary>
+            Get all Categories
+            </summary>
+            <remarks>
+            Get a list of Categories
+            </remarks>
+            <exception cref="!:IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+            <returns>List&lt;Category&gt;</returns>
+            <response code = "200">Categories found</response>
+        </member>
+        <member name="M:REST.Controllers.CategoryController.Get(System.String)">
+            <summary>
+            By passing in the Category ID, you can get the Category of the Category ID in the system. 
+            </summary>
+            <exception cref="!:IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+            <param name="CategoryID">Put in Category ID.</param>
+            <returns>List&lt;Category&gt;</returns>
+            <response code = "200">Category found</response>
+            <response code = "404">Category not found</response>
+        </member>
+        <member name="M:REST.Controllers.CategoryController.Post(Model.Category)">
+            <summary>
+            Add a Category to the system
+            </summary>
+            <exception cref="!:IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+            <param name="Category">Category to add (optional)</param>
+            <returns></returns>
+            <response code = "201">Category created</response>
+        </member>
+        <member name="M:REST.Controllers.CategoryController.Put(System.Int32,Model.Category)">
+            <summary>
+            Update a Category by ID
+            </summary>
+            <exception cref="!:IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+            <param name="CategoryID">Category ID</param>
+            <param name="Category">Category to update</param>
+            <returns></returns>
+            <response code = "200">Category updated</response>
+        </member>
         <member name="M:REST.Controllers.OrderController.Get">
             <summary>
             Get all  orders. 
