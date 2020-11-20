@@ -1,0 +1,152 @@
+﻿@model WebUI.ViewModels.BrowseViewModel
+<script>
+    function addToCart(productId, price, name, image, isSNProduct){
+        var quantity = 0;
+        if (isSNProduct == 'false') {
+            quantity = parseInt(prompt("Please enter quantity", "1"));
+        }
+        else {
+            quantity = 1;
+        }
+
+
+        if (quantity != null && quantity != NaN && quantity != 0) {
+            $(function () {
+                $.post('/ShoppingCart/AddToCart',
+                    { productId: productId, price: price, name: name, image: image, quantity: quantity, isSNProduct: isSNProduct }, function (data) {
+                        if (data.success) {
+                            alert("Item added to cart.");
+                        }
+                        else {
+                            alert("Failure!");
+                        }
+                    });
+            });
+        }
+
+    }
+</script>
+
+@*SEARCH_BOX*@
+@using (Html.BeginForm("Search", "Product", FormMethod.Get))
+{
+<div>
+    @Html.TextBox("query")
+    <input type="submit" value="Search" />
+</div>
+}
+
+@*SORTING_DROPDOWN*@
+
+@{
+    List<SelectListItem> sortingOptions = new List<SelectListItem>();
+    sortingOptions.Add(new SelectListItem
+    {
+        Text = "Sort by",
+        Value = ""
+    });
+    sortingOptions.Add(new SelectListItem
+    {
+        Text = "Price low-to-high",
+        Value = "price_asc"
+    });
+    sortingOptions.Add(new SelectListItem
+    {
+        Text = "Price high-to-low",
+        Value = "price_desc"
+    });
+    sortingOptions.Add(new SelectListItem
+    {
+        Text = "Name A-Z",
+        Value = "name_desc"
+    });
+    sortingOptions.Add(new SelectListItem
+    {
+        Text = "Name Z-A",
+        Value = "name_asc"
+    });
+}
+@Html.DropDownList("sortDD", sortingOptions,
+    new { @class = "form-control", @onchange = "document.location.href = '/Product/Index?sortOrder=' + this.options[this.selectedIndex].value;" });
+
+
+
+<div class="col-lg-12">
+    @*CATEGORY_LIST*@
+    <div class="col-sm-2">
+        @{
+            IEnumerable<WebUI.ViewModels.CategoryViewModel> cats = Model.categories;
+            foreach (var item in cats)
+            {
+                <div>
+                    <input type="button" value="@item.name"
+                           onclick="location.href='@Url.Action("Index", "Product")?category=' + @item.id" />
+                </div>
+            }
+        }
+
+    </div>
+    @*PRODUCT_LIST*@
+    <div class="col-sm-10">
+        @foreach (var item in Model.products)
+        {
+        <div class="col-lg-12">
+            @Html.Partial("~/Views/Product/Details.cshtml", item)
+
+            @if (item is WebUI.ViewModels.SNProductViewModel)
+            {
+                <input type="button" value="Add to Cart"
+                       onclick='addToCart(@item.id, "@item.price", "@item.name", "@item.image", "true")' />
+            }
+            else
+            {
+                <input type="button" value="Add to Cart"
+                       onclick='addToCart(@item.id, "@item.price", "@item.name", "@item.image", "false")' />
+            }
+
+        </div>
+        
+   
+        }
+    </div>
+</div>
+
+
+@*<p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.image)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.image)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>
+            </tr>
+        }
+
+    </table>*@
