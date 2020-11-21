@@ -25,7 +25,7 @@ namespace DAL
         NoSNProduct InsertNoSNProduct(NoSNProduct noSNProduct);
         bool UpdateNoSNProduct(NoSNProduct noSNProduct);
 
-        List<Product> GetAllProducts();
+        IEnumerable<Product> GetAllProducts();
         Product GetProductById(int productId);
         List<Product> GetProductByName(String productName);
         List<Product> GetAllProductsFromCategory(String categoryName);

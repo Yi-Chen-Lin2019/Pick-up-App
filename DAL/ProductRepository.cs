@@ -34,7 +34,7 @@ namespace DAL
         public Category GetCategoryByName(string name)
         {
             conn.Open();
-            Category result = conn.Query<Category>("SELECT [CategoryId], [CategoryName] FROM [Category] WHERE CategoryName = @CategoryName", 
+            Category result = conn.Query<Category>("SELECT [CategoryId], [CategoryName] FROM [Category] WHERE CategoryName = @CategoryName",
                 new { CategoryName = name }).FirstOrDefault();
             conn.Close();
 
@@ -60,7 +60,7 @@ namespace DAL
             category.CategoryId = conn.Query<int>("SELECT @@IDENTITY").FirstOrDefault();
             conn.Close();
 
-            if(rowsAffected >= 1) { return category; }
+            if (rowsAffected >= 1) { return category; }
             else { return null; }
 
         }
@@ -97,9 +97,9 @@ namespace DAL
         {
             conn.Open();
 
-            SNProduct snProduct = conn.Query<SNProduct>("SELECT [SNProductId], [SerialNumber] FROM [SNProduct] WHERE SerialNumber = @SerialNumber", 
+            SNProduct snProduct = conn.Query<SNProduct>("SELECT [SNProductId], [SerialNumber] FROM [SNProduct] WHERE SerialNumber = @SerialNumber",
                 new { SerialNumber = serialNumber }).FirstOrDefault();
-            if(snProduct == null) { conn.Close(); return null;}
+            if (snProduct == null) { conn.Close(); return null; }
             int productId = conn.Query<int>("SELECT [Product].[ProductId] FROM [Product] INNER JOIN [SNProduct] ON [SNProduct].[ProductId] = [Product].[ProductId] WHERE [SNProduct].[SerialNumber] = @SerialNumber", new { SerialNumber = serialNumber }).FirstOrDefault();
             conn.Close();
             snProduct.Product = GetProductById(productId);
@@ -128,7 +128,7 @@ namespace DAL
             conn.Open();
 
             int rowsAffected = conn.Execute("UPDATE [SNProduct] SET OrderId = @OrderId WHERE ProductId = @ProductId",
-                new { OrderId = snProduct.OrderId, ProductId = snProduct.Product.ProductId});
+                new { OrderId = snProduct.OrderId, ProductId = snProduct.Product.ProductId });
 
             conn.Close();
             if (rowsAffected >= 1) { return true; }
@@ -145,7 +145,7 @@ namespace DAL
 
             foreach (NoSNProduct product in productList)
             {
-                product.Category = conn.Query<Category>("SELECT [Category].[CategoryId], [Category].[CategoryName] FROM [Category] INNER JOIN [Product] ON [Category].[CategoryId] = [Product].[CategoryId] WHERE [Product].[ProductId] = @ProductId", new { ProductId = product.ProductId}).FirstOrDefault();
+                product.Category = conn.Query<Category>("SELECT [Category].[CategoryId], [Category].[CategoryName] FROM [Category] INNER JOIN [Product] ON [Category].[CategoryId] = [Product].[CategoryId] WHERE [Product].[ProductId] = @ProductId", new { ProductId = product.ProductId }).FirstOrDefault();
             }
 
             conn.Close();
@@ -156,7 +156,7 @@ namespace DAL
         {
             conn.Open();
 
-            List<NoSNProduct> productList = conn.Query<NoSNProduct>("SELECT [NoSNProduct].[NoSNProductId], [Product].[ProductId], [Product].[ProductName], [Product].[Barcode], [Product].[ProductPrice], [Product].[StockQuantity] FROM [Product] INNER JOIN [NoSNProduct] ON [Product].[ProductId] = [NoSNProduct].[ProductId] WHERE [NoSNProduct].[ProductId] = @ProductId", 
+            List<NoSNProduct> productList = conn.Query<NoSNProduct>("SELECT [NoSNProduct].[NoSNProductId], [Product].[ProductId], [Product].[ProductName], [Product].[Barcode], [Product].[ProductPrice], [Product].[StockQuantity] FROM [Product] INNER JOIN [NoSNProduct] ON [Product].[ProductId] = [NoSNProduct].[ProductId] WHERE [NoSNProduct].[ProductId] = @ProductId",
                 new { ProductId = productId }).ToList();
 
 
@@ -169,7 +169,7 @@ namespace DAL
             conn.Open();
 
             int rowsAffected = conn.Execute(@"INSERT INTO [NoSNProduct] VALUES(@ProductId)",
-                new { ProductId = noSNProduct.ProductId});
+                new { ProductId = noSNProduct.ProductId });
             noSNProduct.NoSNProductId = conn.Query<int>("SELECT @@IDENTITY").FirstOrDefault();
             conn.Close();
 
@@ -193,8 +193,26 @@ namespace DAL
 
         //Product methods
 
-        public List<Product> GetAllProducts()
+        public IEnumerable<Product> GetAllProducts()
         {
+            //multi mapping using dapper
+            string cmdText =
+                @"SELECT [ProductId], [ProductName], [Barcode], [ProductPrice], [StockQuantity], [Category].CategoryId, [Category].[CategoryName] FROM [Product] INNER JOIN [Category] ON [Category].[CategoryId] = [Product].[CategoryId]";
+            var lookup = new Dictionary<int, Product>();
+            var multi = conn.Query<Product, Category, Product>(cmdText, (product, category) =>
+            {
+                Product current;
+                if (!lookup.TryGetValue(product.ProductId, out current))
+                {
+                    lookup.Add(product.ProductId, current = product);
+
+                }
+                current.Category = category;
+                return current;
+
+            }, splitOn: "CategoryID").Distinct();
+            return multi;
+            /*
             //Gets ID of all products, then gets each product by its id
             conn.Open();
             List<Product> result = new List<Product>();
@@ -206,10 +224,12 @@ namespace DAL
             }
 
             return result;
+            */
         }
 
         public Product GetProductById(int productId)
         {
+            
             conn.Open();
             Product result = conn.Query<Product>("SELECT [ProductId], [ProductName], [Barcode], [ProductPrice], [StockQuantity] FROM [Product] WHERE ProductId =@ProductId", new { ProductId = productId }).SingleOrDefault();
             if(result == null) { conn.Close(); return null; }
@@ -217,6 +237,7 @@ namespace DAL
             conn.Close();
 
             return result;
+            
         }
 
         public List<Product> GetProductByName(String productName)
