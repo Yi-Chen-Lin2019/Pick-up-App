@@ -26,19 +26,6 @@ namespace Model
         public String CategoryName { get; set; }
 
 
-        public override string ToString()
-        {
-            var sb = new StringBuilder();
-            sb.Append("class Category {\n");
-            sb.Append("  Name: ").Append(CategoryName).Append("\n");
-            sb.Append("}\n");
-            return sb.ToString();
-        }
-
-
-        public virtual string ToJson()
-        {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
-        }
+        
     }
 }

@@ -52,6 +52,7 @@
     <Compile Include="IOrderRepository.cs" />
     <Compile Include="IPersonRepository.cs" />
     <Compile Include="IProductRepository.cs" />
+    <Compile Include="main.cs" />
     <Compile Include="OrderRepository.cs" />
     <Compile Include="PersonRepository.cs" />
     <Compile Include="ProductRepository.cs" />

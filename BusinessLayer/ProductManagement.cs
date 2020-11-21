@@ -40,5 +40,10 @@ namespace BusinessLayer
             IProductRepository pRepo = new ProductRepository();
             return pRepo.GetProductById(productID);
         }
+
+        public IEnumerable<Product> GetProductsByCategoryId(int categoryId) {
+            IProductRepository pRepo = new ProductRepository();
+            return pRepo.GetProductsByCategoryId(categoryId);
+        }
     }
 }

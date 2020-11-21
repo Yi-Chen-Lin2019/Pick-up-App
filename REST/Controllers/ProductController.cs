@@ -67,6 +67,26 @@ namespace REST.Controllers
             else { return Ok(result); }
            
         }
+        /// <summary>
+        /// By passing in the category ID, you can get the product of the category ID in the system. 
+        /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="categoryID">Put in category ID.</param>
+        /// <returns>List&lt;Product&gt;</returns>
+        /// <response code = "200">Products found</response>
+        /// <response code = "404">Products not found</response>
+        [Route("Products/getByCategoryId/{categoryID}")]
+        [HttpGet]
+        [ResponseType(typeof(IEnumerable<Product>))]
+        public IHttpActionResult GetProductsByCategoryId(int categoryID)
+        {
+            ProductManagement pm = new ProductManagement();
+            IEnumerable<Product> result = pm.GetProductsByCategoryId(categoryID);
+            if (result == null) { return InternalServerError(); }
+            else { return Ok(result); }
+
+        }
+        
 
         /// <summary>
         /// Add a product to the system

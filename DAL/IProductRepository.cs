@@ -31,6 +31,6 @@ namespace DAL
         List<Product> GetAllProductsFromCategory(String categoryName);
         Product InsertProduct(Product product);
         bool UpdateProduct(Product product);
-        
+        IEnumerable<Product> GetProductsByCategoryId(int categoryId);
     }
 }

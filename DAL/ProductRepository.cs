@@ -139,6 +139,7 @@ namespace DAL
 
         public List<NoSNProduct> GetAllNoSNProduct()
         {
+            
             conn.Open();
 
             List<NoSNProduct> productList = conn.Query<NoSNProduct>("SELECT [NoSNProduct].[NoSNProductId], [Product].[ProductId], [Product].[ProductName], [Product].[Barcode], [Product].[ProductPrice], [Product].[StockQuantity] FROM [Product] INNER JOIN [NoSNProduct] ON [Product].[ProductId] = [NoSNProduct].[ProductId]").ToList();
@@ -150,6 +151,7 @@ namespace DAL
 
             conn.Close();
             return productList;
+            
         }
 
         public List<NoSNProduct> GetNoSNProductByProductId(int productId)
@@ -195,6 +197,7 @@ namespace DAL
 
         public IEnumerable<Product> GetAllProducts()
         {
+            
             //multi mapping using dapper
             string cmdText =
                 @"SELECT [ProductId], [ProductName], [Barcode], [ProductPrice], [StockQuantity], [Category].CategoryId, [Category].[CategoryName] FROM [Product] INNER JOIN [Category] ON [Category].[CategoryId] = [Product].[CategoryId]";
@@ -212,6 +215,8 @@ namespace DAL
 
             }, splitOn: "CategoryID").Distinct();
             return multi;
+            
+            
             /*
             //Gets ID of all products, then gets each product by its id
             conn.Open();
@@ -238,6 +243,7 @@ namespace DAL
 
             return result;
             
+
         }
 
         public List<Product> GetProductByName(String productName)
@@ -297,6 +303,25 @@ namespace DAL
             conn.Close();
             if (rowsAffected >= 1) { return true; }
             else { return false; }
+        }
+
+        public IEnumerable<Product> GetProductsByCategoryId(int categoryId) {
+            string sql = "SELECT [CategoryId], [CategoryName] FROM [Category] WHERE CategoryId = @categoryId;SELECT [Product].[ProductId], [Product].[ProductName], [Product].[Barcode], [Product].[ProductPrice], [Product].[StockQuantity] FROM [Product] WHERE CategoryId = @categoryId";
+            using (conn) {
+                conn.Open();
+                using (var multi = conn.QueryMultiple(sql, new { CategoryId = categoryId }))
+                {
+                    
+                    var category = multi.Read<Category>().First();
+                    var products = multi.Read<Product>().ToList();
+                    foreach (var item in products)
+                    {
+                        item.Category = category;
+                    }
+                    return products;
+                }
+            }
+
         }
 
     }
