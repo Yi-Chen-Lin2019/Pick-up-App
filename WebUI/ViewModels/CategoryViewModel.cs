@@ -13,9 +13,9 @@ namespace WebUI.ViewModels
 
         public CategoryViewModel(Category category)
         {
-            //TODO
-            //this.id = category.id;
-            //this.name = category.name;
+            
+            this.id = category.CategoryId;
+            this.name = category.CategoryName;
         }
 
         public CategoryViewModel(int id, string name)

@@ -61,9 +61,15 @@ namespace WebUI.Controllers
             {
                 products.Add(new ProductViewModel(item));
                 //TODO: separate Product from SNProduct
+
+
+                //TODO do the categories properly
+                if (!categories.Any(cat => cat.id == item.Category.CategoryId))
+                {
+                   categories.Add(new CategoryViewModel(item.Category));
+                }
             }
 
-            //List<Category> foundCategories = await service.GetAllCategories();
             //foreach (var item in foundCategories)
             //{
             //    categories.Add(new CategoryViewModel(item));
