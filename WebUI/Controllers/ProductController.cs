@@ -109,8 +109,9 @@ namespace WebUI.Controllers
 
         
 
-        public ActionResult Search(string query)
+        public async Task<ActionResult> Search(string query)
         {
+            await fetchItemsAsync();
             List<ProductViewModel> prods = products;
             prods = prods.FindAll(p => p.name.Contains(query));
             return View("Index", new ViewModels.BrowseViewModel() { categories = this.categories, products = prods });
