@@ -1,0 +1,89 @@
+﻿@model WebUI.ViewModels.OrderViewModel
+
+<script>
+    function removeFromCart(productId) {
+            $(function () {
+                $.post('/ShoppingCart/RemoveFromCart',
+                    { productId: productId }, function (data) {
+                        if (data.success) {
+                            alert("Item removed from your cart.");
+                        }
+                        else {
+                            alert("Failure!");
+                        }
+                        location.reload(); 
+                    });
+            });
+    }
+</script>
+
+@*PRODUCT_LIST*@
+<div class="col-sm-10">
+
+    @foreach (var item in Model.orderLineList)
+    {
+    <div class="col-lg-12">
+        <div class="row">
+            @Html.Partial("~/Views/Product/ProductInCart.cshtml", item.product) quantity - @item.quantity  price - @(item.quantity * item.product.price)
+        </div>
+
+        <div class="row">
+            <input type="button" value="Remove from cart"
+                   onclick='removeFromCart(@item.product.id)' />
+        </div>
+
+        <div class="row">
+            __________
+        </div>
+
+    </div>
+    }
+
+    @foreach (var item in Model.snProductList)
+    {
+<div class="col-lg-12">
+    <div class="row">
+        @Html.Partial("~/Views/Product/ProductInCart.cshtml", item) quantity - 1  price - @item.price
+    </div>
+
+    <div class="row">
+        <input type="button" value="Remove from cart"
+               onclick='removeFromCart(@item.id)' />
+    </div>
+
+    <div class="row">
+        __________
+    </div>
+</div>
+    }
+
+
+</div>
+
+
+        @*<div>
+                <h4>Order</h4>
+                <hr />
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.pickUpTime)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.pickUpTime)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.totalPrice)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.totalPrice)
+                    </dd>
+
+                </dl>
+            </div>
+            <p>
+                @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+                @Html.ActionLink("Back to List", "Index")
+            </p>*@
