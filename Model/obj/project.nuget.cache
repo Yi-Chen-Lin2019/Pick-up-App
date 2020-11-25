@@ -1,11 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "2JDxrvdbf2m8FWOyhIMuemV8wa4D/6SUNbRoOpdlTp/Q35Ae1raSYRsVbSs3wb4MoipOlimJ5ubUVnAPZRzJVQ==",
+  "dgSpecHash": "TIC5ihrwjzywYDWBoyuOWknkhNHlJ15+teQIGN+7b9od0qldBfZPfBFFl6cHXoRDviXEFV9d5Mgn0Q84LwbLKg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\kidsk\\OneDrive\\桌面\\project\\Model\\Model.csproj",
+  "projectFilePath": "C:\\Users\\minez\\Desktop\\PickUpAppMain\\Model\\Model.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\kidsk\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
-    "C:\\Users\\kidsk\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
+    "C:\\Users\\minez\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\minez\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
   ],
   "logs": []
 }
