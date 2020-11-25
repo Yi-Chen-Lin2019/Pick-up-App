@@ -24,7 +24,7 @@
         </member>
         <member name="M:Dapper.Contrib.Extensions.SqlMapperExtensions.GetAllAsync``1(System.Data.IDbConnection,System.Data.IDbTransaction,System.Nullable{System.Int32})">
             <summary>
-            Returns a list of entites from table "Ts".  
+            Returns a list of entities from table "Ts".  
             Id of T must be marked with [Key] attribute.
             Entities created from interfaces are tracked/intercepted for changes and used by the Update() extension
             for optimal performance. 
@@ -129,10 +129,10 @@
         </member>
         <member name="M:Dapper.Contrib.Extensions.SqlMapperExtensions.GetAll``1(System.Data.IDbConnection,System.Data.IDbTransaction,System.Nullable{System.Int32})">
             <summary>
-            Returns a list of entites from table "Ts".  
+            Returns a list of entities from table "Ts".
             Id of T must be marked with [Key] attribute.
             Entities created from interfaces are tracked/intercepted for changes and used by the Update() extension
-            for optimal performance. 
+            for optimal performance.
             </summary>
             <typeparam name="T">Interface or type to create and populate</typeparam>
             <param name="connection">Open SqlConnection</param>
@@ -526,7 +526,7 @@
         </member>
         <member name="T:FbAdapter">
             <summary>
-            The Firebase SQL adapeter.
+            The Firebase SQL adapter.
             </summary>
         </member>
         <member name="M:FbAdapter.InsertAsync(System.Data.IDbConnection,System.Data.IDbTransaction,System.Nullable{System.Int32},System.String,System.String,System.String,System.Collections.Generic.IEnumerable{System.Reflection.PropertyInfo},System.Object)">

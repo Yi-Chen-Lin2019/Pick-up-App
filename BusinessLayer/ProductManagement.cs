@@ -11,9 +11,17 @@ namespace BusinessLayer
 
         public IEnumerable<Product> GetAllProducts()
         {
-            IProductRepository pRepo = new ProductRepository();
-            return  pRepo.GetAllProducts();
-            
+            IEnumerable<Product> foundProducts;
+            try
+            {
+                IProductRepository pRepo = new ProductRepository();
+                foundProducts = pRepo.GetAllProducts();
+            }
+            catch
+            {
+                foundProducts = null;
+            }
+            return foundProducts;
         }
 
         /*

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -13,6 +14,8 @@ namespace Model
             this.ProductPrice = ProductPrice;
             this.StockQuantity = StockQuantity;
         }
+
+        [JsonConstructor]
         public Product(int ProductId, String ProductName, int Barcode, decimal ProductPrice, int StockQuantity)
         {
             this.ProductId = ProductId;
