@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebUI", "WebUI\WebUI.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLayer", "BusinessLayer\BusinessLayer.csproj", "{3BB89219-2389-4617-B5FC-682448CE546F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFNav", "WPFNav\WPFNav.csproj", "{880A2D81-F385-45DD-A5C0-5916D09A1F68}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{3BB89219-2389-4617-B5FC-682448CE546F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3BB89219-2389-4617-B5FC-682448CE546F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3BB89219-2389-4617-B5FC-682448CE546F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{880A2D81-F385-45DD-A5C0-5916D09A1F68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{880A2D81-F385-45DD-A5C0-5916D09A1F68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{880A2D81-F385-45DD-A5C0-5916D09A1F68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{880A2D81-F385-45DD-A5C0-5916D09A1F68}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

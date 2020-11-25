@@ -179,16 +179,18 @@ namespace DAL
 
         public bool UpdateNoSNProduct(NoSNProduct noSNProduct)
         {
-            //No variables to update in NoSNProduct, might be useful for future feature
-            throw new NotImplementedException();
-            conn.Open();
+            ////No variables to update in NoSNProduct, might be useful for future feature
+            //throw new NotImplementedException();
+            //conn.Open();
 
-            int rowsAffected = conn.Execute("UPDATE [NoSNProduct] SET ... WHERE ProductId = @ProductId",
-                new { ProductId = noSNProduct.ProductId });
+            //int rowsAffected = conn.Execute("UPDATE [NoSNProduct] SET ... WHERE ProductId = @ProductId",
+            //    new { ProductId = noSNProduct.ProductId });
 
-            conn.Close();
-            if (rowsAffected >= 1) { return true; }
-            else { return false; }
+            //conn.Close();
+            //if (rowsAffected >= 1) { return true; }
+            //else { return false; }
+            //placeholder return - delete it later
+            return false;
         }
 
         //Product methods

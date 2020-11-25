@@ -12,3 +12,17 @@ C:\Users\kidsk\OneDrive\桌面\project\BusinessLayer\bin\Debug\Dapper.xml
 C:\Users\kidsk\OneDrive\桌面\project\BusinessLayer\obj\Debug\BusinessLayer.csproj.CopyComplete
 C:\Users\kidsk\OneDrive\桌面\project\BusinessLayer\obj\Debug\BusinessLayer.dll
 C:\Users\kidsk\OneDrive\桌面\project\BusinessLayer\obj\Debug\BusinessLayer.pdb
+C:\Users\minez\Desktop\PickUpAppMain\BusinessLayer\bin\Debug\BusinessLayer.dll
+C:\Users\minez\Desktop\PickUpAppMain\BusinessLayer\bin\Debug\BusinessLayer.pdb
+C:\Users\minez\Desktop\PickUpAppMain\BusinessLayer\bin\Debug\DAL.exe
+C:\Users\minez\Desktop\PickUpAppMain\BusinessLayer\bin\Debug\Model.dll
+C:\Users\minez\Desktop\PickUpAppMain\BusinessLayer\bin\Debug\Dapper.dll
+C:\Users\minez\Desktop\PickUpAppMain\BusinessLayer\bin\Debug\DAL.pdb
+C:\Users\minez\Desktop\PickUpAppMain\BusinessLayer\bin\Debug\DAL.exe.config
+C:\Users\minez\Desktop\PickUpAppMain\BusinessLayer\bin\Debug\Model.pdb
+C:\Users\minez\Desktop\PickUpAppMain\BusinessLayer\bin\Debug\Dapper.xml
+C:\Users\minez\Desktop\PickUpAppMain\BusinessLayer\obj\Debug\BusinessLayer.csprojAssemblyReference.cache
+C:\Users\minez\Desktop\PickUpAppMain\BusinessLayer\obj\Debug\BusinessLayer.csproj.CoreCompileInputs.cache
+C:\Users\minez\Desktop\PickUpAppMain\BusinessLayer\obj\Debug\BusinessLayer.csproj.CopyComplete
+C:\Users\minez\Desktop\PickUpAppMain\BusinessLayer\obj\Debug\BusinessLayer.dll
+C:\Users\minez\Desktop\PickUpAppMain\BusinessLayer\obj\Debug\BusinessLayer.pdb

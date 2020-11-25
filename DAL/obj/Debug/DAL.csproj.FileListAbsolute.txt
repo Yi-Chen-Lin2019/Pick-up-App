@@ -49,3 +49,15 @@ C:\Users\kidsk\OneDrive\桌面\project\DAL\obj\Debug\DAL.csproj.CoreCompileInput
 C:\Users\kidsk\OneDrive\桌面\project\DAL\obj\Debug\DAL.csproj.CopyComplete
 C:\Users\kidsk\OneDrive\桌面\project\DAL\obj\Debug\DAL.exe
 C:\Users\kidsk\OneDrive\桌面\project\DAL\obj\Debug\DAL.pdb
+C:\Users\minez\Desktop\PickUpAppMain\DAL\bin\Debug\DAL.exe.config
+C:\Users\minez\Desktop\PickUpAppMain\DAL\bin\Debug\DAL.exe
+C:\Users\minez\Desktop\PickUpAppMain\DAL\bin\Debug\DAL.pdb
+C:\Users\minez\Desktop\PickUpAppMain\DAL\bin\Debug\Dapper.dll
+C:\Users\minez\Desktop\PickUpAppMain\DAL\bin\Debug\Model.dll
+C:\Users\minez\Desktop\PickUpAppMain\DAL\bin\Debug\Model.pdb
+C:\Users\minez\Desktop\PickUpAppMain\DAL\bin\Debug\Dapper.xml
+C:\Users\minez\Desktop\PickUpAppMain\DAL\obj\Debug\DAL.csprojAssemblyReference.cache
+C:\Users\minez\Desktop\PickUpAppMain\DAL\obj\Debug\DAL.csproj.CoreCompileInputs.cache
+C:\Users\minez\Desktop\PickUpAppMain\DAL\obj\Debug\DAL.csproj.CopyComplete
+C:\Users\minez\Desktop\PickUpAppMain\DAL\obj\Debug\DAL.exe
+C:\Users\minez\Desktop\PickUpAppMain\DAL\obj\Debug\DAL.pdb
