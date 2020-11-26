@@ -37,31 +37,34 @@ namespace DAL
         {
             ProductRepository prodR = new ProductRepository();
             PersonRepository persR = new PersonRepository();
-            conn.Open();
-            Order result = conn.Query<Order>("SELECT [OrderId], [OrderStatus], [PickUpTime], [OrderedTime], [TotalPrice] FROM [Order] WHERE OrderId =@OrderId", new { OrderId = id }).SingleOrDefault();
-            if (result == null) { conn.Close(); return null; }
-
-            List<String> snList = conn.Query<String>("SELECT [SerialNumber] FROM [SNProduct] WHERE OrderId =@OrderId", new { OrderId = id }).ToList();
-            List<int> orderLineList = conn.Query<int>("SELECT [OrderLineId] FROM [OrderLine] WHERE OrderId =@OrderId", new { OrderId = id }).ToList();
-            conn.Close();
-
-            result.Customer = persR.GetPersonById(conn.Query<int>("SELECT [CustomerId] FROM [Order] WHERE OrderId =@OrderId", new { OrderId = id }).SingleOrDefault());
-            result.Employee = persR.GetPersonById(conn.Query<int>("SELECT [EmployeeId] FROM [Order] WHERE OrderId =@OrderId", new { OrderId = id }).SingleOrDefault());
-
-            foreach(String sn in snList)
+            using (conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
             {
-                result.AddSNProduct(prodR.GetSNProductBySerialNumber(sn));
-            }
-            foreach(int orderLineId in orderLineList)
-            {
-                int noSnId = conn.Query<int>("SELECT [NoSNProductId] FROM [OrderLine] WHERE OrderLineId =@OrderLineId", new { OrderLineId = orderLineId }).SingleOrDefault();
-                OrderLine ol = conn.Query<OrderLine>("SELECT [OrderLineId], [Quantity], [OrderId] FROM [OrderLine] WHERE OrderLineId =@OrderLineId", new { OrderLineId = orderLineId }).SingleOrDefault();
-                ol.NoSNProduct = conn.Query<NoSNProduct>("SELECT [NoSNProduct].[NoSNProductId], [Product].[ProductId], [Product].[ProductName], [Product].[Barcode], [Product].[ProductPrice], [Product].[StockQuantity] FROM [Product] INNER JOIN [NoSNProduct] ON [Product].[ProductId] = [NoSNProduct].[ProductId] WHERE [NoSNProduct].[NoSNProductId] = @NoSNProductId",
-                new { NoSNProductId = noSnId }).SingleOrDefault();
-                result.AddOrderLine(ol);
-            }
+                conn.Open();
+                Order result = conn.Query<Order>("SELECT [OrderId], [OrderStatus], [PickUpTime], [OrderedTime], [TotalPrice] FROM [Order] WHERE OrderId =@OrderId", new { OrderId = id }).SingleOrDefault();
+                if (result == null) { conn.Close(); return null; }
 
-            return result;
+                List<String> snList = conn.Query<String>("SELECT [SerialNumber] FROM [SNProduct] WHERE OrderId =@OrderId", new { OrderId = id }).ToList();
+                List<int> orderLineList = conn.Query<int>("SELECT [OrderLineId] FROM [OrderLine] WHERE OrderId =@OrderId", new { OrderId = id }).ToList();
+                conn.Close();
+
+                result.Customer = persR.GetPersonById(conn.Query<int>("SELECT [CustomerId] FROM [Order] WHERE OrderId =@OrderId", new { OrderId = id }).SingleOrDefault());
+                result.Employee = persR.GetPersonById(conn.Query<int>("SELECT [EmployeeId] FROM [Order] WHERE OrderId =@OrderId", new { OrderId = id }).SingleOrDefault());
+
+                foreach (String sn in snList)
+                {
+                    result.AddSNProduct(prodR.GetSNProductBySerialNumber(sn));
+                }
+                foreach (int orderLineId in orderLineList)
+                {
+                    int noSnId = conn.Query<int>("SELECT [NoSNProductId] FROM [OrderLine] WHERE OrderLineId =@OrderLineId", new { OrderLineId = orderLineId }).SingleOrDefault();
+                    OrderLine ol = conn.Query<OrderLine>("SELECT [OrderLineId], [Quantity], [OrderId] FROM [OrderLine] WHERE OrderLineId =@OrderLineId", new { OrderLineId = orderLineId }).SingleOrDefault();
+                    ol.NoSNProduct = conn.Query<NoSNProduct>("SELECT [NoSNProduct].[NoSNProductId], [Product].[ProductId], [Product].[ProductName], [Product].[Barcode], [Product].[ProductPrice], [Product].[StockQuantity] FROM [Product] INNER JOIN [NoSNProduct] ON [Product].[ProductId] = [NoSNProduct].[ProductId] WHERE [NoSNProduct].[NoSNProductId] = @NoSNProductId",
+                    new { NoSNProductId = noSnId }).SingleOrDefault();
+                    result.AddOrderLine(ol);
+                }
+                return result;
+            }
+           
         }
 
         public List<Order> GetOrdersByStatus(String status)
@@ -87,36 +90,84 @@ namespace DAL
             int id = conn.Query<int>("SELECT @@IDENTITY").SingleOrDefault();
             order.OrderId = id;
             conn.Close();
-            
-            ProductRepository pr = new ProductRepository();
-            foreach(SNProduct product in order.SnProductList)
-            {
-                product.OrderId = id;
-                pr.UpdateSNProduct(product);
-            }
-            foreach(OrderLine orderLine in order.OrderLineList)
-            {
-                orderLine.OrderId = id;
-                conn.Open();
-                conn.Execute("INSERT INTO [OrderLine] VALUES(@Quantity, @OrderId, @NoSNProductId)",
-                    new { Quantity = orderLine.Quantity, OrderId = orderLine.OrderId, NoSNProductId = orderLine.NoSNProduct.NoSNProductId });
-                conn.Close();
-            }
 
-            if (rowsAffected >= 1) { return order; }
+            if (rowsAffected >= 1)
+            {
+                if (order.OrderLineList.Count != 0) { order.TotalPrice += InsertOrderLineList(order); };
+                if (order.SnProductList.Count != 0) { order.TotalPrice += InsertSNProductList(order); };
+                if (UpdateOrder(order)) { return order; } else { return null; };
+            }
+            //return order; }
             else { return null; }
         }
+        private decimal InsertOrderLineList(Order order)
+        {
+            decimal subTotalOfOrderLines = 0;
+            foreach (OrderLine orderLine in order.OrderLineList)
+            {
+                orderLine.OrderId = order.OrderId;
+                ProductRepository pr = new ProductRepository();
+                Product productRetrived = pr.GetProductById(orderLine.NoSNProduct.ProductId);
+                if (productRetrived.StockQuantity >= orderLine.Quantity)
+                {
+                    using (conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
+                    {
+                        conn.Open();
+                        using(var transaction = conn.BeginTransaction())
+                        {
+                            try {
+                                conn.Execute("INSERT INTO [OrderLine] VALUES(@Quantity, @OrderId, @NoSNProductId)",
+                           new { Quantity = orderLine.Quantity, OrderId = orderLine.OrderId, NoSNProductId = orderLine.NoSNProduct.NoSNProductId },
+                           transaction);
+                                transaction.Commit();
+                                productRetrived.StockQuantity -= orderLine.Quantity;
+                                pr.UpdateProduct(productRetrived);
+                                subTotalOfOrderLines += productRetrived.ProductPrice * orderLine.Quantity;
+                                
+                            } catch(Exception ex)
+                            {
+                                transaction.Rollback();
+                            }
+                        }                     
+                    }} else {
+                    //throw new OutOfStockException("Out of stock, please wait for in stock or try with different quantity");
+                    
+                    }
+            }
+            return subTotalOfOrderLines;
+        }
+        private decimal InsertSNProductList(Order order)
+        {
+            ProductRepository pr = new ProductRepository();
+            decimal subTotalOfSnProducts = 0;
+            
+                foreach (SNProduct product in order.SnProductList)
+                {
+                    product.OrderId = order.OrderId;
+                    product.Product.StockQuantity -= 1;
+                    pr.UpdateSNProduct(product);
+                    subTotalOfSnProducts += product.Product.ProductPrice;
+                }
+            return subTotalOfSnProducts;
+        }
+            
+
+        
+
 
         public bool UpdateOrder(Order order)
         {
             ProductRepository prodR = new ProductRepository();
             Order oldOrder = GetOrderById(order.OrderId);
-            conn.Open();
+            int rowsAffected = 0;
+            using (conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
+            {
+                conn.Open();
 
-            int rowsAffected = conn.Execute("UPDATE [Order] SET PickUpTime=@PickUpTime, OrderStatus=@OrderStatus, TotalPrice=@TotalPrice, CustomerId=@CustomerId, EmployeeId=@EmployeeId WHERE OrderId = @OrderId",
-                new { PickUpTime = order.PickUpTime, OrderStatus = order.OrderStatus, TotalPrice = order.TotalPrice, CustomerId = order.Customer.PersonId, EmployeeId = order.Employee.PersonId, OrderId = order.OrderId });
+                rowsAffected = conn.Execute("UPDATE [Order] SET PickUpTime=@PickUpTime, OrderStatus=@OrderStatus, TotalPrice=@TotalPrice, CustomerId=@CustomerId, EmployeeId=@EmployeeId WHERE OrderId = @OrderId",
+                    new { PickUpTime = order.PickUpTime, OrderStatus = order.OrderStatus, TotalPrice = order.TotalPrice, CustomerId = order.Customer.PersonId, EmployeeId = order.Employee.PersonId, OrderId = order.OrderId });
 
-            conn.Close();
+            }
 
             //Check and update new OrderLines
             if (oldOrder.OrderLineList.Count != order.OrderLineList.Count)
@@ -139,10 +190,12 @@ namespace DAL
                 foreach (OrderLine orderLine in newOrderLines)
                 {
                     orderLine.OrderId = order.OrderId;
-                    conn.Open();
-                    conn.Execute("INSERT INTO [OrderLine] VALUES(@Quantity, @OrderId, @NoSNProductId)",
-                        new { Quantity = orderLine.Quantity, OrderId = orderLine.OrderId, NoSNProductId = orderLine.NoSNProduct.NoSNProductId });
-                    conn.Close();
+                    using (conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
+                    {
+                        conn.Open();
+                        conn.Execute("INSERT INTO [OrderLine] VALUES(@Quantity, @OrderId, @NoSNProductId)",
+                            new { Quantity = orderLine.Quantity, OrderId = orderLine.OrderId, NoSNProductId = orderLine.NoSNProduct.NoSNProductId });
+                    }
                 }
             }
 

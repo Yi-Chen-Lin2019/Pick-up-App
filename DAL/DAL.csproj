@@ -54,6 +54,7 @@
     <Compile Include="IProductRepository.cs" />
     <Compile Include="main.cs" />
     <Compile Include="OrderRepository.cs" />
+    <Compile Include="OutOfStockException.cs" />
     <Compile Include="PersonRepository.cs" />
     <Compile Include="ProductRepository.cs" />
   </ItemGroup>

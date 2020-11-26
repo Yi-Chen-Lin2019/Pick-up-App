@@ -54,6 +54,7 @@
     <Compile Include="DalTests_PersonRepository.cs" />
     <Compile Include="DalTests_ProductRepository.cs" />
     <Compile Include="DalTests_OrderRepository.cs" />
+    <Compile Include="ConcurrencyTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
