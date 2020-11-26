@@ -113,7 +113,7 @@ namespace REST.Controllers
             return Ok();
         }
 
-        /*
+
         /// <summary>
         /// Delete a product in the system
         /// </summary>
@@ -121,16 +121,16 @@ namespace REST.Controllers
         /// <param name="productID">Product ID.</param>
         /// <returns></returns>
         /// <response code = "200">Product deleted</response>
-        [Route("Products/{productID}")]
-        [HttpDelete]
-        // DELETE api/<controller>/5
-        public IHttpActionResult Delete(int productID)
-        {
-            ProductManagement pm = new ProductManagement();
-            Product result = pm.DeleteProduct(productID);
-            if (result == null) { return InternalServerError(); }
-            else { return Ok(result); }
-        }
-        */
+        //[Route("Products/{productID}")]
+        //[HttpDelete]
+        //// DELETE api/<controller>/5
+        //public IHttpActionResult Delete(int productID)
+        //{
+        //    ProductManagement pm = new ProductManagement();
+        //    Product result = pm.DeleteProduct(productID);
+        //    if (result == null) { return InternalServerError(); }
+        //    else { return Ok(result); }
+        //}
+
     }
 }
