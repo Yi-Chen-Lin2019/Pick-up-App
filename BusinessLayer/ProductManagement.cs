@@ -34,7 +34,7 @@ namespace BusinessLayer
         public bool UpdateProduct(Product product)
         {
             IProductRepository pRepo = new ProductRepository();
-            return pRepo.UpdateProduct(product);
+            return pRepo.UpdateProduct(product, product.RowIdBig);
         }
 
         public Product InsertProduct(Product product)
