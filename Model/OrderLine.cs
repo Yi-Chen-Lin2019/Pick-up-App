@@ -6,6 +6,10 @@ namespace Model
 {
     public class OrderLine
     {
+        public OrderLine()
+        {
+        }
+
         public OrderLine(int Quantity)
         {
             this.Quantity = Quantity;

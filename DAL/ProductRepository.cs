@@ -156,7 +156,7 @@ namespace DAL
         {
             conn.Open();
 
-            List<NoSNProduct> productList = conn.Query<NoSNProduct>("SELECT [NoSNProduct].[NoSNProductId], [Product].[ProductId], [Product].[ProductName], [Product].[Barcode], [Product].[ProductPrice], [Product].[StockQuantity] FROM [Product] INNER JOIN [NoSNProduct] ON [Product].[ProductId] = [NoSNProduct].[ProductId] WHERE [NoSNProduct].[ProductId] = @ProductId", 
+            List<NoSNProduct> productList = conn.Query<NoSNProduct>("SELECT [NoSNProduct].[NoSNProductId], [Product].[ProductId], [Product].[ProductName], [Product].[Barcode], [Product].[ProductPrice], [Product].[StockQuantity],  [Product].[RowId], CAST([Product].[RowId] as bigint) AS RowIdBig FROM [Product] INNER JOIN [NoSNProduct] ON [Product].[ProductId] = [NoSNProduct].[ProductId] WHERE [NoSNProduct].[ProductId] = @ProductId",
                 new { ProductId = productId }).ToList();
 
 
@@ -213,8 +213,8 @@ namespace DAL
         public Product GetProductById(int productId)
         {
             conn.Open();
-            Product result = conn.Query<Product>("SELECT [ProductId], [ProductName], [Barcode], [ProductPrice], [StockQuantity] FROM [Product] WHERE ProductId =@ProductId", new { ProductId = productId }).SingleOrDefault();
-            if(result == null) { conn.Close(); return null; }
+            Product result = conn.Query<Product>("SELECT [ProductId], [ProductName], [Barcode], [ProductPrice], [StockQuantity] ,[RowId], CAST(RowId as bigint) AS RowIdBig FROM [Product] WHERE ProductId =@ProductId", new { ProductId = productId }).SingleOrDefault();
+            if (result == null) { conn.Close(); return null; }
             result.Category = conn.Query<Category>("SELECT [Category].[CategoryId], [Category].[CategoryName] FROM [Category] INNER JOIN [Product] ON [Category].[CategoryId] = [Product].[CategoryId] WHERE [Product].[ProductId]=@ProductId", new { ProductId = productId }).SingleOrDefault();
             conn.Close();
 
@@ -245,7 +245,8 @@ namespace DAL
         {
             conn.Open();
 
-            List<Product> result = conn.Query<Product>("SELECT [Product].[ProductId], [Product].[ProductName], [Product].[Barcode], [Product].[ProductPrice], [Product].[StockQuantity] FROM [Product] INNER JOIN [Category] ON [Product].[CategoryId] = [Category].[CategoryId]").ToList();
+            List<Product> result = conn.Query<Product>
+                ("SELECT [Product].[ProductId], [Product].[ProductName], [Product].[Barcode], [Product].[ProductPrice], [Product].[StockQuantity], [Product].[RowId], CAST([Product].[RowId] as bigint) AS RowIdBig FROM [Product] INNER JOIN [Category] ON [Product].[CategoryId] = [Category].[CategoryId] WHERE CategoryName = @CategoryName", new { CategoryName = categoryName }).ToList();
 
             conn.Close();
             return result;
@@ -268,14 +269,30 @@ namespace DAL
             else { return null; }
         }
 
-        public bool UpdateProduct(Product product)
+        public bool UpdateProduct(Product product, Int64 rowIdBig)
         {
-            conn.Open();
+            int rowsAffected = 0;
+            using (conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
+            {
+                conn.Open();
+                using (var transaction = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        rowsAffected = conn.Execute("UPDATE [Product] SET ProductName = @ProductName, Barcode = @Barcode, ProductPrice = @ProductPrice, StockQuantity = @StockQuantity, CategoryId = @CategoryId WHERE ProductId = @ProductId AND (cast(@OldRowIdBig as binary(8)) = RowId)",
+                            new { ProductName = product.ProductName, Barcode = product.Barcode, ProductPrice = product.ProductPrice, StockQuantity = product.StockQuantity, CategoryId = product.Category.CategoryId, ProductId = product.ProductId, OldRowIdBig = rowIdBig }, transaction);
 
-            int rowsAffected = conn.Execute("UPDATE [Product] SET ProductName = @ProductName, Barcode = @Barcode, ProductPrice = @ProductPrice, StockQuantity = @StockQuantity, CategoryId = @CategoryId WHERE ProductId = @ProductId",
-                new { ProductName = product.ProductName, Barcode = product.Barcode, ProductPrice = product.ProductPrice, StockQuantity = product.StockQuantity, CategoryId = product.Category.CategoryId, ProductId = product.ProductId });
-            
-            conn.Close();
+                        transaction.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+
+                        Console.WriteLine(ex.Message + " in updateProduct");
+                        transaction.Rollback();
+
+                    }
+                }
+            }
             if (rowsAffected >= 1) { return true; }
             else { return false; }
         }

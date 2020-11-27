@@ -1,12 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "7cx8qGGK9bjs6eAUdO+bNuFIgZrRINFDXNEkuEtAHVQzkhwuDpzAPCDZRY2JGutAIIBLIRdiQxG5B+AOK34CKw==",
+  "dgSpecHash": "YpvLZSwg0SZHeQBajDkxZHKwkLZLDt5Uofr20lTvC8o8w41Q/e0ceJ0FWvdHTb3CBEoYN6HH66FxlJWpyz7i4g==",
   "success": true,
-  "projectFilePath": "C:\\Users\\minez\\Desktop\\PickUpAppMain\\Model\\Model.csproj",
+  "projectFilePath": "C:\\Users\\kidsk\\OneDrive\\桌面\\sprint1_main\\Model\\Model.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\minez\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
-    "C:\\Users\\minez\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512",
-    "C:\\Users\\minez\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512"
+    "C:\\Users\\kidsk\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\kidsk\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512",
+    "C:\\Users\\kidsk\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512"
   ],
   "logs": []
 }

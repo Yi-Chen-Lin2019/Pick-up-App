@@ -12,7 +12,7 @@ namespace Model
             this.CategoryName = CategoryName;
         }
 
-        [JsonConstructor]
+        
         public Category(int CategoryId, String CategoryName)
         {
             this.CategoryId = CategoryId;
