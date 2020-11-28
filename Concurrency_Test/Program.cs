@@ -71,15 +71,9 @@ namespace Concurrency_Test
             Thread.Sleep(5000);
 
             Order retrievedOrder = null;
-            //try
-            //{
+            
             retrievedOrder = ordR.InsertOrder(order);
-            //}
-            //catch (Exception e)
-            //{
-            //    Thread.Sleep(5000);
-            //    retrievedOrder = ordR.InsertOrder(order);
-            //}
+            
 
             Console.WriteLine("Thread a order ID: " + retrievedOrder.OrderId);
             Console.WriteLine("Total price: " + retrievedOrder.TotalPrice);

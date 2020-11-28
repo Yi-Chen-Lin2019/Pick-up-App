@@ -258,7 +258,7 @@ namespace DAL
             int rowsAffected = 0;
             try {
                 rowsAffected = conn.Execute(@"INSERT INTO [Product] VALUES(@ProductName, @Barcode, @ProductPrice, @StockQuantity, @CategoryId)",
-              new { ProductName = product.ProductName, Barcode = product.Barcode, ProductPrice = product.Barcode, StockQuantity = product.StockQuantity, CategoryId = product.Category.CategoryId });
+              new { ProductName = product.ProductName, Barcode = product.Barcode, ProductPrice = product.ProductPrice, StockQuantity = product.StockQuantity, CategoryId = product.Category.CategoryId });
                 product.ProductId = conn.Query<int>("SELECT @@IDENTITY").FirstOrDefault();
             }
             catch(NullReferenceException) { Debug.WriteLine("Product didn't have category variable."); }
