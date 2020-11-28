@@ -13,6 +13,52 @@ namespace Concurrency_Test
     {
         public static void Main(string[] args)
         {
+            //lostUpdateProductQuantityTest();
+            lostUpdateOrderTest();
+        }
+
+        private static void lostUpdateOrderTest()
+        {
+            OrderRepository orderR = new OrderRepository();
+
+            Console.WriteLine("Order status at the start is: "
+                + orderR.GetOrderById(1).OrderStatus);
+            Thread a = new Thread(new ThreadStart(ConfirmSameOrderEmployeeA));
+            Thread b = new Thread(new ThreadStart(DenySameOrderEmployeeB));
+            a.Start();
+            b.Start();
+            a.Join();
+            b.Join();
+            OrderRepository orderRAfter = new OrderRepository();
+            Console.WriteLine("Order status at the end is: "
+                + orderR.GetOrderById(1).OrderStatus);
+            Console.ReadLine();
+        }
+
+        private static void DenySameOrderEmployeeB()
+        {
+            OrderRepository orderR = new OrderRepository();
+            Order order = orderR.GetOrderById(1);
+            Thread.Sleep(6000);
+            order.OrderStatus = "Error";
+            orderR.UpdateOrder(order);
+            Console.WriteLine("Thread deny: Order status is: "
+                + orderR.GetOrderById(1).OrderStatus);
+        }
+
+        private static void ConfirmSameOrderEmployeeA()
+        {
+            OrderRepository orderR = new OrderRepository();
+            Order order = orderR.GetOrderById(1);
+            Thread.Sleep(2000);
+            order.OrderStatus = "Confirmed";
+            orderR.UpdateOrder(order);
+            Console.WriteLine("Thread confirm: Order status is: "
+               + orderR.GetOrderById(1).OrderStatus);
+
+        }
+        public static void lostUpdateProductQuantityTest()
+        {
             ProductRepository prodR = new ProductRepository();
             Console.WriteLine("Original stock of product ID 5 (Milk): "
                 + prodR.GetProductById(5).StockQuantity);

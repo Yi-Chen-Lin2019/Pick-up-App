@@ -9,14 +9,21 @@ namespace Model
 {
     public class Order
     {
-        public Order(int OrderId, String OrderStatus, DateTime PickUpTime, DateTime OrderedTime, decimal TotalPrice)
+        public Order()
+        {
+            SnProductList = new List<SNProduct>();
+            OrderLineList = new List<OrderLine>();
+        }
+        public Order(int OrderId, String OrderStatus, DateTime PickUpTime, DateTime OrderedTime, decimal TotalPrice, byte[] RowId, Int64 RowIdBig)
         {
             this.OrderId = OrderId;
             this.OrderStatus = OrderStatus;
             this.PickUpTime = PickUpTime;
             this.OrderedTime = OrderedTime;
             this.TotalPrice = TotalPrice;
-            
+            this.RowId = RowId;
+            this.RowIdBig = RowIdBig;
+
             SnProductList = new List<SNProduct>();
             OrderLineList = new List<OrderLine>();
         }
@@ -66,10 +73,12 @@ namespace Model
 
         public String OrderStatus
         {
-            get{
+            get
+            {
                 return status.ToString();
             }
-            set{
+            set
+            {
                 try
                 {
                     this.status = (StatusEnum)Enum.Parse(typeof(StatusEnum), value, true);
@@ -77,6 +86,9 @@ namespace Model
                 catch (ArgumentException) { this.status = StatusEnum.Error; }
             }
         }
+
+        public byte[] RowId { get; set; }
+        public Int64 RowIdBig { get; set; }
 
     }
 }
