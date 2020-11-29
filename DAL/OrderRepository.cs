@@ -134,8 +134,8 @@ namespace DAL
             {
                 conn.Open();
 
-                rowsAffected = conn.Execute("INSERT INTO [Order] VALUES(@PickUpTime, @OrderedTime, @OrderStatus, @TotalPrice, @CustomerId, @EmployeeId, null)",
-                    new { PickUpTime = order.PickUpTime, OrderedTime = order.OrderedTime, OrderStatus = order.OrderStatus, TotalPrice = order.TotalPrice, CustomerId = order.Customer.PersonId, EmployeeId = order.Employee.PersonId });
+                rowsAffected = conn.Execute("INSERT INTO [Order] VALUES(@PickUpTime, @OrderedTime, @OrderStatus, @TotalPrice, @CustomerId, null, null)",
+                    new { PickUpTime = order.PickUpTime, OrderedTime = order.OrderedTime, OrderStatus = order.OrderStatus, TotalPrice = order.TotalPrice, CustomerId = order.Customer.PersonId });
                 int id = conn.Query<int>("SELECT @@IDENTITY").SingleOrDefault();
                 order.OrderId = id;
                 order.RowIdBig = conn.Query<int>("SELECT CAST(RowId as bigint) AS RowIdBig from [Order] where OrderId = @OrderId", new { OrderId = order.OrderId }).SingleOrDefault();
@@ -153,9 +153,31 @@ namespace DAL
                     }
                 };
                 if (order.SnProductList.Count != 0) { order.TotalPrice += InsertSNProductList(order); };
-                if (UpdateOrder(order)) { return order; } else { return null; };
+
+
+
+                using (conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
+                {
+                    conn.Open();
+                    using (var transaction = conn.BeginTransaction())
+                    {
+                        try
+                        {
+                            int affected = conn.Execute("UPDATE [Order] SET TotalPrice=@TotalPrice WHERE OrderId = @OrderId",
+                    new { TotalPrice = order.TotalPrice, OrderId = order.OrderId }, transaction);
+                            transaction.Commit();
+                            if (affected >= 1) { return order; } else { return null; };
+                        }
+                        catch (Exception)
+                        {
+                            transaction.Rollback();
+                            throw;
+                        }
+
+
+                    }
+                }
             }
-            //return order; }
             else { return null; }
         }
         private decimal InsertOrderLineList(OrderLine orderLine)
@@ -280,7 +302,7 @@ namespace DAL
                     {
                         conn.Open();
                         conn.Execute("INSERT INTO [OrderLine] VALUES(@Quantity, @OrderId, @NoSNProductId)",
-                            new { Quantity = orderLine.Quantity, OrderId = orderLine.OrderId, NoSNProductId = orderLine.NoSNProduct.NoSNProductId });
+                            new { Quantity = orderLine.Quantity, OrderId = orderLine.OrderId, NoSNProductId = orderLine.NoSNProduct.ProductId });
                     }
                 }
             }
