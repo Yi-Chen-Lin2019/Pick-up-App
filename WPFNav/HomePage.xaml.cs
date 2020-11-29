@@ -24,5 +24,11 @@ namespace WPFNav
         {
             InitializeComponent();
         }
+
+        //private void CreateProductButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    CreateProductFrame.Content = new CreateProductPage();
+        //}
+
     }
 }

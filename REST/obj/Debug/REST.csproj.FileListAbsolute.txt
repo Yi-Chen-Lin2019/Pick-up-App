@@ -106,3 +106,4 @@ C:\Users\minez\Desktop\PickUpAppMain\REST\obj\Debug\REST.csproj.CoreCompileInput
 C:\Users\minez\Desktop\PickUpAppMain\REST\obj\Debug\REST.csproj.CopyComplete
 C:\Users\minez\Desktop\PickUpAppMain\REST\obj\Debug\REST.dll
 C:\Users\minez\Desktop\PickUpAppMain\REST\obj\Debug\REST.pdb
+C:\Users\minez\Desktop\PickUpAppMain\REST\bin\REST.xml
