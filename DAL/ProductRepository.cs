@@ -141,7 +141,7 @@ namespace DAL
         {
             conn.Open();
 
-            List<NoSNProduct> productList = conn.Query<NoSNProduct>("SELECT [NoSNProduct].[NoSNProductId], [Product].[ProductId], [Product].[ProductName], [Product].[Barcode], [Product].[ProductPrice], [Product].[StockQuantity] FROM [Product] INNER JOIN [NoSNProduct] ON [Product].[ProductId] = [NoSNProduct].[ProductId]").ToList();
+            List<NoSNProduct> productList = conn.Query<NoSNProduct>("SELECT [NoSNProduct].[NoSNProductId], [Product].[ProductId], [Product].[ProductName], [Product].[Barcode], [Product].[ProductPrice], [Product].[StockQuantity], [Product].[RowId], CAST([Product].[RowId] as bigint) AS RowIdBig FROM [Product] INNER JOIN [NoSNProduct] ON [Product].[ProductId] = [NoSNProduct].[ProductId]").ToList();
 
             foreach (NoSNProduct product in productList)
             {
