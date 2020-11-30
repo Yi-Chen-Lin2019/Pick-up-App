@@ -257,7 +257,7 @@ namespace DAL
             conn.Open();
             int rowsAffected = 0;
             try {
-                rowsAffected = conn.Execute(@"INSERT INTO [Product] VALUES(@ProductName, @Barcode, @ProductPrice, @StockQuantity, @CategoryId)",
+                rowsAffected = conn.Execute(@"INSERT INTO [Product] VALUES(@ProductName, @Barcode, @ProductPrice, @StockQuantity, @CategoryId, null)",
               new { ProductName = product.ProductName, Barcode = product.Barcode, ProductPrice = product.ProductPrice, StockQuantity = product.StockQuantity, CategoryId = product.Category.CategoryId });
                 product.ProductId = conn.Query<int>("SELECT @@IDENTITY").FirstOrDefault();
             }
