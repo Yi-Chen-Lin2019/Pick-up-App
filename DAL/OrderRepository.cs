@@ -161,7 +161,7 @@ namespace DAL
                         if (subTotal != 0) { order.TotalPrice += subTotal; }
                     }
                 };
-                if (order.SnProductList.Count != 0) { order.TotalPrice += InsertSNProductList(order); };
+               // if (order.SnProductList.Count != 0) { order.TotalPrice += InsertSNProductList(order); };
 
 
 
@@ -234,7 +234,7 @@ namespace DAL
             return subTotalOfOrderLines;
         }
 
-
+        /*
         private decimal InsertSNProductList(Order order)
         {
             ProductRepository pr = new ProductRepository();
@@ -249,7 +249,7 @@ namespace DAL
             }
             return subTotalOfSnProducts;
         }
-
+        */
 
 
 
