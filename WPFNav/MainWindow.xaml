@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFNav"
         mc:Ignorable="d"
-        Title="PickUpAppEmployeeClient" Height="500" Width="750" Background="AliceBlue"
-        MinWidth="500">
+        Title="PickUpAppEmployeeClient" Height="600" Width="750" Background="AliceBlue"
+        MinWidth="500" MinHeight="500">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>
@@ -44,9 +44,12 @@
                    VerticalAlignment="Center"/>
         <Button Grid.Column="3" Grid.Row="1" x:Name="AboutButton" Opacity="0"/>
 
+        <!--Row 2-->
         <Frame NavigationUIVisibility="Hidden" Grid.Row="2"
                Grid.Column="1" 
                Grid.ColumnSpan="4"
                x:Name="MainFrame"/>
+        
+        
     </Grid>
 </Window>
