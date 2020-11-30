@@ -31,7 +31,7 @@ namespace Model
         {
             this.OrderStatus = OrderStatus;
 
-            SnProductList = new List<SNProduct>();
+            //SnProductList = new List<SNProduct>();
             OrderLineList = new List<OrderLine>();
         }
 
@@ -46,11 +46,12 @@ namespace Model
         }
         StatusEnum status;
 
+        /*
         public void AddSNProduct(SNProduct snProduct)
         {
             SnProductList.Add(snProduct);
         }
-
+        */
         public void AddOrderLine(OrderLine orderLine)
         {
             OrderLineList.Add(orderLine);
@@ -58,7 +59,7 @@ namespace Model
 
         public int OrderId { get; set; }
 
-        public List<SNProduct> SnProductList { get; set; }
+        //public List<SNProduct> SnProductList { get; set; }
 
         public List<OrderLine> OrderLineList { get; set; }
 
