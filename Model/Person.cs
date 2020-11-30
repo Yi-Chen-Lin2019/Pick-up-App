@@ -6,6 +6,10 @@ namespace Model
 {
     public class Person
     {
+        public Person()
+        {
+
+        }
         public Person(String Email, String FirstName, String LastName, int Phone)
         {
             this.FirstName = FirstName;

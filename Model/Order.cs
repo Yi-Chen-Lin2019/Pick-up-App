@@ -35,7 +35,7 @@ namespace Model
             OrderLineList = new List<OrderLine>();
         }
 
-        enum StatusEnum
+        public enum StatusEnum
         {
             Error,
             Received,
