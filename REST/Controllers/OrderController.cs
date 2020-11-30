@@ -25,10 +25,16 @@ namespace REST.Controllers
         [ResponseType(typeof(IEnumerable<Order>))]
         public IHttpActionResult Get()
         {
-            OrderManagement om = new OrderManagement();
-            IEnumerable<Order> foundOrders = om.GetAllOrders();
-            if (foundOrders == null) { return InternalServerError(); }
-            else { return Ok(foundOrders); }
+            try
+            {
+                OrderManagement om = new OrderManagement();
+                IEnumerable<Order> foundOrders = om.GetAllOrders();
+                return Ok(foundOrders);
+            }
+            catch (Exception)
+            {
+                return InternalServerError();
+            }
         }
 
 
@@ -45,11 +51,16 @@ namespace REST.Controllers
         [ResponseType(typeof(Order))]
         public IHttpActionResult Get(int orderID)
         {
-            OrderManagement om = new OrderManagement();
-            Order result = om.GetOrderById(orderID);
-            if (result == null) { return InternalServerError(); }
-            else { return Ok(result); }
-
+            try
+            {
+                OrderManagement om = new OrderManagement();
+                Order result = om.GetOrderById(orderID);
+                return Ok(result);
+            }
+            catch (Exception)
+            {
+                return InternalServerError();
+            }
         }
 
         /// <summary>
@@ -64,10 +75,20 @@ namespace REST.Controllers
         [ResponseType(typeof(Order))]
         public IHttpActionResult Post([FromBody] Order order)
         {
-            OrderManagement om = new OrderManagement();
-            Order result = om.InsertOrder(order);
-            if (result == null) { return InternalServerError(); }
-            else { return Ok(result); }
+            try
+            {
+                if (null == order)
+                {
+                    throw new Exception();
+                }
+                OrderManagement om = new OrderManagement();
+                Order result = om.InsertOrder(order);
+                return Ok(result);
+            }
+            catch (Exception)
+            {
+                return InternalServerError();
+            }
         }
 
         /// <summary>
@@ -83,7 +104,7 @@ namespace REST.Controllers
         [ResponseType(typeof(Order))]
         public IHttpActionResult Put(int orderID, [FromBody] Order order)
         {
-            if (orderID != order.OrderId) { return BadRequest(); };
+            if (orderID != order.OrderId || null == order) { return BadRequest(); };
             try
             {
                 OrderManagement om = new OrderManagement();
@@ -91,8 +112,7 @@ namespace REST.Controllers
             }
             catch (SqlException)
             {
-
-                throw;
+                return InternalServerError();
             }
             return Ok();
         }

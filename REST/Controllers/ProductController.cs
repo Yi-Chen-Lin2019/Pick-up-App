@@ -23,7 +23,7 @@ using System.Web.Http.Description;
 
 namespace REST.Controllers
 {
-    
+
     public class ProductController : ApiController
     {
         /// <summary>
@@ -40,12 +40,17 @@ namespace REST.Controllers
         [ResponseType(typeof(IEnumerable<Product>))]
         public IHttpActionResult Get()
         {
-            ProductManagement pm = new ProductManagement();
-            IEnumerable<Product> foundProducts = pm.GetAllProducts();
-            if (foundProducts == null) { return InternalServerError(); }
-            else { return Ok(foundProducts); }
-
-         }
+            try
+            {
+                ProductManagement pm = new ProductManagement();
+                IEnumerable<Product> foundProducts = pm.GetAllProducts();
+                return Ok(foundProducts);
+            }
+            catch (Exception)
+            {
+                return InternalServerError();
+            }
+        }
 
 
         /// <summary>
@@ -61,11 +66,16 @@ namespace REST.Controllers
         [ResponseType(typeof(Product))]
         public IHttpActionResult Get(int productID)
         {
-            ProductManagement pm = new ProductManagement();
-            Product result = pm.GetProductById(productID);
-            if (result == null) { return InternalServerError(); }
-            else { return Ok(result); }
-           
+            try
+            {
+                ProductManagement pm = new ProductManagement();
+                Product result = pm.GetProductById(productID);
+                return Ok(result);
+            }
+            catch (Exception)
+            {
+                return InternalServerError();
+            }
         }
 
         /// <summary>
@@ -80,10 +90,20 @@ namespace REST.Controllers
         [ResponseType(typeof(Product))]
         public IHttpActionResult Post([FromBody] Product product)
         {
-            ProductManagement pm = new ProductManagement();
-            Product result = pm.InsertProduct(product);
-            if (result == null) { return InternalServerError(); }
-            else { return Ok(result); }
+            try
+            {
+                if (null == product)
+                {
+                    throw new Exception();
+                }
+                ProductManagement pm = new ProductManagement();
+                Product result = pm.InsertProduct(product);
+                return Ok(result);
+            }
+            catch (Exception)
+            {
+                return InternalServerError();
+            }
         }
 
         /// <summary>
@@ -99,7 +119,7 @@ namespace REST.Controllers
         [ResponseType(typeof(Product))]
         public IHttpActionResult Put(int productID, [FromBody] Product product)
         {
-            if (productID != product.ProductId) { return BadRequest(); };
+            if (productID != product.ProductId || null == product) { return BadRequest(); };
             try
             {
                 ProductManagement pm = new ProductManagement();
@@ -108,7 +128,7 @@ namespace REST.Controllers
             catch (SqlException)
             {
 
-                throw;
+                return InternalServerError();
             }
             return Ok();
         }
