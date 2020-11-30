@@ -11,7 +11,7 @@ namespace Model
     {
         public Order()
         {
-            SnProductList = new List<SNProduct>();
+            //SnProductList = new List<SNProduct>();
             OrderLineList = new List<OrderLine>();
         }
         public Order(int OrderId, String OrderStatus, DateTime PickUpTime, DateTime OrderedTime, decimal TotalPrice, byte[] RowId, Int64 RowIdBig)
@@ -24,7 +24,7 @@ namespace Model
             this.RowId = RowId;
             this.RowIdBig = RowIdBig;
 
-            SnProductList = new List<SNProduct>();
+            //SnProductList = new List<SNProduct>();
             OrderLineList = new List<OrderLine>();
         }
         public Order(String OrderStatus)
