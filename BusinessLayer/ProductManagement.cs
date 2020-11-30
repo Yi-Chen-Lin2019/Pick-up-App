@@ -16,9 +16,12 @@ namespace BusinessLayer
             {
                 IProductRepository pRepo = new ProductRepository();
                 foundProducts = pRepo.GetAllProducts();
+                
+  
             }
-            catch
+            catch (Exception e)
             {
+                Console.WriteLine(e.Message);
                 foundProducts = null;
             }
             return foundProducts;
