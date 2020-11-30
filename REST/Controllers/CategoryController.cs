@@ -33,6 +33,7 @@ namespace REST.Controllers
                 CategoryManagement cm = new CategoryManagement();
                 IEnumerable<Category> foundCategories = cm.GetAllCategories();
                 return Ok(foundCategories);
+
             }
             catch (Exception)
             {
