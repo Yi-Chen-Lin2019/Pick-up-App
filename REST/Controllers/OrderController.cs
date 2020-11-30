@@ -31,8 +31,9 @@ namespace REST.Controllers
                 IEnumerable<Order> foundOrders = om.GetAllOrders();
                 return Ok(foundOrders);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Console.WriteLine(e.Message);
                 return InternalServerError();
             }
         }
