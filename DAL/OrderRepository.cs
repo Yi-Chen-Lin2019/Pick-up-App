@@ -57,10 +57,10 @@ namespace DAL
                 }
                 foreach (int orderLineId in orderLineList)
                 {
-                    int noSnId = conn.Query<int>("SELECT [NoSNProductId] FROM [OrderLine] WHERE OrderLineId =@OrderLineId", new { OrderLineId = orderLineId }).SingleOrDefault();
+                    int productId = conn.Query<int>("SELECT [ProductId] FROM [OrderLine] WHERE OrderLineId =@OrderLineId", new { OrderLineId = orderLineId }).SingleOrDefault();
                     OrderLine ol = conn.Query<OrderLine>("SELECT [OrderLineId], [Quantity], [OrderId] FROM [OrderLine] WHERE OrderLineId =@OrderLineId", new { OrderLineId = orderLineId }).SingleOrDefault();
-                    ol.NoSNProduct = conn.Query<NoSNProduct>("SELECT [NoSNProduct].[NoSNProductId], [Product].[ProductId], [Product].[ProductName], [Product].[Barcode], [Product].[ProductPrice], [Product].[StockQuantity], [Product].[RowId], CAST([Product].[RowId] as bigint) AS RowIdBig FROM [Product] INNER JOIN [NoSNProduct] ON [Product].[ProductId] = [NoSNProduct].[ProductId] WHERE [NoSNProduct].[NoSNProductId] = @NoSNProductId",
-                    new { NoSNProductId = noSnId }).SingleOrDefault();
+                    ol.Product = conn.Query<Product>("SELECT [Product].[ProductId], [Product].[ProductName], [Product].[Barcode], [Product].[ProductPrice], [Product].[StockQuantity], [Product].[RowId], CAST([Product].[RowId] as bigint) AS RowIdBig FROM [Product] WHERE [ProductId] = @ProductId",
+                    new { ProductId = productId }).SingleOrDefault();
                     result.AddOrderLine(ol);
                 }
                 return result;
@@ -184,7 +184,7 @@ namespace DAL
         {
             decimal subTotalOfOrderLines = 0;
             ProductRepository pr = new ProductRepository();
-            Product productRetrived = pr.GetProductById(orderLine.NoSNProduct.ProductId);
+            Product productRetrived = pr.GetProductById(orderLine.Product.ProductId);
             var rowBig = productRetrived.RowIdBig;
             if (productRetrived.StockQuantity >= orderLine.Quantity)
             {
@@ -195,8 +195,8 @@ namespace DAL
                     {
                         try
                         {
-                            conn.Execute("INSERT INTO [OrderLine] VALUES(@Quantity, @OrderId, @NoSNProductId)",
-                       new { Quantity = orderLine.Quantity, OrderId = orderLine.OrderId, NoSNProductId = orderLine.NoSNProduct.NoSNProductId },
+                            conn.Execute("INSERT INTO [OrderLine] VALUES(@Quantity, @OrderId, @ProductId)",
+                       new { Quantity = orderLine.Quantity, OrderId = orderLine.OrderId, ProductId = orderLine.Product.ProductId },
                        transaction);
 
                             productRetrived.StockQuantity -= orderLine.Quantity;
@@ -219,7 +219,7 @@ namespace DAL
             }
             else
             {
-                //throw new OutOfStockException("Out of stock, please wait for in stock or try with different quantity");
+                throw new OutOfStockException("Out of stock, please wait for in stock or try with different quantity");
 
             }
             return subTotalOfOrderLines;
@@ -301,12 +301,13 @@ namespace DAL
                     using (conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
                     {
                         conn.Open();
-                        conn.Execute("INSERT INTO [OrderLine] VALUES(@Quantity, @OrderId, @NoSNProductId)",
-                            new { Quantity = orderLine.Quantity, OrderId = orderLine.OrderId, NoSNProductId = orderLine.NoSNProduct.ProductId });
+                        conn.Execute("INSERT INTO [OrderLine] VALUES(@Quantity, @OrderId, @ProductId)",
+                            new { Quantity = orderLine.Quantity, OrderId = orderLine.OrderId, ProductId = orderLine.Product.ProductId });
                     }
                 }
             }
 
+            /*
             //Check and update new SnProducts
             if (oldOrder.SnProductList.Count != order.SnProductList.Count)
             {
@@ -326,7 +327,7 @@ namespace DAL
                     prodR.UpdateSNProduct(snProduct);
                 }
             }
-
+            */
 
             if (rowsAffected >= 1) { return true; }
             else { return false; }
