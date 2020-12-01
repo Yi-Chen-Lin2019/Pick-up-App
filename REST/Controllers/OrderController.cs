@@ -106,17 +106,25 @@ namespace REST.Controllers
         [ResponseType(typeof(Order))]
         public IHttpActionResult Put(int orderID, [FromBody] Order order)
         {
+            bool result = false;
             if (orderID != order.OrderId || null == order) { return BadRequest(); };
             try
             {
                 OrderManagement om = new OrderManagement();
-                bool result = om.UpdateOrder(order);
+                result = om.UpdateOrder(order);
             }
             catch (SqlException)
             {
                 return InternalServerError();
             }
-            return Ok();
+            if (result)
+            {
+                return Ok();
+            }
+            else
+            {
+                return Conflict();
+            }
         }
 
         /*

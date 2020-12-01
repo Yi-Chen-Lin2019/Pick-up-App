@@ -24,7 +24,7 @@
         </Grid.RowDefinitions>
         <TextBlock x:Name="OrderInfo" 
                    Grid.Column="1" Grid.Row="1"
-                   Text="asdffff"/>
+                   Text="loading..."/>
         <ListBox x:Name="OrderStatusList"
                  Grid.Column="1" Grid.Row="2"
                   >

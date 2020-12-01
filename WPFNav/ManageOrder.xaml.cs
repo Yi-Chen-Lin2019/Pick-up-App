@@ -46,11 +46,18 @@ namespace WPFNav
             }
         }
 
-        private void UpdateOrderButton_Click(object sender, RoutedEventArgs e)
+        private async void UpdateOrderButton_Click(object sender, RoutedEventArgs e)
         {
             this.order.OrderStatus = OrderStatusList.SelectedValue.ToString();
             LocalService service = new LocalService();
-            service.UpdateOrder(this.order);
+            if (await service.UpdateOrder(this.order))
+            {
+                OrderInfo.Text = "updated successfully";
+            }
+            else
+            {
+                OrderInfo.Text = "failed to update. please try again";
+            }
         }
     }
 }
