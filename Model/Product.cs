@@ -30,6 +30,12 @@ namespace Model
 
         public int ProductId { get; set; }
 
+        public override string ToString()
+        {
+            //return this.ProductName + ", " + this.ProductId + ", "+ this.Barcode + ", "+ this.ProductPrice + ", "+ this.StockQuantity;
+            return " Id= " + this.ProductId + ", Name= " + this.ProductName + ", Barcode= " + this.Barcode + ", Price= " + this.ProductPrice + ", Quantity= " + this.StockQuantity + ", Category name: "+this.Category.CategoryName + ", Category Id: "+this.Category.CategoryId;
+        }
+
         public String ProductName { get; set; }
 
         public int Barcode { get; set; }

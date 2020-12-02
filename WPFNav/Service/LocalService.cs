@@ -112,7 +112,7 @@ namespace WPFNav.Service
         public async Task<List<Product>> GetAllProducts()
         {
             List<Product> productsFromService;
-
+            System.Net.ServicePointManager.ServerCertificateValidationCallback = (senderX, certificate, chain, sslPolicyErrors) => { return true; };
             // Create URI
             string useRestUrl = _restUrl + "Products";
             var uri = new Uri(string.Format(useRestUrl));
@@ -140,9 +140,9 @@ namespace WPFNav.Service
         public async Task<List<Category>> GetAllCategories()
         {
             List<Category> catsFromService;
-
+            System.Net.ServicePointManager.ServerCertificateValidationCallback = (senderX, certificate, chain, sslPolicyErrors) => { return true; };
             // Create URI
-            string useRestUrl = _restUrl + "Category";
+            string useRestUrl = _restUrl + "Categories";
             var uri = new Uri(string.Format(useRestUrl));
             //
             try
@@ -163,6 +163,36 @@ namespace WPFNav.Service
                 throw;
             }
             return catsFromService;
+        }
+
+        public async Task<bool> PostProduct(Product product)
+        {
+            bool PostedOk;
+            string useRestUrl = _restUrl + "Products";
+            var uri = new Uri(string.Format(useRestUrl));
+            try
+            {
+                var json = JsonConvert.SerializeObject(product);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                HttpResponseMessage response = null;
+                response = await _client.PostAsync(uri, content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    PostedOk = true;
+                }
+                else
+                {
+                    PostedOk = false;
+                }
+            }
+            catch
+            {
+                PostedOk = false;
+            }
+
+            return PostedOk;
         }
 
     }

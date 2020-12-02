@@ -30,7 +30,7 @@ namespace WPFNav
 
         public void HomeButtonClick(object sender, EventArgs e)
         {
-            MainFrame.Content = new CreateProductPage();
+            MainFrame.Content = new HomePage();
             HomeText.Foreground = Brushes.MidnightBlue;
             //HomeText.FontWeight = FontWeights.Bold;
 
@@ -50,12 +50,12 @@ namespace WPFNav
 
         public void AboutButtonClick(object sender, EventArgs e)
         {
-            MainFrame.Content = new ManageOrder(1);
-            //AboutText.Foreground = Brushes.MidnightBlue;
+            MainFrame.Content = new AboutPage();
+            AboutText.Foreground = Brushes.MidnightBlue;
             ////AboutText.FontWeight = FontWeights.Bold;
 
-            //HomeText.Foreground = Brushes.Gray;
-            //ManageText.Foreground = Brushes.Gray;
+            HomeText.Foreground = Brushes.Gray;
+            ManageText.Foreground = Brushes.Gray;
 
         }
 

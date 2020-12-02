@@ -22,6 +22,11 @@ namespace Model
         {
 
         }
+
+        public override string ToString()
+        {
+            return " CategoryName: "+ this.CategoryName + " , CategoryId: "+this.CategoryId;
+        }
         public int CategoryId { get; set; }
         public String CategoryName { get; set; }
     }
