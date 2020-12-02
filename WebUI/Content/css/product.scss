@@ -1,0 +1,101 @@
+﻿//Lato font
+@import url('https://fonts.googleapis.com/css?family=Lato:400,700');
+
+.productList-container {
+    position: absolute;
+    top: 2rem;
+    left: 12rem;
+    width: 70%;
+    height: auto;
+
+    .productDisplay {
+        box-shadow: 0px 0px 7px 2px #888888;
+        position: relative;
+        margin-right: 1rem;
+        margin-bottom: 1rem;
+        float: left;
+        height: auto;
+        width: 12rem;
+    }
+
+    .product-photo {
+        height: 12rem;
+        width: 12rem;
+    }
+
+    .item-photo-container {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        background-size: 12rem,12rem;
+        position: absolute;
+        height: 12rem;
+        width: 12rem;
+
+        .seeProduct-btn {
+            display: block;
+            width: 100%;
+            height: 50%;
+            background: #59b527;
+            background-size: auto;
+            background-repeat: no-repeat;
+            opacity: 0;
+            font-family: "Lato", sans-serif;
+            font-size: 20px;
+            text-align: center;
+            vertical-align: middle;
+            color: #000000;
+            padding: 2rem;
+            transition-property: all;
+            transition-duration: 0.2s;
+            transition-timing-function: ease-in-out;
+
+            &:active {
+                transition-duration: 0s;
+                background: #7ae63f;
+            }
+        }
+
+        .addToCart-btn {
+            display: block;
+            width: 100%;
+            height: 50%;
+            background: #eb2c2c;
+            background-size: auto;
+            background-repeat: no-repeat;
+            opacity: 0;
+            font-family: "Lato", sans-serif;
+            font-size: 20px;
+            text-align: center;
+            vertical-align: middle;
+            color: #000000;
+            padding: 2rem;
+            transition-property: all;
+            transition-duration: 0.2s;
+            transition-timing-function: ease-in-out;
+
+            &:active {
+                transition-duration: 0s;
+                background: #fb7272;
+            }
+        }
+    }
+
+    .item-photo-container:hover .seeProduct-btn {
+        opacity: 0.7;
+    }
+
+    .item-photo-container:hover .addToCart-btn {
+        opacity: 0.7;
+    }
+
+
+
+    .product-title {
+        font-family: Lato, sans-serif;
+        line-height: normal;
+        color: black;
+    }
+}
