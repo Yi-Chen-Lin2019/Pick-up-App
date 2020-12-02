@@ -1,0 +1,234 @@
+﻿@model WebUI.ViewModels.OrderViewModel
+
+<script>
+    function removeFromCart(productId) {
+        $(function () {
+            $.post('/ShoppingCart/RemoveFromCart',
+                { productId: productId }, function (data) {
+                    if (data.success) {
+                        alert("Item removed from your cart.");
+                    }
+                    else {
+                        alert("Failure!");
+                    }
+                    location.reload();
+                });
+        });
+    }
+</script>
+
+@if (Model.orderLineList.Count > 0 || Model.snProductList.Count > 0)
+{
+    @*PRODUCT_LIST*@
+    <div class="col-sm-10" style="position: relative; width: 70%;">
+
+        @foreach (var item in Model.orderLineList)
+        {
+            <div class="col-lg-12">
+                <div class="row">
+                    @Html.Partial("~/Views/ShoppingCart/Details.cshtml", item.product)
+                </div>
+            </div>
+        }
+
+    </div>
+
+    <div class="pick-up-time-container" id="pick-up-time-container">
+        <div class="pick-up-time-box">
+            <div class="pick-up-time-text">Select Pick Up Time:</div>
+            <div class="pick-up-time-select">
+                <form class="pick-up-time-form" id="pick-up-time-form">
+                    <select name="day" id="day" onchange="updateHourSelectBox(this)">
+                        <option value="Today">Today</option>
+                        <option value="Tomorrow">Tomorrow</option>
+                        <option value="Days2">2 Days</option>
+                        <option value="Days3">3 Days</option>
+                        <option value="Days4">4 Days</option>
+                        <option value="Days5">5 Days</option>
+                    </select>
+                    <select name="hour" id="hour">
+                        <!--populated using JavaScript-->
+                    </select>
+                    <select name="minute" id="minute">
+                        <option value="00">00</option>
+                        <option value="15">15</option>
+                        <option value="30">30</option>
+                        <option value="45">45</option>
+                    </select>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="confirm-order-button-container" style="position: relative; top: 3rem;">
+        <button>CONFIRM ORDER</button>
+    </div>
+}
+else
+{
+    <div class="col-sm-10">
+        <div style="font-family: 'Lato', sans-serif; font-size: 24px; vertical-align: middle; text-align: center;">You have no products in your cart.</div>
+    </div>
+}
+
+@*<div>
+        <h4>Order</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.pickUpTime)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.pickUpTime)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.totalPrice)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.totalPrice)
+            </dd>
+
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>*@
+
+<script type="text/javascript">
+    var CurrentHour = new Date().getHours();
+    var availableHours = new Array();
+    for (var i = 6; i <= 23; i++) {
+        if (i >= CurrentHour) { availableHours.push(i.toString()); }
+    }
+    var Select_List_Data = {
+        'hour': {
+
+            'Today': {
+                text: availableHours,
+                value: availableHours
+            },
+            'Tomorrow': {
+                text: ['6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23'],
+                value: ['6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23']
+            },
+            'Days2': {
+                text: ['6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23'],
+                value: ['6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23']
+            },
+            'Days3': {
+                text: ['6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23'],
+                value: ['6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23']
+            },
+            'Days4': {
+                text: ['6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23'],
+                value: ['6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23']
+            },
+            'Days5': {
+                text: ['6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23'],
+                value: ['6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23']
+            }
+
+        }
+    };
+    // anonymous function assigned to onchange event of controlling select list
+    function updateHourSelectBox(selectBox) {
+        // name of associated select list
+        var relName = 'hour';
+
+        // reference to associated select list
+        var relList = selectBox.form.elements[relName];
+
+        // get data from object literal based on selection in controlling select list (this.value)
+        var obj = Select_List_Data[relName][selectBox.value];
+
+        // remove current option elements
+        removeAllOptions(relList, selectBox);
+
+        // call function to add optgroup/option elements
+        // pass reference to associated select list and data for new options
+        appendDataToSelect(relList, obj);
+    }
+
+    // removes all option elements in select list
+    // removeGrp (optional) boolean to remove optgroups
+    function removeAllOptions(sel, removeGrp) {
+        var len, groups, par;
+        if (removeGrp) {
+            groups = sel.getElementsByTagName('optgroup');
+            len = groups.length;
+            for (var i = len; i; i--) {
+                sel.removeChild(groups[i - 1]);
+            }
+        }
+
+        len = sel.options.length;
+        for (var i = len; i; i--) {
+            par = sel.options[i - 1].parentNode;
+            par.removeChild(sel.options[i - 1]);
+        }
+    }
+
+    function appendDataToSelect(sel, obj) {
+        var f = document.createDocumentFragment();
+        var labels = [], group, opts;
+
+        function addOptions(obj) {
+            var f = document.createDocumentFragment();
+            var o;
+
+            for (var i = 0, len = obj.text.length; i < len; i++) {
+                o = document.createElement('option');
+                o.appendChild(document.createTextNode(obj.text[i]));
+
+                if (obj.value) {
+                    o.value = obj.value[i];
+                }
+
+                f.appendChild(o);
+            }
+            return f;
+        }
+
+        if (obj.text) {
+            opts = addOptions(obj);
+            f.appendChild(opts);
+        } else {
+            for (var prop in obj) {
+                if (obj.hasOwnProperty(prop)) {
+                    labels.push(prop);
+                }
+            }
+
+            for (var i = 0, len = labels.length; i < len; i++) {
+                group = document.createElement('optgroup');
+                group.label = labels[i];
+                f.appendChild(group);
+                opts = addOptions(obj[labels[i]]);
+                group.appendChild(opts);
+            }
+        }
+        sel.appendChild(f);
+    }
+
+    var form = document.forms['pick-up-time-form'];
+
+    // reference to controlling select box
+    var sel = form.elements['day'];
+    sel.selectedIndex = 0;
+
+    // name of associated select box
+    var relName = 'hour';
+    // reference to associated select box
+    var rel = form.elements[relName];
+
+    // get data for associated select box passing its name
+    // and value of selected in controlling select box
+    var data = Select_List_Data[relName][sel.value];
+
+    // add options to associated select box
+    appendDataToSelect(rel, data);
+</script>

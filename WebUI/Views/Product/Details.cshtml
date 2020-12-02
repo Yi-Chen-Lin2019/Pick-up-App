@@ -1,41 +1,49 @@
 ﻿@model WebUI.ViewModels.ProductViewModel
 
 @*<div>
-    <h4>Product</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.name)
-        </dt>
+        <h4>Product</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.name)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.name)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.name)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.price)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.price)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.price)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.price)
+            </dd>
 
-    </dl>
-</div>*@
+        </dl>
+    </div>*@
 
-<div class="col-sm-12">
-    <div class="row">
-        <div class="col-sm-9 bg-primary">
-            <b>@Html.DisplayFor(model => model.name)</b>
-        </div>
-        <div class="col-sm-3 bg-primary">
-            <b>@Html.DisplayFor(model => model.price)</b>
-        </div>
+@*String.Format("data:image/png;base64,{0}", Model.image*@
+<div class="item-photo-container" style="background-image: url(https://homepages.cae.wisc.edu/~ece533/images/zelda.png); background-repeat: no-repeat">
+    <div class="seeProduct-btn">
+        See Product
+
     </div>
 
-    <div class="row">
-        <div class="col-sm-12">
-            <img height="80" width="200" src="@String.Format("data:image/png;base64,{0}", Model.image)" />
-        </div>
+    <div class="addToCart-btn" onclick='addToCart(@Model.id, "@Model.price", "@Model.name", "@Model.image", @(Model is WebUI.ViewModels.SNProductViewModel ? "true" : "false"))'>
+        Add to Cart
+        @*
+        if (Model is WebUI.ViewModels.SNProductViewModel)
+        {
+            <input type="button" value="Add to Cart"
+                   onclick='addToCart(@Model.id, "@Model.price", "@Model.name", "@Model.image", "true")' />
+        }
+       else
+            {
+            <input type="button" value="Add to Cart"
+            onclick='addToCart(@Model.id, "@Model.price", "@Model.name", "@Model.image", "false")' />
+            }
+       }*@
     </div>
+
 </div>
