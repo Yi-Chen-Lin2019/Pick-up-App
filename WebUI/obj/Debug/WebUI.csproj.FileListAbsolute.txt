@@ -222,3 +222,7 @@ C:\Users\minez\Desktop\PickUpAppMain\WebUI\obj\Debug\WebUI.csproj.CoreCompileInp
 C:\Users\minez\Desktop\PickUpAppMain\WebUI\obj\Debug\WebUI.csproj.CopyComplete
 C:\Users\minez\Desktop\PickUpAppMain\WebUI\obj\Debug\WebUI.dll
 C:\Users\minez\Desktop\PickUpAppMain\WebUI\obj\Debug\WebUI.pdb
+X:\PickUpAppProject\Git\Pick-up-App\WebUI\obj\Debug\WebUI.csprojAssemblyReference.cache
+X:\PickUpAppProject\Git\Pick-up-App\WebUI\obj\Debug\WebUI.csproj.CoreCompileInputs.cache
+X:\PickUpAppProject\Git\Pick-up-App\WebUI\obj\Debug\WebUI.dll
+X:\PickUpAppProject\Git\Pick-up-App\WebUI\obj\Debug\WebUI.pdb
