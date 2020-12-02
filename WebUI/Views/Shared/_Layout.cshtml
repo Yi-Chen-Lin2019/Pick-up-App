@@ -1,41 +1,64 @@
-﻿<!DOCTYPE html>
+﻿@using System.Web.Optimization;
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @{ViewBag.Title = "PickUpApp";}
+    <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
+    @Styles.Render("~/Bundle/sass")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("Products", "", "Product")</li>
-                    <li>@Html.ActionLink("Shopping Cart", "Details", "ShoppingCart")</li>
-                </ul>
+    <script>
+        function redirectToHomePage(){
+            window.location.href = '/';
+        }
+        function redirectToShoppingCart() {
+            window.location.href = '/ShoppingCart';
+        }
+    </script>
+    <main class="main-container">
+        <div class="container-fluid">
+            @RenderBody()
+        </div>
+    </main>
+    <header class="header" id="header">
+        <div class="header-fixed">
+            <div class="header-container">
+                <div class="logo-container" onclick="redirectToHomePage()">
+                    <a class="logo" href="#">
+                        Pick-Up App
+                    </a>
+                </div>
+                <div class="searchBar-container">
+                    <div class="searchBar-box">
+                        <input type="text" class="searchTerm" placeholder="Search e.g. Milk">
+                        <button type="submit" class="searchButton">
+                            <i class="fa fa-search">GO</i>
+                        </button>
+                    </div>
+                </div>
+                <div class="cartContainer" onclick="redirectToShoppingCart()">
+                    <div class="cartIcon">
+                        <img src="~/Content/img/CartIcon.svg" runat="server" style="height: 3rem; width: 3rem;" />
+                        <div class="cartPrice">
+                            999999 DKK
+                        </div>
+                    </div>
+                </div>
+                <div class="user-profile-container">
+                    <div class="user-icon">
+                        <img src="~/Content/img/UserIcon.svg" runat="server" style="height: 3rem; width: 3rem;" />
+                    </div>
+                    <div class="user-name">
+                        LOG IN
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
+    </header>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

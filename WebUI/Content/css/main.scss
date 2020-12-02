@@ -1,0 +1,258 @@
+﻿//Lato font
+@import url('https://fonts.googleapis.com/css?family=Lato:400,700');
+
+html{
+    font-size: 15px;
+}
+
+
+
+.logo-container {
+    width: 20rem;
+    margin:0;
+    background: none !important;
+    position: relative;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    float: left;
+    left: 10rem;
+
+    a {
+        color: white;
+        text-transform: uppercase;
+        text-decoration: none;
+        font-weight: 700;
+    }
+}
+//logo variables
+$white: #ececec;
+$black: #333333;
+$cyan: #3290a6;
+$green: #59b527;
+$colorPrimary: $cyan;
+$colorSecondary: $green;
+
+//logo button mixin
+@mixin logo__split($colorLeft, $colorRight, $textColor) {
+    .logo {
+        position: relative;
+        letter-spacing: 0.25em;
+        margin: 0 auto;
+        padding: 0.9rem 2.5rem;
+        background: transparent;
+        outline: none;
+        font-size: 24px;
+        color: $textColor;
+
+        &::after,
+        &::before {
+            content: "";
+            position: absolute;
+            height: 100%;
+            width: 50%;
+            transform: skewX(30deg);
+            transition: all 0.5s cubic-bezier(0.68, -0.75, 0.265, 1.30);
+            z-index: -2;
+        }
+
+        &::before {
+            background-color: $colorLeft;
+            top: -0.1rem;
+            left: 1rem;
+        }
+
+        &::after {
+            background-color: $colorRight;
+            top: 0.5rem;
+            left: 8rem;
+        }
+
+        &:hover {
+            &::before,
+            &::after {
+                top: 0;
+                transform: skewx(0deg);
+            }
+
+            &::after {
+                left: 1rem;
+            }
+
+            &::before {
+                left: 8.10rem;
+            }
+        }
+    }
+}
+
+// Search Bar Main styles
+.searchBar-container {
+    stroke-width: 3px;
+    background: none !important;
+    position: relative;
+    width: 30rem;
+    height: 3rem;
+    left: 32rem;
+    top: 50%;
+    float: left;
+    margin: 0;
+    transform: translate(-50%, -50%);
+}
+.searchBar-box {
+    position: relative;
+    width: 100%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+
+    .searchTerm {
+        width: 82%;
+        border: 3px solid #59b527;
+        border-right: none;
+        padding: 5px;
+        height: 3rem;
+        border-radius: 5px 0 0 5px;
+        outline: none;
+        color: grey;
+    }
+
+    .searchTerm:focus {
+        color: grey;
+    }
+
+    .searchButton {
+        width: 3rem;
+        height: 3rem;
+        border: 1px solid #59b527;
+        background: #59b527;
+        text-align: center;
+        color: #fff;
+        border-radius: 0 5px 5px 0;
+        cursor: pointer;
+        font-family: "Lato", sans-serif;
+        font-size: 18px;
+    }
+}
+
+.user-profile-container {
+    margin: 0.5rem;
+    padding: 0.5rem;
+    position: relative;
+    width: 12rem;
+    float: right;
+    top: 40%;
+    left: 5rem;
+    transform: translate(-50%, -50%);
+    display: flex;
+
+    &:hover {
+        box-shadow: 0px 0px 7px 2px #888888;
+    }
+
+    .user-icon {
+        float: right;
+    }
+
+    .user-name {
+        font-size: 15px;
+        margin-top: 1rem;
+        margin-left: 1rem;
+        float: right;
+    }
+}
+
+.cartContainer {
+    margin: 0.5rem;
+    margin-right: 0;
+    padding: 0.5rem;
+    position: relative;
+    width: 12rem;
+    float: right;
+    left: 5rem;
+    text-align: right;
+    vertical-align: middle;
+    top: 40%;
+    transform: translate(-50%, -50%);
+    display: flex;
+
+    &:hover {
+        box-shadow: 0px 0px 7px 2px #888888;
+
+        .cartPrice {
+            text-decoration: underline;
+        }
+    }
+
+    .cartIcon {
+        float: left;
+    }
+
+    .cartPrice {
+        font-size: 15px;
+        margin-top: 1rem;
+        margin-left: 1rem;
+        float: right;
+    }
+}
+
+body {
+    font-family: "Lato", sans-serif;
+    color: $black;
+    margin: 0px;
+}
+
+.header {
+    position: fixed;
+    width: 100%;
+    height: 6em;
+    top: 0px;
+}
+
+.header-fixed {
+    position: relative;
+    top: 0px;
+    background: white;
+    height: 100%;
+    min-width: 320px;
+    width: 100%;
+    max-width: 1709px;
+    padding-right: 16px;
+    padding-left: 16px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.header-container {
+    margin: 0;
+    position: absolute;
+    height: 4rem;
+    width: 95%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    float: left;
+}
+
+
+
+.main-container {
+
+    .container-fluid {
+        position: relative;
+        top: 7rem;
+        height: 50rem;
+        min-width: 320px;
+        width: 100%;
+        max-width: 1709px;
+        padding-right: 16px;
+        padding-left: 16px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+}
+
+
+
+
+
+@include logo__split($colorPrimary, $colorSecondary, $white);
