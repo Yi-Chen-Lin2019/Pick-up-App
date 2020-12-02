@@ -22,14 +22,31 @@ namespace WPFNav
     /// </summary>
     public partial class ManageOrder : Page
     {
+        List<Order> orders;
         Order order;
         public ManageOrder(int orderId)
         {
             InitializeComponent();
-            loadOrder(orderId);
+            orders = new List<Order>();
+            loadOrders();
+            //loadOrder(orderId);
         }
 
-        private async Task loadOrder(int orderId)
+        private async void loadOrders()
+        {
+            LocalService service = new LocalService();
+            orders = await service.GetAllOrders();
+            OrderList.Items.Clear();
+            foreach (var item in orders)
+            {
+                ListBoxItem listBoxItem = new ListBoxItem();
+                listBoxItem.Content = item.OrderId + " " + item.OrderStatus;
+                listBoxItem.Uid = item.OrderId.ToString();
+                OrderList.Items.Add(listBoxItem);
+            }
+        }
+
+        private async void loadOrder(int orderId)
         {
             LocalService service = new LocalService();
             order = await service.GetOrder(orderId);
@@ -40,6 +57,7 @@ namespace WPFNav
             }
             OrderInfo.Text += "\n Ordered: " + order.OrderedTime.ToString();
             OrderInfo.Text += "\n Pick-up time: " + order.PickUpTime.ToString();
+            OrderStatusList.Items.Clear();
             foreach (var item in Enum.GetValues(typeof(Order.StatusEnum)).Cast<Order.StatusEnum>())
             {
                 OrderStatusList.Items.Add(item);
@@ -58,6 +76,24 @@ namespace WPFNav
             {
                 OrderInfo.Text = "failed to update. please try again";
             }
+            OrderStatusList.Visibility = Visibility.Hidden;
+            UpdateOrderButton.Visibility = Visibility.Hidden;
+            loadOrders();
+        }
+
+        private void OrderList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var senderis = sender.ToString();
+                ListBox s = (ListBox)sender;
+                if (s.HasItems)
+                {
+                ListBoxItem selectedItem = (ListBoxItem)e.AddedItems[0];
+                loadOrder(int.Parse(selectedItem.Uid));
+                OrderStatusList.Visibility = Visibility.Visible;
+                UpdateOrderButton.Visibility = Visibility.Visible;
+            }
+          
+            
         }
     }
 }

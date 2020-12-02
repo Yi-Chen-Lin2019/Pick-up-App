@@ -17,20 +17,33 @@
             <ColumnDefinition Width="10"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition  Height="10"/>
             <RowDefinition  Height="Auto"/>
-            <RowDefinition  Height="*"/>
-            <RowDefinition  Height="10"/>
+            <RowDefinition  Height="Auto"/>
+            <RowDefinition  Height="Auto"/>
+            <RowDefinition  Height="Auto"/>
+            <RowDefinition  Height="20"/>
         </Grid.RowDefinitions>
-        <TextBlock x:Name="OrderInfo" 
+        <TextBlock Text="Orders (id, status):"
                    Grid.Column="1" Grid.Row="1"
-                   Text="loading..."/>
-        <ListBox x:Name="OrderStatusList"
+                   />
+        <ListBox x:Name="OrderList"
                  Grid.Column="1" Grid.Row="2"
+                 SelectionChanged="OrderList_SelectionChanged"
+                  >
+            
+        </ListBox>
+        <TextBlock x:Name="OrderInfo" 
+                   Grid.Column="3" Grid.Row="2"
+                   />
+        <ListBox x:Name="OrderStatusList"
+                 Grid.Column="3" Grid.Row="3"
+                 Visibility="Hidden"
+                 MaxHeight="150"
                   >
         </ListBox>
         <Button x:Name="UpdateOrderButton" 
-                 Grid.Column="1" Grid.Row="3"
-                Click="UpdateOrderButton_Click"  Content="Update order"/>
+                Visibility="Hidden"
+                 Grid.Column="3" Grid.Row="4"
+                Click="UpdateOrderButton_Click"  Content="Update order status"/>
     </Grid>
 </Page>
