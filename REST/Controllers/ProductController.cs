@@ -87,6 +87,7 @@ namespace REST.Controllers
         /// <response code = "201">Product created</response>
         [Route("Products")]
         [HttpPost]
+        [Authorize(Roles = "Employee")]
         [ResponseType(typeof(Product))]
         public IHttpActionResult Post([FromBody] Product product)
         {
