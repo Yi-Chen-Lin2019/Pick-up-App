@@ -6,6 +6,7 @@
       xmlns:local="clr-namespace:WPFNav"
       mc:Ignorable="d" 
       d:DesignHeight="425" d:DesignWidth="800" Background="AliceBlue"
+      FontSize="24"
       Title="LogInPage">
 
     <Grid>
@@ -23,6 +24,29 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"
-                   HorizontalAlignment="Center">Login Form</TextBlock>
+                   HorizontalAlignment="Center"
+                   FontSize="60" FontFamily="Segoe UI Light"
+                   Margin="0 0 0 10">Login Form</TextBlock>
+        
+        <!--Username row-->
+        <TextBlock Grid.Row="1" Grid.Column="1">
+            Username:
+        </TextBlock>
+        <TextBox x:Name="UserNameBox" Grid.Row="1" Grid.Column="2"
+                 MinWidth="100" Margin="0 0 0 10"/>
+        
+        <!--Password row-->
+        <TextBlock Grid.Row="2" Grid.Column="1">
+            Password:
+        </TextBlock>
+        <PasswordBox x:Name="PasswordBox" Grid.Row="2" Grid.Column="2"
+                 MinWidth="100" Margin="0 0 0 10"/>
+        
+        <!--Login row-->
+        <Button Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2"
+                HorizontalAlignment="Center" x:Name="LoginButton"
+                Padding="20 5">
+            Log In
+        </Button>
     </Grid>
 </Page>
