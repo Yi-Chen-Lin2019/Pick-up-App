@@ -22,7 +22,7 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"
+                   HorizontalAlignment="Center">Login Form</TextBlock>
     </Grid>
-    
-    
 </Page>
