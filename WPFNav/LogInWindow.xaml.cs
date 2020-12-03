@@ -10,19 +10,25 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace WPFNav
 {
     /// <summary>
-    /// Interaction logic for LogInPage.xaml
+    /// Interaction logic for LogInWindow.xaml
     /// </summary>
-    public partial class LogInPage : Page
+    public partial class LogInWindow : Window
     {
-        public LogInPage()
+        MainWindow main = new MainWindow();
+        public LogInWindow()
         {
             InitializeComponent();
+        }
+
+        private void LoginButton_Click(object sender, RoutedEventArgs e)
+        {
+            main.Show();
+            this.Close();
         }
     }
 }
