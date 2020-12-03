@@ -7,12 +7,14 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.ModelBinding;
+using BusinessLayer;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
+using Model;
 using REST.Models;
 using REST.Providers;
 using REST.Results;
@@ -108,7 +110,7 @@ namespace REST.Controllers
             return new ManageInfoViewModel
             {
                 LocalLoginProvider = LocalLoginProvider,
-                Email = user.UserName,
+                Email = user.UserName,               
                 Logins = logins,
                 ExternalLoginProviders = GetExternalLogins(returnUrl, generateState)
             };
@@ -331,10 +333,21 @@ namespace REST.Controllers
             var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
 
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+            
 
             if (!result.Succeeded)
             {
                 return GetErrorResult(result);
+            } else {
+                PersonManagement pm = new PersonManagement();
+                pm.Insert(new Person
+                {
+                    Email = user.Email,
+                    FirstName = "",
+                    LastName = " ",
+                    Phone = 123,
+                    UserId = user.Id
+                });
             }
 
             return Ok();

@@ -31,7 +31,10 @@ namespace Model
         public String LastName { get; set; }
         public String Email { get; set; }
         public int Phone { get; set; }
+        
         public CustomerRole CustomerRole { get; set; }
         public EmployeeRole EmployeeRole { get; set; }
+        
+        public string UserId { get; set; }
     }
 }
