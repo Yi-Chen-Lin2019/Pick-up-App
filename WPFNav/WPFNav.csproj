@@ -107,10 +107,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="LogInWindow.xaml.cs">
+      <DependentUpon>LogInWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="StartingPoint\ManageNavigation\CategoryPage.xaml.cs">
       <DependentUpon>CategoryPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Service\LocalService.cs" />
+    <Page Include="LogInWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="StartingPoint\AboutPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
