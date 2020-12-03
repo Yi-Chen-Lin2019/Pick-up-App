@@ -52,10 +52,11 @@ namespace WPFNav
         {
             MainFrame.Content = new AboutPage();
             AboutText.Foreground = Brushes.MidnightBlue;
-            //AboutText.FontWeight = FontWeights.Bold;
+            ////AboutText.FontWeight = FontWeights.Bold;
 
             HomeText.Foreground = Brushes.Gray;
             ManageText.Foreground = Brushes.Gray;
+
         }
 
     }

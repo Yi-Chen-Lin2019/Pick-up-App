@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace WPFNav
 {
     /// <summary>
-    /// Interaction logic for HomePage.xaml
+    /// Interaction logic for LogInPage.xaml
     /// </summary>
-    public partial class HomePage : Page
+    public partial class LogInPage : Page
     {
-        public HomePage()
+        public LogInPage()
         {
             InitializeComponent();
         }

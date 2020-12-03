@@ -9,26 +9,33 @@ namespace Model
 {
     public class Order
     {
-        public Order(int OrderId, String OrderStatus, DateTime PickUpTime, DateTime OrderedTime, decimal TotalPrice)
+        public Order()
+        {
+            //SnProductList = new List<SNProduct>();
+            OrderLineList = new List<OrderLine>();
+        }
+        public Order(int OrderId, String OrderStatus, DateTime PickUpTime, DateTime OrderedTime, decimal TotalPrice, byte[] RowId, Int64 RowIdBig)
         {
             this.OrderId = OrderId;
             this.OrderStatus = OrderStatus;
             this.PickUpTime = PickUpTime;
             this.OrderedTime = OrderedTime;
             this.TotalPrice = TotalPrice;
-            
-            SnProductList = new List<SNProduct>();
+            this.RowId = RowId;
+            this.RowIdBig = RowIdBig;
+
+            //SnProductList = new List<SNProduct>();
             OrderLineList = new List<OrderLine>();
         }
         public Order(String OrderStatus)
         {
             this.OrderStatus = OrderStatus;
 
-            SnProductList = new List<SNProduct>();
+            //SnProductList = new List<SNProduct>();
             OrderLineList = new List<OrderLine>();
         }
 
-        enum StatusEnum
+        public enum StatusEnum
         {
             Error,
             Received,
@@ -39,11 +46,12 @@ namespace Model
         }
         StatusEnum status;
 
+        /*
         public void AddSNProduct(SNProduct snProduct)
         {
             SnProductList.Add(snProduct);
         }
-
+        */
         public void AddOrderLine(OrderLine orderLine)
         {
             OrderLineList.Add(orderLine);
@@ -51,7 +59,7 @@ namespace Model
 
         public int OrderId { get; set; }
 
-        public List<SNProduct> SnProductList { get; set; }
+        //public List<SNProduct> SnProductList { get; set; }
 
         public List<OrderLine> OrderLineList { get; set; }
 
@@ -66,10 +74,12 @@ namespace Model
 
         public String OrderStatus
         {
-            get{
+            get
+            {
                 return status.ToString();
             }
-            set{
+            set
+            {
                 try
                 {
                     this.status = (StatusEnum)Enum.Parse(typeof(StatusEnum), value, true);
@@ -77,6 +87,9 @@ namespace Model
                 catch (ArgumentException) { this.status = StatusEnum.Error; }
             }
         }
+
+        public byte[] RowId { get; set; }
+        public Int64 RowIdBig { get; set; }
 
     }
 }

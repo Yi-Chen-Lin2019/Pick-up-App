@@ -1,12 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "7cx8qGGK9bjs6eAUdO+bNuFIgZrRINFDXNEkuEtAHVQzkhwuDpzAPCDZRY2JGutAIIBLIRdiQxG5B+AOK34CKw==",
+  "dgSpecHash": "7gKQ+VmpAXoagJY6oJoAzX/+DYxOd+gyapsfnn2pVAn3Lyay20p2jp+EQFCj/lXpqeuCdt6QaQXZOmbWkOsz9A==",
   "success": true,
-  "projectFilePath": "C:\\Users\\minez\\Desktop\\PickUpAppMain\\Model\\Model.csproj",
+  "projectFilePath": "X:\\PickUpAppProject\\Git\\Pick-up-App\\Model\\Model.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\minez\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
-    "C:\\Users\\minez\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512",
-    "C:\\Users\\minez\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512"
+    "C:\\Users\\Rodi\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\Rodi\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512",
+    "C:\\Users\\Rodi\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512"
   ],
   "logs": []
 }

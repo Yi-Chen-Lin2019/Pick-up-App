@@ -6,6 +6,10 @@ namespace Model
 {
     public class OrderLine
     {
+        public OrderLine()
+        {
+        }
+
         public OrderLine(int Quantity)
         {
             this.Quantity = Quantity;
@@ -19,6 +23,6 @@ namespace Model
         public int OrderLineId { get; set; }
         public int OrderId { get; set; }
         public int Quantity { get; set; }
-        public NoSNProduct NoSNProduct { get; set; }
+        public Product Product { get; set; }
     }
 }

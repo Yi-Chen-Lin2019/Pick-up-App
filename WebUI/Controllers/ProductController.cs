@@ -12,6 +12,7 @@ using System.Web;
 using System.Web.Mvc;
 using WebUI.ServiceLayer;
 using WebUI.ViewModels;
+using PagedList;
 
 namespace WebUI.Controllers
 {
@@ -76,7 +77,7 @@ namespace WebUI.Controllers
             //}
         }
 
-        public async Task<ActionResult> Index(string sortOrder, int category = 0)
+        public async Task<ActionResult> Index(string sortOrder, int category = 0, int page = 1)
         {
             await fetchItemsAsync();
 
@@ -104,7 +105,11 @@ namespace WebUI.Controllers
                 prods.RemoveAll(p => p.category.id != category);
             }
 
-            return View(new ViewModels.BrowseViewModel() { categories = this.categories, products = prods });
+            //Paging
+            int pageSize = 6;
+            prods = prods.Skip(pageSize * (page-1)).Take(pageSize).ToList();
+            IPagedList <ProductViewModel> prodVM = new StaticPagedList<ProductViewModel>(prods, page, pageSize, products.Count());
+            return View(new ViewModels.BrowseViewModel() { categories = this.categories, products = prodVM });
         }
 
         
@@ -114,7 +119,8 @@ namespace WebUI.Controllers
             await fetchItemsAsync();
             List<ProductViewModel> prods = products;
             prods = prods.FindAll(p => p.name.Contains(query));
-            return View("Index", new ViewModels.BrowseViewModel() { categories = this.categories, products = prods });
+            IPagedList<ProductViewModel> prodVM = new StaticPagedList<ProductViewModel>(prods,  1, 5, prods.Count());
+            return View("Index", new ViewModels.BrowseViewModel() { categories = this.categories, products = prodVM });
         }
 
         public ActionResult Details(int id)

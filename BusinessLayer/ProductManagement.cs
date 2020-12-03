@@ -16,9 +16,12 @@ namespace BusinessLayer
             {
                 IProductRepository pRepo = new ProductRepository();
                 foundProducts = pRepo.GetAllProducts();
+                
+  
             }
-            catch
+            catch (Exception e)
             {
+                Console.WriteLine(e.Message);
                 foundProducts = null;
             }
             return foundProducts;
@@ -34,7 +37,7 @@ namespace BusinessLayer
         public bool UpdateProduct(Product product)
         {
             IProductRepository pRepo = new ProductRepository();
-            return pRepo.UpdateProduct(product);
+            return pRepo.UpdateProduct(product, product.RowIdBig);
         }
 
         public Product InsertProduct(Product product)

@@ -15,18 +15,26 @@ namespace Model
             this.StockQuantity = StockQuantity;
         }
 
-        [JsonConstructor]
-        public Product(int ProductId, String ProductName, int Barcode, decimal ProductPrice, int StockQuantity)
+       
+        public Product(int ProductId, String ProductName, int Barcode, decimal ProductPrice, int StockQuantity, byte[] RowId, Int64 RowIdBig)
         {
             this.ProductId = ProductId;
             this.ProductName = ProductName;
             this.Barcode = Barcode;
             this.ProductPrice = ProductPrice;
             this.StockQuantity = StockQuantity;
+            this.RowId = RowId;
+            this.RowIdBig = RowIdBig;
         }
         public Product() { }
 
         public int ProductId { get; set; }
+
+        public override string ToString()
+        {
+            //return this.ProductName + ", " + this.ProductId + ", "+ this.Barcode + ", "+ this.ProductPrice + ", "+ this.StockQuantity;
+            return " Id= " + this.ProductId + ", Name= " + this.ProductName + ", Barcode= " + this.Barcode + ", Price= " + this.ProductPrice + ", Quantity= " + this.StockQuantity + ", Category name: "+this.Category.CategoryName + ", Category Id: "+this.Category.CategoryId;
+        }
 
         public String ProductName { get; set; }
 
@@ -37,5 +45,7 @@ namespace Model
         public int StockQuantity { get; set; }
 
         public Category Category { get; set; }
+        public byte[] RowId { get; set; }
+        public Int64 RowIdBig { get; set; }
     }
 }

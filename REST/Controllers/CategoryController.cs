@@ -28,32 +28,49 @@ namespace REST.Controllers
         [ResponseType(typeof(IEnumerable<Category>))]
         public IHttpActionResult Get()
         {
-            CategoryManagement cm = new CategoryManagement();
-            IEnumerable<Category> foundCategories = cm.GetAllCategories();
-            if (foundCategories == null) { return InternalServerError(); }
-            else { return Ok(foundCategories); }
+            try
+            {
+                CategoryManagement cm = new CategoryManagement();
+                IEnumerable<Category> foundCategories = cm.GetAllCategories();
+                return Ok(foundCategories);
 
+            }
+            catch (Exception)
+            {
+
+                return InternalServerError();
+            }
         }
 
 
         /// <summary>
-        /// By passing in the Category ID, you can get the Category of the Category ID in the system. 
+        /// By passing in the Category name, you can get the Category by the Category name in the system. 
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="CategoryID">Put in Category ID.</param>
+        /// <param name="CategoryName">Put in Category ID.</param>
         /// <returns>List&lt;Category&gt;</returns>
         /// <response code = "200">Category found</response>
         /// <response code = "404">Category not found</response>
-        [Route("Categories/{CategoryID}")]
+        [Route("Categories/{CategoryName}")]
         [HttpGet]
         [ResponseType(typeof(Category))]
         public IHttpActionResult Get(string categoryName)
         {
-            CategoryManagement cm = new CategoryManagement();
-            Category result = cm.GetCategoryByName(categoryName);
-            if (result == null) { return InternalServerError(); }
-            else { return Ok(result); }
+            try
+            {
+                if (null == categoryName)
+                {
+                    throw new Exception();
+                }
+                CategoryManagement cm = new CategoryManagement();
+                Category result = cm.GetCategoryByName(categoryName);
+                return Ok(result);
+            }
+            catch (Exception)
+            {
 
+                return InternalServerError();
+            }
         }
 
         /// <summary>
@@ -66,12 +83,22 @@ namespace REST.Controllers
         [Route("Categories")]
         [HttpPost]
         [ResponseType(typeof(Category))]
-        public IHttpActionResult Post([FromBody] Category Category)
+        public IHttpActionResult Post([FromBody] Category category)
         {
-            CategoryManagement cm = new CategoryManagement();
-            Category result = cm.InsertCategory(Category);
-            if (result == null) { return InternalServerError(); }
-            else { return Ok(result); }
+            try
+            {
+                if (null == category)
+                {
+                    throw new Exception();
+                }
+                CategoryManagement cm = new CategoryManagement();
+                Category result = cm.InsertCategory(category);
+                return Ok(result);
+            }
+            catch (Exception)
+            {
+                return InternalServerError();
+            }
         }
 
         /// <summary>
@@ -85,18 +112,19 @@ namespace REST.Controllers
         [Route("Categories/{CategoryID}")]
         [HttpPut]
         [ResponseType(typeof(Category))]
-        public IHttpActionResult Put(int CategoryID, [FromBody] Category Category)
+        public IHttpActionResult Put(int CategoryID, [FromBody] Category category)
         {
-            if (CategoryID != Category.CategoryId) { return BadRequest(); };
+
+            if (CategoryID != category.CategoryId || null == category) { return BadRequest(); };
             try
             {
                 CategoryManagement cm = new CategoryManagement();
-                bool result = cm.UpdateCategory(Category);
+                bool result = cm.UpdateCategory(category);
             }
             catch (SqlException)
             {
 
-                throw;
+                return InternalServerError();
             }
             return Ok();
         }

@@ -12,7 +12,7 @@ namespace Model
             this.CategoryName = CategoryName;
         }
 
-        [JsonConstructor]
+        
         public Category(int CategoryId, String CategoryName)
         {
             this.CategoryId = CategoryId;
@@ -21,6 +21,11 @@ namespace Model
         public Category()
         {
 
+        }
+
+        public override string ToString()
+        {
+            return " CategoryName: "+ this.CategoryName + " , CategoryId: "+this.CategoryId;
         }
         public int CategoryId { get; set; }
         public String CategoryName { get; set; }
