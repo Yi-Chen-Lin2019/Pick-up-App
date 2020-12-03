@@ -22,6 +22,7 @@ namespace REST.Controllers
         /// <response code = "200">Orders found</response>
         [Route("Orders")]
         [HttpGet]
+        [Authorize(Roles = "Employee")]
         [ResponseType(typeof(IEnumerable<Order>))]
         public IHttpActionResult Get()
         {
@@ -49,6 +50,7 @@ namespace REST.Controllers
         /// <response code = "404">Order not found</response>
         [Route("Orders/{orderID}")]
         [HttpGet]
+        [Authorize(Roles = "Employee")]
         [ResponseType(typeof(Order))]
         public IHttpActionResult Get(int orderID)
         {
@@ -73,6 +75,7 @@ namespace REST.Controllers
         /// <response code = "201">Order created</response>
         [Route("Orders")]
         [HttpPost]
+        [Authorize(Roles = "Customer")]
         [ResponseType(typeof(Order))]
         public IHttpActionResult Post([FromBody] Order order)
         {
@@ -103,6 +106,7 @@ namespace REST.Controllers
         /// <response code = "200">Order updated</response>
         [Route("Orders/{orderID}")]
         [HttpPut]
+        [Authorize(Roles = "Employee")]
         [ResponseType(typeof(Order))]
         public IHttpActionResult Put(int orderID, [FromBody] Order order)
         {

@@ -37,6 +37,7 @@ namespace REST.Controllers
         /// <response code = "200">Products found</response>
         [Route("Products")]
         [HttpGet]
+        [AllowAnonymous]
         [ResponseType(typeof(IEnumerable<Product>))]
         public IHttpActionResult Get()
         {
@@ -63,6 +64,7 @@ namespace REST.Controllers
         /// <response code = "404">Product not found</response>
         [Route("Products/{productID}")]
         [HttpGet]
+        [AllowAnonymous]
         [ResponseType(typeof(Product))]
         public IHttpActionResult Get(int productID)
         {
@@ -117,6 +119,7 @@ namespace REST.Controllers
         /// <response code = "200">Product updated</response>
         [Route("Products/{productID}")]
         [HttpPut]
+        [Authorize(Roles = "Employee")]
         [ResponseType(typeof(Product))]
         public IHttpActionResult Put(int productID, [FromBody] Product product)
         {
