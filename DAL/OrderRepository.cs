@@ -165,9 +165,9 @@ namespace DAL
                        transaction);
 
                             productRetrived.StockQuantity -= orderLine.Quantity;
-                            while (!pr.UpdateProduct(productRetrived, rowBig))
+                            while (!pr.UpdateProduct(productRetrived))
                             {                              
-                                pr.UpdateProduct(productRetrived, rowBig);
+                                pr.UpdateProduct(productRetrived);
                                 
                             }
                             transaction.Commit();

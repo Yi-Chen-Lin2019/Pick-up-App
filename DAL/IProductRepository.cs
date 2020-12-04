@@ -30,7 +30,7 @@ namespace DAL
         List<Product> GetProductByName(String productName);
         List<Product> GetAllProductsFromCategory(String categoryName);
         Product InsertProduct(Product product);
-        bool UpdateProduct(Product product, Int64 rowIdBig);
+        bool UpdateProduct(Product product);
         
     }
 }
