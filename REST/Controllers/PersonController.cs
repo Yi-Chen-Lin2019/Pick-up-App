@@ -9,6 +9,7 @@
  */
 
 using BusinessLayer;
+using Microsoft.AspNet.Identity;
 using Model;
 using Swashbuckle.Swagger.Annotations;
 using System;
@@ -59,26 +60,33 @@ namespace REST.Controllers
         /// By passing in the person ID, you can get the person of the person ID in the system. 
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="personID">Put in person ID.</param>
+        /// <param name="userName">Put in person username.</param>
         /// <returns>List&lt;Person&gt;</returns>
         /// <response code = "200">Person found</response>
         /// <response code = "404">Person not found</response>
-        [Route("Persons/{personID}")]
+        [Route("Persons/UserName")]
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Customer")]
         [ResponseType(typeof(Person))]
-        public IHttpActionResult Get(int personID)
+        public IHttpActionResult Get(String userName)
         {
-            try
+            if (RequestContext.Principal.Identity.GetUserName().Equals(userName))
             {
-                PersonManagement pm = new PersonManagement();
-                Person result = pm.GetPersonById(personID);
-                return Ok(result);
-            }
-            catch (Exception)
+                try
+                {
+                    PersonManagement pm = new PersonManagement();
+                    Person result = pm.GetPersonByUserName(userName);
+                    return Ok(result);
+                }
+                catch (Exception)
+                {
+                    return InternalServerError();
+                }
+            } else
             {
-                return InternalServerError();
+                return BadRequest();
             }
+                
         }
 
         /// <summary>
