@@ -331,33 +331,16 @@ namespace REST.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
+            var user = new ApplicationUser() { 
+                UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, PhoneNumber = model.PhoneNumber};
 
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
-            
+
 
             if (!result.Succeeded)
             {
                 return GetErrorResult(result);
-            } else {
-                RoleManagement rm = new RoleManagement();
-                //rm.InsertDefaultRoles(
-                //    new List<Role>() {
-                //    new Role { RoleId = 1, RoleName = "Admin"},
-                //    new Role { RoleId = 2, RoleName = "Employee"},
-                //    new Role { RoleId = 3, RoleName = "Customer"}
-                //    });
-                PersonManagement pm = new PersonManagement();
-                pm.Insert(new Person
-                {
-                    Email = user.Email,
-                    FirstName = "",
-                    LastName = "",
-                    Phone = 123,
-                    UserId = user.Id
-                });
-
-            }
+            } 
 
             return Ok();
         }
