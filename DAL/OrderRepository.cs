@@ -77,50 +77,6 @@ namespace DAL
 
         }
 
-        //public Order GetOrderById(int id)
-        //{
-        //    string orderQuery =
-        //        "SELECT [OrderId], [OrderStatus], [PickUpTime], [OrderedTime], [TotalPrice] FROM [Order] WHERE [OrderId] = @OrderId;";
-        //    string orderLineQuery =
-        //        "SELECT [OrderLineId], [OrderId], [Quantity] FROM [OrderLine] WHERE OrderId = @OrderId;";
-        //    string snProductQuery =
-        //        "SELECT [SerialNumber] FROM [SNProduct] WHERE OrderId =@OrderId;";
-        //    string sql = orderQuery + orderLineQuery + snProductQuery;
-        //    using (conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
-        //    {
-        //        conn.Open();
-        //        using (var multi = conn.QueryMultiple(sql, new { OrderId = id }))
-        //        {
-        //            var order = multi.Read<Order>().First();
-        //            var orderLines = multi.Read<OrderLine>().ToList();
-        //            var snProducts = multi.Read<SNProduct>().ToList();
-        //            foreach (var item in orderLines)
-        //            {
-        //                item.OrderId = order.OrderId;
-        //                ProductRepository pRepo = new ProductRepository();
-        //                int noSnId = 
-        //                    conn.Query<int>("SELECT [NoSNProductId] FROM [OrderLine] WHERE OrderLineId =@OrderLineId", new { OrderLineId = item.OrderLineId }).SingleOrDefault();
-                        
-        //                item.NoSNProduct = conn.Query<NoSNProduct>("SELECT [NoSNProduct].[NoSNProductId], [Product].[ProductId], [Product].[ProductName], [Product].[Barcode], [Product].[ProductPrice], [Product].[StockQuantity], [Product].[RowId], CAST([Product].[RowId] as bigint) AS RowIdBig FROM [Product] INNER JOIN [NoSNProduct] ON [Product].[ProductId] = [NoSNProduct].[ProductId] WHERE [NoSNProduct].[NoSNProductId] = @NoSNProductId",
-        //                new { NoSNProductId = noSnId }).SingleOrDefault();
-
-        //                order.OrderLineList.Add(item);
-        //            };
-        //            foreach (var item in snProducts)
-        //            {
-        //                item.OrderId = order.OrderId;
-        //                order.SnProductList.Add(item);
-        //            }
-        //            PersonRepository persR = new PersonRepository();
-        //            order.Customer = persR.GetPersonById(conn.Query<int>("SELECT [CustomerId] FROM [Order] WHERE OrderId =@OrderId", new { OrderId = id }).SingleOrDefault());
-        //            order.Employee = persR.GetPersonById(conn.Query<int>("SELECT [EmployeeId] FROM [Order] WHERE OrderId =@OrderId", new { OrderId = id }).SingleOrDefault());
-        //            return order;
-        //        }
-
-        //    }
-            
-        //}
-       
         public List<Order> GetOrdersByStatus(String status)
         {
             //Gets ID of all orders, then gets each order by this id
