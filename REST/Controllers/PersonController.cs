@@ -78,8 +78,9 @@ namespace REST.Controllers
                     Person result = pm.GetPersonByUserName(userName);
                     return Ok(result);
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
+                    Console.WriteLine(e);
                     return InternalServerError();
                 }
             } else

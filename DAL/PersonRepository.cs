@@ -54,13 +54,8 @@ namespace DAL
         {
             conn.Open();
 
-            Person result = conn.Query<Person>("SELECT [PersonId], [Email], [FirstName], [LastName], [Phone] FROM [Person] WHERE Email =@Email", new { Email = email }).SingleOrDefault();
+            Person result = conn.Query<Person>("SELECT [Email], [FirstName], [LastName], [Phone] FROM [Person] WHERE Email =@Email", new { Email = email }).SingleOrDefault();
 
-            //if (result != null)
-            //{
-            //    result.CustomerRole = conn.Query<CustomerRole>("SELECT [CustomerRole].[CustomerRoleId] FROM [CustomerRole] INNER JOIN [Person] ON [CustomerRole].[CustomerRoleId] = [Person].[CustomerRoleId] WHERE [Email]=@Email", new { Email = email }).SingleOrDefault();
-            //    result.EmployeeRole = conn.Query<EmployeeRole>("SELECT [EmployeeRole].[EmployeeRoleId] FROM [EmployeeRole] INNER JOIN [Person] ON [EmployeeRole].[EmployeeRoleId] = [Person].[EmployeeRoleId] WHERE [Email]=@Email", new { Email = email }).SingleOrDefault();
-            //}
 
             conn.Close();
             return result;
