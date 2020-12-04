@@ -18,6 +18,7 @@ using Model;
 using REST.Models;
 using REST.Providers;
 using REST.Results;
+using static REST.Models.RegisterBindingModel;
 
 namespace REST.Controllers
 {
@@ -333,19 +334,19 @@ namespace REST.Controllers
             var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
 
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
-
+            
 
             if (!result.Succeeded)
             {
                 return GetErrorResult(result);
             } else {
                 RoleManagement rm = new RoleManagement();
-                rm.InsertDefaultRoles(
-                    new List<Role>() {
-                    new Role { RoleId = 1, RoleName = "Admin"},
-                    new Role { RoleId = 2, RoleName = "Employee"},
-                    new Role { RoleId = 3, RoleName = "Customer"}
-                    });
+                //rm.InsertDefaultRoles(
+                //    new List<Role>() {
+                //    new Role { RoleId = 1, RoleName = "Admin"},
+                //    new Role { RoleId = 2, RoleName = "Employee"},
+                //    new Role { RoleId = 3, RoleName = "Customer"}
+                //    });
                 PersonManagement pm = new PersonManagement();
                 pm.Insert(new Person
                 {

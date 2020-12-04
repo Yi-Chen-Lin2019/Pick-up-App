@@ -57,7 +57,7 @@ namespace REST.Controllers
 
 
         /// <summary>
-        /// By passing in the person ID, you can get the person of the person ID in the system. 
+        /// By passing in the username, you can get the person of the username in the system. 
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userName">Put in person username.</param>
