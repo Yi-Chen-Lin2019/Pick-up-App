@@ -10,7 +10,7 @@ namespace REST.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Title = "Home Page";
+            ViewBag.Title = "PickUp";
 
             return View();
         }

@@ -14,8 +14,8 @@ namespace Concurrency_Test
     {
         public static void Main(string[] args)
         {
-            //lostUpdateProductQuantityTest();
-            lostUpdateOrderTest();
+            lostUpdateProductQuantityTest();
+            //lostUpdateOrderTest();
         }
 
         private static void lostUpdateOrderTest()
@@ -169,8 +169,8 @@ namespace Concurrency_Test
             order.OrderLineList = orderLines;
 
 
-            order.Customer = perR.GetPersonById(2);
-            order.Employee = perR.GetPersonById(2);
+            order.Customer = perR.GetPersonById(1);
+            //order.Employee = perR.GetPersonById(2);
 
 
             //Time and Total Price

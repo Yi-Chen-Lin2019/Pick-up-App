@@ -37,6 +37,7 @@ namespace REST.Controllers
         /// <response code = "200">Products found</response>
         [Route("Products")]
         [HttpGet]
+        [AllowAnonymous]
         [ResponseType(typeof(IEnumerable<Product>))]
         public IHttpActionResult Get()
         {
@@ -63,6 +64,7 @@ namespace REST.Controllers
         /// <response code = "404">Product not found</response>
         [Route("Products/{productID}")]
         [HttpGet]
+        [AllowAnonymous]
         [ResponseType(typeof(Product))]
         public IHttpActionResult Get(int productID)
         {
@@ -87,6 +89,7 @@ namespace REST.Controllers
         /// <response code = "201">Product created</response>
         [Route("Products")]
         [HttpPost]
+        [Authorize(Roles = "Employee")]
         [ResponseType(typeof(Product))]
         public IHttpActionResult Post([FromBody] Product product)
         {
@@ -116,22 +119,29 @@ namespace REST.Controllers
         /// <response code = "200">Product updated</response>
         [Route("Products/{productID}")]
         [HttpPut]
+        [Authorize(Roles = "Employee")]
         [ResponseType(typeof(Product))]
         public IHttpActionResult Put(int productID, [FromBody] Product product)
         {
             if (productID != product.ProductId || null == product) { return BadRequest(); };
+            bool result;
             try
             {
                 ProductManagement pm = new ProductManagement();
-                bool result = pm.UpdateProduct(product);
+                result = pm.UpdateProduct(product);
             }
             catch (SqlException)
             {
-
                 return InternalServerError();
             }
-
-            return Ok();
+            if (result)
+            {
+                return Ok();
+            }
+            else
+            {
+                return Conflict();
+            }
         }
 
 

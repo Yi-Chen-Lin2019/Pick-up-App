@@ -54,13 +54,8 @@ namespace DAL
         {
             conn.Open();
 
-            Person result = conn.Query<Person>("SELECT [PersonId], [Email], [FirstName], [LastName], [Phone] FROM [Person] WHERE Email =@Email", new { Email = email }).SingleOrDefault();
+            Person result = conn.Query<Person>("SELECT [Email], [FirstName], [LastName], [Phone] FROM [Person] WHERE Email =@Email", new { Email = email }).SingleOrDefault();
 
-            if (result != null)
-            {
-                result.CustomerRole = conn.Query<CustomerRole>("SELECT [CustomerRole].[CustomerRoleId] FROM [CustomerRole] INNER JOIN [Person] ON [CustomerRole].[CustomerRoleId] = [Person].[CustomerRoleId] WHERE [Email]=@Email", new { Email = email }).SingleOrDefault();
-                result.EmployeeRole = conn.Query<EmployeeRole>("SELECT [EmployeeRole].[EmployeeRoleId] FROM [EmployeeRole] INNER JOIN [Person] ON [EmployeeRole].[EmployeeRoleId] = [Person].[EmployeeRoleId] WHERE [Email]=@Email", new { Email = email }).SingleOrDefault();
-            }
 
             conn.Close();
             return result;
@@ -72,47 +67,13 @@ namespace DAL
 
             Person result = conn.Query<Person>("SELECT [PersonId], [Email], [FirstName], [LastName], [Phone] FROM [Person] WHERE Phone =@Phone", new { Phone = phone }).SingleOrDefault();
 
-            result.CustomerRole = conn.Query<CustomerRole>("SELECT [CustomerRole].[CustomerRoleId] FROM [CustomerRole] INNER JOIN [Person] ON [CustomerRole].[CustomerRoleId] = [Person].[CustomerRoleId] WHERE [Phone]=@Phone", new { Phone = phone }).SingleOrDefault();
-            result.EmployeeRole = conn.Query<EmployeeRole>("SELECT [EmployeeRole].[EmployeeRoleId] FROM [EmployeeRole] INNER JOIN [Person] ON [EmployeeRole].[EmployeeRoleId] = [Person].[EmployeeRoleId] WHERE [Phone]=@Phone", new { Phone = phone }).SingleOrDefault();
+            //result.CustomerRole = conn.Query<CustomerRole>("SELECT [CustomerRole].[CustomerRoleId] FROM [CustomerRole] INNER JOIN [Person] ON [CustomerRole].[CustomerRoleId] = [Person].[CustomerRoleId] WHERE [Phone]=@Phone", new { Phone = phone }).SingleOrDefault();
+            //result.EmployeeRole = conn.Query<EmployeeRole>("SELECT [EmployeeRole].[EmployeeRoleId] FROM [EmployeeRole] INNER JOIN [Person] ON [EmployeeRole].[EmployeeRoleId] = [Person].[EmployeeRoleId] WHERE [Phone]=@Phone", new { Phone = phone }).SingleOrDefault();
 
             conn.Close();
             return result;
         }
-        
-        public CustomerRole InsertCustomerRoleToPerson(Person person)
-        {
-            conn.Open();
-
-            if (person.CustomerRole == null)
-            {
-                conn.Execute("INSERT INTO [CustomerRole] DEFAULT VALUES");
-                int id = conn.Query<int>("SELECT SCOPE_IDENTITY()").SingleOrDefault();
-                conn.Execute("UPDATE [Person] SET CustomerRoleId = @CustomerRoleId WHERE PersonId = @PersonId", new { CustomerRoleId = id, PersonId = person.PersonId});
-                conn.Close();
-                person.CustomerRole = new CustomerRole(id);
-                return person.CustomerRole;
-            }
-            else { conn.Close(); return null; }
-        }
-
-        public EmployeeRole InsertEmployeeRoleToPerson(Person person)
-        {
-            conn.Open();
-
-            if (person.EmployeeRole == null)
-            {
-                conn.Execute("INSERT INTO [EmployeeRole] DEFAULT VALUES");
-                int id = conn.Query<int>("SELECT SCOPE_IDENTITY()").SingleOrDefault();
-                conn.Execute("UPDATE [Person] SET EmployeeRoleId = @EmployeeRoleId WHERE PersonId = @PersonId", new { EmployeeRoleId = id, PersonId = person.PersonId });
-                conn.Close();
-                person.EmployeeRole = new EmployeeRole(id);
-                return person.EmployeeRole;
-            }
-            else { conn.Close(); return null; }
-
-            
-        }
-
+    
         public Person InsertPerson(Person person)
         {
             conn.Open();
@@ -122,8 +83,8 @@ namespace DAL
             int id = conn.Query<int>("SELECT @@IDENTITY").SingleOrDefault();
 
             // set default role as Customer when register
-            //conn.Execute(@"INSERT INTO [dbo].[AspNetUserRoles] ([UserId],[RoleId]) VALUES (@UserId, @RoleId)",
-            //    new {UserId = person.UserId, RoleId = 3 });
+            conn.Execute(@"INSERT INTO [dbo].[AspNetUserRoles] ([UserId],[RoleId]) VALUES (@UserId, @RoleId)",
+                new { UserId = person.UserId, RoleId = 3 });
             conn.Close();
 
             if (rowsAffected >= 1) { person.PersonId = id; return person; }
@@ -133,15 +94,15 @@ namespace DAL
         public bool UpdatePerson(Person person)
         {
             conn.Open();
-            if (person.CustomerRole != null){
-                //If CustomerRole would have variables to update
-                 //conn.Execute("UPDATE [CustomerRole] SET ... WHERE CustomerRoleId = @CustomerRoleId", new { CustomerRoleId = person.CustomerRole.CustomerRoleId });
-            }
+            //if (person.CustomerRole != null){
+            //    //If CustomerRole would have variables to update
+            //     //conn.Execute("UPDATE [CustomerRole] SET ... WHERE CustomerRoleId = @CustomerRoleId", new { CustomerRoleId = person.CustomerRole.CustomerRoleId });
+            //}
 
-            if (person.EmployeeRole != null){
-                //If EmployeeRole would have variables to update
-                //conn.Execute("UPDATE [EmployeeRole] SET ... WHERE EmployeeRoleId = @EmployeeRoleId", new { EmployeeRoleId = person.EmployeeRole.EmployeeRoleId });
-            }
+            //if (person.EmployeeRole != null){
+            //    //If EmployeeRole would have variables to update
+            //    //conn.Execute("UPDATE [EmployeeRole] SET ... WHERE EmployeeRoleId = @EmployeeRoleId", new { EmployeeRoleId = person.EmployeeRole.EmployeeRoleId });
+            //}
 
             int rowsAffected = conn.Execute("UPDATE [Person] SET Email = @Email, FirstName = @FirstName, LastName = @LastName, Phone = @Phone, Password = @Password WHERE PersonId = @PersonId",
                 new { Email = person.Email, FirstName = person.FirstName, LastName = person.LastName, Phone = person.Phone, Password = "default", PersonId = person.PersonId });
@@ -150,6 +111,19 @@ namespace DAL
 
             if (rowsAffected >= 1) { return true; }
             else { return false; }
+        }
+
+        public Role InsertRole(Role role)
+        {
+            Role result = null;
+            int rowsAffected;
+            using (conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
+            {
+                rowsAffected = conn.Execute("INSERT INTO [dbo].[AspNetRoles] ([Id], [Name]) VALUES (@Id, @Name)",
+                    new { Id = role.RoleId, Name = role.RoleName });
+            }
+            if (rowsAffected != 0) { result = role; }
+            return result;
         }
     }
 }

@@ -33,5 +33,11 @@ namespace BusinessLayer
             IPersonRepository pRepo = new PersonRepository();
             return pRepo.UpdatePerson(person);
         }
+
+        public Person GetPersonByUserName(string userName)
+        {
+            IPersonRepository pRepo = new PersonRepository();
+            return pRepo.GetPersonByEmail(userName);
+        }
     }
 }

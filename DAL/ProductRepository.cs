@@ -269,7 +269,7 @@ namespace DAL
             else { return null; }
         }
 
-        public bool UpdateProduct(Product product, Int64 rowIdBig)
+        public bool UpdateProduct(Product product)
         {
             int rowsAffected = 0;
             using (conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
@@ -280,7 +280,7 @@ namespace DAL
                     try
                     {
                         rowsAffected = conn.Execute("UPDATE [Product] SET ProductName = @ProductName, Barcode = @Barcode, ProductPrice = @ProductPrice, StockQuantity = @StockQuantity, CategoryId = @CategoryId WHERE ProductId = @ProductId AND (cast(@OldRowIdBig as binary(8)) = RowId)",
-                            new { ProductName = product.ProductName, Barcode = product.Barcode, ProductPrice = product.ProductPrice, StockQuantity = product.StockQuantity, CategoryId = product.Category.CategoryId, ProductId = product.ProductId, OldRowIdBig = rowIdBig }, transaction);
+                            new { ProductName = product.ProductName, Barcode = product.Barcode, ProductPrice = product.ProductPrice, StockQuantity = product.StockQuantity, CategoryId = product.Category.CategoryId, ProductId = product.ProductId, OldRowIdBig = product.RowIdBig }, transaction);
 
                         transaction.Commit();
                     }
