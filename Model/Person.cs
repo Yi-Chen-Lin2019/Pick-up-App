@@ -31,10 +31,19 @@ namespace Model
         public String LastName { get; set; }
         public String Email { get; set; }
         public int Phone { get; set; }
-        
+
+        /*
         public CustomerRole CustomerRole { get; set; }
         public EmployeeRole EmployeeRole { get; set; }
-        
+        */
+        public List<Role> Roles { get; set; }
+        public void AddRole(Role role)
+        {
+            if(role != null)
+            {
+                Roles.Add(role);
+            }
+        }
         public string UserId { get; set; }
     }
 }
