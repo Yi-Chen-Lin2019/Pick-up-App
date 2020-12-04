@@ -81,11 +81,10 @@ namespace REST.Controllers
         {
             try
             {
-                if (null == order)
+                if (order == null)
                 {
-                    throw new Exception();
+                    return BadRequest();
                 }
-
                 OrderManagement om = new OrderManagement();
                 Order result = om.InsertOrder(order);
                 return Ok(result);
