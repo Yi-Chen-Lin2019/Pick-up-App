@@ -124,18 +124,24 @@ namespace REST.Controllers
         public IHttpActionResult Put(int productID, [FromBody] Product product)
         {
             if (productID != product.ProductId || null == product) { return BadRequest(); };
+            bool result;
             try
             {
                 ProductManagement pm = new ProductManagement();
-                bool result = pm.UpdateProduct(product);
+                result = pm.UpdateProduct(product);
             }
             catch (SqlException)
             {
-
                 return InternalServerError();
             }
-
-            return Ok();
+            if (result)
+            {
+                return Ok();
+            }
+            else
+            {
+                return Conflict();
+            }
         }
 
 
