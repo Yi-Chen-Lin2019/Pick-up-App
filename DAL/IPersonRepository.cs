@@ -21,8 +21,8 @@ namespace DAL
         EmployeeRole InsertEmployeeRoleToPerson(Person person);
         */
         Role InsertRole(Role role);
-     
-        Person InsertPerson(Person person);
+        
+        //Person InsertPerson(Person person);
 
         bool UpdatePerson(Person person);
     }

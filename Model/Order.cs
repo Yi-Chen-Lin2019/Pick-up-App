@@ -64,7 +64,6 @@ namespace Model
         public List<OrderLine> OrderLineList { get; set; }
 
         public Person Customer { get; set; }
-
         public Person Employee { get; set; }
 
         public DateTime PickUpTime { get; set; }
