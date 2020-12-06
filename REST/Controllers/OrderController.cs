@@ -87,7 +87,7 @@ namespace REST.Controllers
                 }
                 var customer = new Person() { UserName = RequestContext.Principal.Identity.Name };
                 order.Customer = customer;
-                //order.Customer.UserName = RequestContext.Principal.Identity.Name;
+                order.OrderStatus = "Recieved";
                 OrderManagement om = new OrderManagement();
                 Order result = om.InsertOrder(order);
                 return Ok(result);
