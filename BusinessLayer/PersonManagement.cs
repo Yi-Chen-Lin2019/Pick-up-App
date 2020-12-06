@@ -21,13 +21,13 @@ namespace BusinessLayer
             IPersonRepository pRepo = new PersonRepository();
             return pRepo.GetPersonById(personID);
         }
-        
+        /*
         public Person Insert(Person person)
         {
             IPersonRepository pRepo = new PersonRepository();
             return pRepo.InsertPerson(person);
         }
-
+        */
         public bool UpdatePerson(Person person)
         {
             IPersonRepository pRepo = new PersonRepository();
