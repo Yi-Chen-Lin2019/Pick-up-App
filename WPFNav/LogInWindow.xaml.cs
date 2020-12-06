@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using WPFNav.Service;
 
 namespace WPFNav
 {
@@ -120,7 +121,7 @@ namespace WPFNav
         //    }
         //}
 
-        public void LoginButton_Click(object sender, RoutedEventArgs e)
+        public async void LoginButton_Click(object sender, RoutedEventArgs e)
         {
             string username = usrBox.Text;
             string password = pwdBox.Password.ToString();
@@ -135,14 +136,19 @@ namespace WPFNav
                 MessageBox.Show("type in password");
             } else
             {
+                LocalService service = new LocalService();
                 try
                 {
-                    //if(await api.Authenticate(username, password))
-                    //{
-                        MainWindow main = new MainWindow();
-                         main.Show();
-                        this.Close();
-                    //}
+                    //save the token information
+                    //this is how we get it when we need it later on:
+                    //Token token = Application.Current.Resources["TokenInfo"] as Token;
+                    //
+                    Application.Current.Resources["TokenInfo"] = await service.Authenticate(username, password);
+
+
+                    MainWindow main = new MainWindow();
+                    main.Show();
+                    this.Close();
 
                 }
                 catch (Exception ex)
