@@ -1,5 +1,6 @@
 ﻿
 using BusinessLayer;
+using DAL;
 using Model;
 using System;
 using System.Collections.Generic;
@@ -85,12 +86,15 @@ namespace REST.Controllers
                 {
                     return BadRequest();
                 }
-                var customer = new Person() { UserName = RequestContext.Principal.Identity.Name };
-                order.Customer = customer;
+                order.Customer = new Person() { UserName = RequestContext.Principal.Identity.Name };
                 order.OrderStatus = "Recieved";
                 OrderManagement om = new OrderManagement();
                 Order result = om.InsertOrder(order);
                 return Ok(result);
+            }
+            catch (OutOfStockException oe)
+            {
+                return BadRequest(oe.Message);
             }
             catch (Exception)
             {
