@@ -13,7 +13,7 @@ namespace DAL
 
         Person GetPersonByEmail(String email);
 
-        Person GetPersonByPhone(int phone);
+        Person GetPersonByPhone(String phone);
 
         /*
         CustomerRole InsertCustomerRoleToPerson(Person person);

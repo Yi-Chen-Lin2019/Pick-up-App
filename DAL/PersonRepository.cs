@@ -61,11 +61,11 @@ namespace DAL
             return result;
         }
 
-        public Person GetPersonByPhone(int phone)
+        public Person GetPersonByPhone(String phone)
         {
             conn.Open();
 
-            Person result = conn.Query<Person>("SELECT [PersonId], [Email], [FirstName], [LastName], [Phone] FROM [Person] WHERE Phone =@Phone", new { Phone = phone }).SingleOrDefault();
+            Person result = conn.Query<Person>("SELECT [Id], [Email], [FirstName], [LastName], [PhoneNumber], [UserName] FROM [AspNetUsers] WHERE PhoneNumber =@Phone", new { Phone = phone }).SingleOrDefault();
 
             //result.CustomerRole = conn.Query<CustomerRole>("SELECT [CustomerRole].[CustomerRoleId] FROM [CustomerRole] INNER JOIN [Person] ON [CustomerRole].[CustomerRoleId] = [Person].[CustomerRoleId] WHERE [Phone]=@Phone", new { Phone = phone }).SingleOrDefault();
             //result.EmployeeRole = conn.Query<EmployeeRole>("SELECT [EmployeeRole].[EmployeeRoleId] FROM [EmployeeRole] INNER JOIN [Person] ON [EmployeeRole].[EmployeeRoleId] = [Person].[EmployeeRoleId] WHERE [Phone]=@Phone", new { Phone = phone }).SingleOrDefault();
