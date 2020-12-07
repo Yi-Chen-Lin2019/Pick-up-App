@@ -35,6 +35,7 @@ namespace WPFNav.Service
 
         public async Task<Token> Authenticate(string username, string password)
         {
+            System.Net.ServicePointManager.ServerCertificateValidationCallback = (senderX, certificate, chain, sslPolicyErrors) => { return true; };
             var data = new FormUrlEncodedContent(new[]
             {
                 new KeyValuePair<string, string>("grant_type", "password"),
