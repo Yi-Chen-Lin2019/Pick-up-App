@@ -111,6 +111,7 @@ namespace REST.Controllers
         /// <response code = "200">Category updated</response>
         [Route("Categories/{CategoryID}")]
         [HttpPut]
+        [Authorize(Roles = "Employee")]
         [ResponseType(typeof(Category))]
         public IHttpActionResult Put(int CategoryID, [FromBody] Category category)
         {

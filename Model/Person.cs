@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -25,16 +26,23 @@ namespace Model
             this.Email = Email;
             this.Phone = Phone;
         }
-
+        [JsonIgnore]
         public int PersonId { get; set; }
         public String FirstName { get; set; }
         public String LastName { get; set; }
         public String Email { get; set; }
         public int Phone { get; set; }
-        
-        public CustomerRole CustomerRole { get; set; }
-        public EmployeeRole EmployeeRole { get; set; }
-        
+
+        [JsonIgnore]
+        public List<Role> Roles { get; set; }
+        public void AddRole(Role role)
+        {
+            if(role != null)
+            {
+                Roles.Add(role);
+            }
+        }
+        [JsonIgnore]
         public string UserId { get; set; }
     }
 }

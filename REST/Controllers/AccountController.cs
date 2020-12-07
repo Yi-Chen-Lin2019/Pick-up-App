@@ -18,6 +18,7 @@ using Model;
 using REST.Models;
 using REST.Providers;
 using REST.Results;
+using static REST.Models.RegisterBindingModel;
 
 namespace REST.Controllers
 {
@@ -330,25 +331,16 @@ namespace REST.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
+            var user = new ApplicationUser() { 
+                UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, PhoneNumber = model.PhoneNumber};
 
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
-            
+
 
             if (!result.Succeeded)
             {
                 return GetErrorResult(result);
-            } else {
-                PersonManagement pm = new PersonManagement();
-                pm.Insert(new Person
-                {
-                    Email = user.Email,
-                    FirstName = "",
-                    LastName = " ",
-                    Phone = 123,
-                    UserId = user.Id
-                });
-            }
+            } 
 
             return Ok();
         }
