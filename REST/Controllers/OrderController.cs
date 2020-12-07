@@ -87,6 +87,7 @@ namespace REST.Controllers
                     return BadRequest();
                 }
                 order.Customer = new Person() { UserName = RequestContext.Principal.Identity.Name };
+                order.OrderedTime = System.DateTime.Now;
                 order.OrderStatus = "Recieved";
                 OrderManagement om = new OrderManagement();
                 Order result = om.InsertOrder(order);
