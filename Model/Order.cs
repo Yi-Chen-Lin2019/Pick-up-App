@@ -87,9 +87,7 @@ namespace Model
                 catch (ArgumentException) { this.status = StatusEnum.Error; }
             }
         }
-        [JsonIgnore]
         public byte[] RowId { get; set; }
-        [JsonIgnore]
         public Int64 RowIdBig { get; set; }
 
     }

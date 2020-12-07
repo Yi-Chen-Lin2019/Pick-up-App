@@ -121,6 +121,7 @@ namespace REST.Controllers
             try
             {
                 OrderManagement om = new OrderManagement();
+                order.Employee = new Person() { UserName = RequestContext.Principal.Identity.Name };
                 result = om.UpdateOrder(order);
             }
             catch (SqlException)
