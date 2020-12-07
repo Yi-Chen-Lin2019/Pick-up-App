@@ -89,7 +89,7 @@ namespace REST.Controllers
                 }
                 order.Customer = new Person() { Id = RequestContext.Principal.Identity.GetUserId() };
                 order.OrderedTime = System.DateTime.Now;
-                order.OrderStatus = "Recieved";
+                order.OrderStatus = "Received";
                 OrderManagement om = new OrderManagement();
                 Order result = om.InsertOrder(order);
                 return Ok(result);

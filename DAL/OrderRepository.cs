@@ -48,10 +48,10 @@ namespace DAL
                 List<int> orderLineList = conn.Query<int>("SELECT [OrderLineId] FROM [OrderLine] WHERE OrderId =@OrderId", new { OrderId = id }).ToList();
                 conn.Close();
 
-                result.Customer = persR.GetPersonByEmail(conn.Query<string>("SELECT [CustomerId] FROM [Order] WHERE OrderId =@OrderId", new { OrderId = id }).SingleOrDefault());
+                result.Customer = persR.GetPersonById(conn.Query<string>("SELECT [CustomerId] FROM [Order] WHERE OrderId =@OrderId", new { OrderId = id }).SingleOrDefault());
                 try
                 {
-                    result.Employee = persR.GetPersonByEmail(conn.Query<string>("SELECT [EmployeeId] FROM [Order] WHERE OrderId =@OrderId", new { OrderId = id }).SingleOrDefault());  
+                    result.Employee = persR.GetPersonById(conn.Query<string>("SELECT [EmployeeId] FROM [Order] WHERE OrderId =@OrderId", new { OrderId = id }).SingleOrDefault());  
                 }
                 catch (Exception e)
                 {

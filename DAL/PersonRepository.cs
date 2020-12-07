@@ -54,7 +54,7 @@ namespace DAL
         {
             conn.Open();
 
-            Person result = conn.Query<Person>("SELECT [Email], [FirstName], [LastName], [PhoneNumber], [UserName] FROM [AspNetUsers] WHERE Email =@Email", new { Email = email }).SingleOrDefault();
+            Person result = conn.Query<Person>("SELECT [Id], [Email], [FirstName], [LastName], [PhoneNumber], [UserName] FROM [AspNetUsers] WHERE Email =@Email", new { Email = email }).SingleOrDefault();
 
 
             conn.Close();
