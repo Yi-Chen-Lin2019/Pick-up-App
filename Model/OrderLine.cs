@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -20,6 +21,7 @@ namespace Model
             this.Quantity = Quantity;
             this.OrderId = OrderId;
         }
+        [JsonIgnore]
         public int OrderLineId { get; set; }
         public int OrderId { get; set; }
         public int Quantity { get; set; }

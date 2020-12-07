@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Tracing;
@@ -86,8 +87,9 @@ namespace Model
                 catch (ArgumentException) { this.status = StatusEnum.Error; }
             }
         }
-
+        [JsonIgnore]
         public byte[] RowId { get; set; }
+        [JsonIgnore]
         public Int64 RowIdBig { get; set; }
 
     }

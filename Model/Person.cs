@@ -6,13 +6,13 @@ using System.Text;
 
 namespace Model
 {
-    public class Person : IdentityUser
+    public class Person
     {
         public Person()
         {
 
         }
-        public Person(String Email, String FirstName, String LastName, string Phone) : base()
+        public Person(String Email, String FirstName, String LastName, string Phone) 
         {
             this.FirstName = FirstName;
             this.LastName = LastName;
@@ -33,7 +33,10 @@ namespace Model
         public int PersonId { get; set; }
         public String FirstName { get; set; }
         public String LastName { get; set; }
+        public String Email { get; set; }
+        public String PhoneNumber { get; set; }
+        public String UserName { get; set; }
 
-       
+
     }
 }
