@@ -30,6 +30,7 @@
                 <RowDefinition  Height="*"/>
                 <RowDefinition  Height="*"/>
                 <RowDefinition  Height="*"/>
+                <RowDefinition  Height="*"/>
                 <RowDefinition  Height="10"/>
           </Grid.RowDefinitions>
         
@@ -41,106 +42,165 @@
                    VerticalAlignment="Center"
                    Grid.ColumnSpan="2"/>
 
-        <TextBlock x:Name="ReadProductText" Text="Read product" Grid.Column="3"
+        <TextBlock x:Name="ReadProductText" Text="Read product" Grid.Column="4"
                    Grid.Row="1" Margin="5 5 5 5" FontSize="20" 
                    TextWrapping="WrapWithOverflow"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    Grid.ColumnSpan="2"/>
 
-        <TextBlock x:Name="UpdateProductText" Text="Update product" Grid.Column="5"
+        <TextBlock x:Name="UpdateProductText" Text="Update product" Grid.Column="7"
                    Grid.Row="1" Margin="5 5 5 5" FontSize="20" 
                    TextWrapping="WrapWithOverflow"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    Grid.ColumnSpan="2"/>
 
-        <TextBlock x:Name="DeleteProductText" Text="Delete product" Grid.Column="7"
-                   Grid.Row="1" Margin="5 5 5 5" FontSize="20" 
-                   TextWrapping="WrapWithOverflow"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center"
-                   Grid.ColumnSpan="2"/>
-        
         <!--Row 2-->
-        <Button HorizontalAlignment="Stretch" x:Name="BtnReadProducts" 
-                Grid.Column="3" 
-                Grid.ColumnSpan="2"
-                Grid.Row="2" 
-                Margin="20 20 20 20" 
-                Click="ReadProductsButton_Click" Content="Read all products"/>
-
-        <TextBlock x:Name="ProductName" Grid.Column="1"
+        <TextBlock x:Name="ProductIdUpdate" Grid.Column="7"
                    Grid.Row="2"
+                   Text="ProductId:"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Center"
+                   FontSize="15"/>
+        
+        <TextBox x:Name="ProductIdUpdateBox" Grid.Column="8"
+                 Grid.Row="2"
+                 Text=""
+                 Margin="5 25 5 25"
+                 TextWrapping="WrapWithOverflow"/>
+        
+        <!--Row 3-->
+        <TextBlock x:Name="ProductName" Grid.Column="1"
+                   Grid.Row="3"
                    Text="ProductName:"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"
                    FontSize="15"/>
 
         <TextBox x:Name="ProductNameBox" Grid.Column="2"
-                 Grid.Row="2"
+                 Grid.Row="3"
                  Text=""
                  Margin="5 25 5 25"
                  TextWrapping="WrapWithOverflow"/>
 
-        <!--Row 3 -->
-        <TextBlock x:Name="Barcode" Grid.Column="1"
+        <Button HorizontalAlignment="Stretch" x:Name="BtnReadProducts" 
+                Grid.Column="4" 
+                Grid.ColumnSpan="2"
+                Grid.Row="3" 
+                Margin="20 20 20 20" 
+                Click="ReadProductsButton_Click" Content="Read all products"/>
+
+        <TextBlock x:Name="ProductNameUpdate" Grid.Column="7"
                    Grid.Row="3"
+                   Text="ProductName:"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Center"
+                   FontSize="15"/>
+
+        <TextBox x:Name="ProductNameUpdateBox" Grid.Column="8"
+                 Grid.Row="3"
+                 Text=""
+                 Margin="5 25 5 25"
+                 TextWrapping="WrapWithOverflow"/>
+
+        <!--Row 4 -->
+        <TextBlock x:Name="Barcode" Grid.Column="1"
+                   Grid.Row="4"
                    Text="Barcode:"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"
                    FontSize="15"/>
 
         <TextBox x:Name="BarcodeBox" Grid.Column="2"
-                 Grid.Row="3"
+                 Grid.Row="4"
+                 Text=""
+                 Margin="5 25 5 25"
+                 TextWrapping="WrapWithOverflow"/>
+
+        <TextBlock x:Name="BarcodeUpdate" Grid.Column="7"
+                   Grid.Row="4"
+                   Text="Barcode:"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Center"
+                   FontSize="15"/>
+
+        <TextBox x:Name="BarcodeUpdateBox" Grid.Column="8"
+                 Grid.Row="4"
                  Text=""
                  Margin="5 25 5 25"
                  TextWrapping="WrapWithOverflow"/>
 
         <ListView Margin="10" Name="ProductList"
-                  Grid.Column="3"
+                  Grid.Column="4"
                   Grid.ColumnSpan="2"
                   Grid.RowSpan="2"
-                  Grid.Row="3"></ListView>
+                  Grid.Row="4"></ListView>
 
-        <!--Row 4-->
+        <!--Row 5-->
         <TextBlock x:Name="Price" Grid.Column="1"
-                   Grid.Row="4"
+                   Grid.Row="5"
                    Text="Price:"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"
                    FontSize="15"/>
 
         <TextBox x:Name="PriceBox" Grid.Column="2"
-                 Grid.Row="4"
+                 Grid.Row="5"
                  Text=""
                  Margin="5 25 5 25"
                  TextWrapping="WrapWithOverflow"/>
-        
-        <!--Row 5-->
-        <TextBlock x:Name="StockQuantity" Grid.Column="1"
+
+        <TextBlock x:Name="PriceUpdate" Grid.Column="7"
                    Grid.Row="5"
+                   Text="Price:"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Center"
+                   FontSize="15"/>
+
+        <TextBox x:Name="PriceUpdateBox" Grid.Column="8"
+                 Grid.Row="5"
+                 Text=""
+                 Margin="5 25 5 25"
+                 TextWrapping="WrapWithOverflow"/>
+
+        <!--Row 6-->
+        <TextBlock x:Name="StockQuantity" Grid.Column="1"
+                   Grid.Row="6"
                    Text="Stock quanity:"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"
                    FontSize="15"/>
 
         <TextBox x:Name="StockQuantityBox" Grid.Column="2"
-                 Grid.Row="5"
+                 Grid.Row="6"
                  Text=""
                  Margin="5 25 5 25"
                  TextWrapping="WrapWithOverflow"/>
         
         <Button HorizontalAlignment="Stretch" x:Name="BtnReadProductById" 
-                Grid.Column="3" 
+                Grid.Column="4" 
                 Grid.ColumnSpan="2"
-                Grid.Row="5" 
+                Grid.Row="6" 
                 Margin="20 20 20 20" 
                 Click="ReadProductById_Click" Content="Read product by id"/>
 
-        <!--Row 6-->
-        <TextBlock x:Name="Category" Grid.Column="1"
+        <TextBlock x:Name="StockQuantityUpdate" Grid.Column="7"
                    Grid.Row="6"
+                   Text="Stock quanity:"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Center"
+                   FontSize="15"/>
+
+        <TextBox x:Name="StockQuantityUpdateBox" Grid.Column="8"
+                 Grid.Row="6"
+                 Text=""
+                 Margin="5 25 5 25"
+                 TextWrapping="WrapWithOverflow"/>
+
+        <!--Row 7-->
+        <TextBlock x:Name="Category" Grid.Column="1"
+                   Grid.Row="7"
                    Text="Category:"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"
@@ -148,22 +208,58 @@
 
         <ListBox x:Name="CategoryList"
                   Grid.Column="2"
-                  Grid.Row="6"
+                  Grid.Row="7"
                   Margin="5 10 5 10">
         </ListBox>
-        
-        <TextBox x:Name="TxtBoxReadProductById" Grid.Row="6" Grid.Column="3" Text=""
-                 Grid.ColumnSpan="2"
-                 Margin="10"
-                 TextWrapping="WrapWithOverflow"
-                 IsReadOnly="True"/>
-        
-        <!--Row 7-->
+
+        <TextBlock x:Name="ProductId" Grid.Column="4"
+                   Grid.Row="7"
+                   Text="Product id:"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   FontSize="15"/>
+
+        <TextBox x:Name="ProductIdBox" Grid.Column="5"
+                 Grid.Row="7"
+                 Text=""
+                 Margin="5 25 5 25"
+                 TextWrapping="WrapWithOverflow"/>
+
+        <TextBlock x:Name="CategoryUpdate" Grid.Column="7"
+                   Grid.Row="7"
+                   Text="Category:"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Center"
+                   FontSize="15"/>
+
+        <ListBox x:Name="CategoryUpdateList"
+                  Grid.Column="8"
+                  Grid.Row="7"
+                  Margin="5 10 5 10">
+        </ListBox>
+
+        <!--Row 8-->
         <Button HorizontalAlignment="Stretch" x:Name="CreateProductButton" 
                 Grid.Column="2" 
-                Grid.Row="7" 
+                Grid.Row="8" 
                 Margin="5 15 5 15" 
                 Click="CreateProductButton_Click" Content="Create product"/>
+
+        <TextBox x:Name="ProductByIdBox" Grid.Column="4"
+                 Grid.Row="8"
+                 Grid.ColumnSpan="2"
+                 IsReadOnly="True"
+                 Text=""
+                 Margin="5 5 5 5"
+                 TextWrapping="WrapWithOverflow"
+                 />
+
+        <Button HorizontalAlignment="Stretch" x:Name="UpdateProductButton" 
+                Grid.Column="7" 
+                Grid.ColumnSpan="2"
+                Grid.Row="8" 
+                Margin="5 15 5 15" 
+                Click="UpdateProductButton_Click" Content="Update product"/>
 
     </Grid>
 </Page>

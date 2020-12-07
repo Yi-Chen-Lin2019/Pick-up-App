@@ -39,6 +39,9 @@ namespace WPFNav.StartingPoint.ManageNavigation
                 CategoryList.Items.Add(category);
                 CategoryList.DisplayMemberPath = "CategoryName";
                 CategoryList.SelectedValuePath = "CategoryId";
+                CategoryUpdateList.Items.Add(category);
+                CategoryUpdateList.DisplayMemberPath = "CategoryName";
+                CategoryUpdateList.SelectedValuePath = "CategoryId";
             }
         }
         public async void ReadProductsButton_Click(object sender, RoutedEventArgs e)
@@ -50,9 +53,48 @@ namespace WPFNav.StartingPoint.ManageNavigation
             ProductList.ItemsSource = productList;   
         }
 
-        public void ReadProductById_Click(object sender, RoutedEventArgs e)
+        
+        public async void UpdateProductButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Not implemented yet");
+            if (!String.IsNullOrWhiteSpace(ProductIdUpdateBox.Text))
+            {
+                Product updatedProduct = await ls.GetProduct(int.Parse(ProductIdUpdateBox.Text));
+                if(updatedProduct != null)
+                {
+                    updatedProduct.ProductId = int.Parse(ProductIdUpdateBox.Text);
+                    updatedProduct.ProductName = ProductNameUpdateBox.Text;
+                    updatedProduct.Barcode = int.Parse(BarcodeUpdateBox.Text);
+                    updatedProduct.ProductPrice = decimal.Parse(PriceUpdateBox.Text);
+                    updatedProduct.StockQuantity = int.Parse(StockQuantityUpdateBox.Text);
+                    updatedProduct.Category = (Category)CategoryUpdateList.SelectedItem;
+                };
+
+                if (await ls.UpdateProduct(updatedProduct))
+                {
+                    MessageBox.Show("done");
+                }
+                else
+                {
+                    MessageBox.Show("Something went wrong");
+                }
+
+
+            }
+
+        }
+
+
+        public async void ReadProductById_Click(object sender, RoutedEventArgs e)
+        {
+            if (String.IsNullOrWhiteSpace(ProductIdBox.Text))
+            {
+                MessageBox.Show("type in id");
+            }
+            else
+            {
+                Product product = await ls.GetProduct(int.Parse(ProductIdBox.Text));
+                ProductByIdBox.Text = product.ToString();
+            }
         }
 
         public async void CreateProductButton_Click(object sender, RoutedEventArgs e)

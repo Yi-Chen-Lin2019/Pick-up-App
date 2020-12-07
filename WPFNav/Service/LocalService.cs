@@ -54,6 +54,29 @@ namespace WPFNav.Service
             return orderFromService;
         }
 
+        public async Task<Product> GetProduct(int productId)
+        {
+            Product productFromService;
+            string useRestUrl = _restUrl + "Products/" + productId.ToString();
+            var uri = new Uri(string.Format(useRestUrl));
+            try
+            {
+                var response = await _client.GetAsync(uri);
+                if(response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    productFromService = JsonConvert.DeserializeObject<Product>(content);
+                } else
+                {
+                    throw (new Exception());
+                }
+            } catch (Exception ex)
+            {
+                throw ex;
+            }
+            return productFromService;
+        }
+
         public async Task<bool> UpdateOrder(Order order)
         {
             bool PutOk = false;
@@ -81,10 +104,37 @@ namespace WPFNav.Service
             return PutOk;
         }
 
+        public async Task<bool> UpdateProduct(Product product)
+        {
+            bool PutOk = false;
+            //string useRestUrl = _restUrl + "Products/" + product.ProductId.ToString();
+            // var uri = new Uri(string.Format(useRestUrl));
+            string url = $"https://localhost:44386/Products/" + product.ProductId.ToString();
+            var uri = new Uri(string.Format(url, string.Empty));
+
+            try
+            {
+                var json = JsonConvert.SerializeObject(product);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = null;
+                response = await _client.PutAsync(uri, content);
+                if(response.IsSuccessStatusCode)
+                {
+                    PutOk = true;
+                }
+
+            } catch
+            {
+                PutOk = false;
+            }
+
+            return PutOk;
+        }
+
         public async Task<List<Order>> GetAllOrders()
         {
             List<Order> ordersFromService;
-
+            System.Net.ServicePointManager.ServerCertificateValidationCallback = (senderX, certificate, chain, sslPolicyErrors) => { return true; };
             // Create URI
             string useRestUrl = _restUrl + "Orders";
             var uri = new Uri(string.Format(useRestUrl));
