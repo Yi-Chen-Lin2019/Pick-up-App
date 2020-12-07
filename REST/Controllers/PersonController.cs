@@ -28,15 +28,15 @@ namespace REST.Controllers
     public class PersonController : ApiController
     {
         /// <summary>
-        /// Get all persons
+        /// Get all users
         /// </summary>
         /// <remarks>
-        /// Get a list of persons
+        /// Get a list of users
         /// </remarks>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>List&lt;Person&gt;</returns>
         /// <response code = "200">Persons found</response>
-        [Route("Persons")]
+        [Route("Person")]
         [HttpGet]
         [Authorize(Roles = "Admin")]
         [ResponseType(typeof(IEnumerable<Person>))]
@@ -45,7 +45,7 @@ namespace REST.Controllers
             try
             {
                 PersonManagement pm = new PersonManagement();
-                IEnumerable<Person> foundPersons = pm.GetAllPersons();
+                IEnumerable<Person> foundPersons = pm.GetPeople();
                 return Ok(foundPersons);
             }
             catch (Exception e)
@@ -91,7 +91,7 @@ namespace REST.Controllers
         }
 
         /// <summary>
-        /// Update a person by ID
+        /// Update personal info by ID
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="personID">Person ID</param>

@@ -105,8 +105,8 @@ namespace DAL
             //    //conn.Execute("UPDATE [EmployeeRole] SET ... WHERE EmployeeRoleId = @EmployeeRoleId", new { EmployeeRoleId = person.EmployeeRole.EmployeeRoleId });
             //}
 
-            int rowsAffected = conn.Execute("UPDATE [Person] SET Email = @Email, FirstName = @FirstName, LastName = @LastName, Phone = @Phone, Password = @Password WHERE PersonId = @PersonId",
-                new { Email = person.Email, FirstName = person.FirstName, LastName = person.LastName, Phone = person.PhoneNumber, Password = "default", PersonId = person.Id });
+            int rowsAffected = conn.Execute("UPDATE [AspNetUsers] SET Email = @Email, FirstName = @FirstName, LastName = @LastName, PhoneNumber = @Phone, UserName = @UserName WHERE Id = @PersonId",
+                new { Email = person.Email, FirstName = person.FirstName, LastName = person.LastName, Phone = person.PhoneNumber, UserName = person.UserName, PersonId = person.Id });
             
             conn.Close();
 
