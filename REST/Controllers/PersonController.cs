@@ -64,7 +64,7 @@ namespace REST.Controllers
         /// <returns>List&lt;Person&gt;</returns>
         /// <response code = "200">Person found</response>
         /// <response code = "404">Person not found</response>
-        [Route("Persons/UserName")]
+        [Route("Person/UserName")]
         [HttpGet]
         [Authorize(Roles = "Customer")]
         [ResponseType(typeof(Person))]
@@ -98,7 +98,7 @@ namespace REST.Controllers
         /// <param name="person">Person to update</param>
         /// <returns></returns>
         /// <response code = "200">Person updated</response>
-        [Route("Persons/{personID}")]
+        [Route("Person/{personID}")]
         [HttpPut]
         [Authorize(Roles = "Admin")]
         [ResponseType(typeof(Person))]
