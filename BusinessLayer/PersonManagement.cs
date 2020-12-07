@@ -16,7 +16,7 @@ namespace BusinessLayer
             return pRepo.GetPeople();
         }
 
-        public Person GetPersonById(int personID)
+        public Person GetPersonById(string personID)
         {
             IPersonRepository pRepo = new PersonRepository();
             return pRepo.GetPersonById(personID);
