@@ -334,9 +334,9 @@ namespace REST.Controllers
 
             var user = new ApplicationUser() { 
                 UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, PhoneNumber = model.PhoneNumber};
-
+            
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
-           
+            UserManager.AddToRole(user.Id, "Customer");
 
             if (!result.Succeeded)
             {

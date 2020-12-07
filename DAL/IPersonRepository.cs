@@ -9,7 +9,7 @@ namespace DAL
     {
         List<Person> GetPeople();
 
-        Person GetPersonById(int id);
+        Person GetPersonById(string id);
 
         Person GetPersonByEmail(String email);
 
