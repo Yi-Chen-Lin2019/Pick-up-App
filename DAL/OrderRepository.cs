@@ -100,7 +100,7 @@ namespace DAL
                 conn.Open();
 
                 rowsAffected = conn.Execute("INSERT INTO [Order] VALUES(@PickUpTime, @OrderedTime, @OrderStatus, @TotalPrice, @CustomerId, null, null)",
-                    new { PickUpTime = order.PickUpTime, OrderedTime = order.OrderedTime, OrderStatus = order.OrderStatus, TotalPrice = order.TotalPrice, CustomerId = order.Customer.UserName});
+                    new { PickUpTime = order.PickUpTime, OrderedTime = order.OrderedTime, OrderStatus = order.OrderStatus, TotalPrice = order.TotalPrice, CustomerId = order.Customer.Id});
                 int id = conn.Query<int>("SELECT @@IDENTITY").SingleOrDefault();
                 order.OrderId = id;
                 order.RowIdBig = conn.Query<int>("SELECT CAST(RowId as bigint) AS RowIdBig from [Order] where OrderId = @OrderId", new { OrderId = order.OrderId }).SingleOrDefault();
@@ -223,7 +223,7 @@ namespace DAL
                     try
                     {
                         rowsAffected = conn.Execute("UPDATE [Order] SET PickUpTime=@PickUpTime, OrderStatus=@OrderStatus, TotalPrice=@TotalPrice, EmployeeId=@EmployeeId WHERE OrderId = @OrderId AND (cast(@OldRowIdBig as binary(8)) = RowId)",
-                    new { PickUpTime = order.PickUpTime, OrderStatus = order.OrderStatus, TotalPrice = order.TotalPrice, EmployeeId = order.Employee.UserName, OrderId = order.OrderId, OldRowIdBig = order.RowIdBig }, transaction);
+                    new { PickUpTime = order.PickUpTime, OrderStatus = order.OrderStatus, TotalPrice = order.TotalPrice, EmployeeId = order.Employee.Id, OrderId = order.OrderId, OldRowIdBig = order.RowIdBig }, transaction);
 
 
 

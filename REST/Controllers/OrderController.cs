@@ -1,6 +1,7 @@
 ﻿
 using BusinessLayer;
 using DAL;
+using Microsoft.AspNet.Identity;
 using Model;
 using System;
 using System.Collections.Generic;
@@ -86,7 +87,7 @@ namespace REST.Controllers
                 {
                     return BadRequest();
                 }
-                order.Customer = new Person() { UserName = RequestContext.Principal.Identity.Name };
+                order.Customer = new Person() { Id = RequestContext.Principal.Identity.GetUserId() };
                 order.OrderedTime = System.DateTime.Now;
                 order.OrderStatus = "Recieved";
                 OrderManagement om = new OrderManagement();
@@ -122,7 +123,7 @@ namespace REST.Controllers
             try
             {
                 OrderManagement om = new OrderManagement();
-                order.Employee = new Person() { UserName = RequestContext.Principal.Identity.Name };
+                order.Employee = new Person() { Id = RequestContext.Principal.Identity.GetUserId() };
                 result = om.UpdateOrder(order);
             }
             catch (SqlException)

@@ -19,9 +19,9 @@ namespace Model
             this.PhoneNumber = Phone;
             this.UserName = Email;
         }
-        public Person(int PersonId, String Email, String FirstName, String LastName, string Phone)
+        public Person(String PersonId, String Email, String FirstName, String LastName, string Phone)
         {
-            this.PersonId = PersonId;
+            this.Id = PersonId;
             this.FirstName = FirstName;
             this.LastName = LastName;
             this.Email = Email;
@@ -29,7 +29,7 @@ namespace Model
             this.UserName = Email;
         }
         [JsonIgnore]
-        public int PersonId { get; set; }
+        public String Id { get; set; }
         public String FirstName { get; set; }
         public String LastName { get; set; }
         public String Email { get; set; }

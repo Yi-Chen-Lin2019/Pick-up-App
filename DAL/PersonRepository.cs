@@ -106,7 +106,7 @@ namespace DAL
             //}
 
             int rowsAffected = conn.Execute("UPDATE [Person] SET Email = @Email, FirstName = @FirstName, LastName = @LastName, Phone = @Phone, Password = @Password WHERE PersonId = @PersonId",
-                new { Email = person.Email, FirstName = person.FirstName, LastName = person.LastName, Phone = person.PhoneNumber, Password = "default", PersonId = person.PersonId });
+                new { Email = person.Email, FirstName = person.FirstName, LastName = person.LastName, Phone = person.PhoneNumber, Password = "default", PersonId = person.Id });
             
             conn.Close();
 

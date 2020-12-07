@@ -102,9 +102,9 @@ namespace REST.Controllers
         [HttpPut]
         [Authorize(Roles = "Admin")]
         [ResponseType(typeof(Person))]
-        public IHttpActionResult Put(int personID, [FromBody] Person person)
+        public IHttpActionResult Put(string personID, [FromBody] Person person)
         {
-            if (personID != person.PersonId || null == person) { return BadRequest(); };
+            if (personID != person.Id || null == person) { return BadRequest(); };
             try
             {
                 PersonManagement pm = new PersonManagement();
