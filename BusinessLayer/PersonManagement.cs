@@ -10,7 +10,7 @@ namespace BusinessLayer
 {
     public class PersonManagement
     {
-        public IEnumerable<Person> GetAllPersons()
+        public IEnumerable<Person> GetPeople()
         {
             IPersonRepository pRepo = new PersonRepository();
             return pRepo.GetPeople();
