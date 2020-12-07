@@ -4,11 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Formatting;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
-using WPFNav.Models;
 
 namespace WPFNav.Service
 {
@@ -21,39 +18,12 @@ namespace WPFNav.Service
         readonly string _baseUrl;
         readonly string _restUrl;
 
-
         // public LocalService(int usePort)
         public LocalService()
         {
             _client = new HttpClient();
             _baseUrl = _ipDomain + ":" + 44386;
             _restUrl = _baseUrl + "/";
-        }
-
-        public async Task<Token> Authenticate(string username, string password)
-        {
-            var data = new FormUrlEncodedContent(new[]
-            {
-                new KeyValuePair<string, string>("grant_type", "password"),
-                new KeyValuePair<string, string>("username", username),
-                new KeyValuePair<string, string>("password", password)
-            });
-
-            string useRestUrl = _restUrl + "Token";
-            var uri = new Uri(string.Format(useRestUrl));
-
-            using (HttpResponseMessage response = await _client.PostAsync(uri, data))
-            {
-                if (response.IsSuccessStatusCode)
-                {
-                    var result = await response.Content.ReadAsAsync<Token>();
-                    return result;
-                }
-                else
-                {
-                    throw (new Exception(response.ReasonPhrase));
-                }
-            }
         }
 
         public async Task<Order> GetOrder(int orderId)
@@ -113,8 +83,6 @@ namespace WPFNav.Service
 
         public async Task<List<Order>> GetAllOrders()
         {
-            Token token = Application.Current.Resources["TokenInfo"] as Token;
-            _client.DefaultRequestHeaders.Add("Authorization", $"Bearer { token.AccessToken }");
             List<Order> ordersFromService;
 
             // Create URI
