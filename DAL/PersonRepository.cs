@@ -31,7 +31,7 @@ namespace DAL
             //Gets ID of all people, then gets each person by this id
             conn.Open();
             List<Person> result = new List<Person>();
-            List<int> ids = conn.Query<int>("SELECT [PersonId] FROM [Person]").ToList();
+            List<int> ids = conn.Query<int>("SELECT [Id] FROM [AspNetUsers]").ToList();
             conn.Close();
             foreach (int i in ids)
             {
@@ -45,7 +45,7 @@ namespace DAL
         {
             conn.Open();
 
-            Person result = conn.Query<Person>("SELECT [PersonId], [Email], [FirstName], [LastName], [Phone], [UserId] FROM [Person] WHERE PersonId =@PersonId", new { PersonId = id }).SingleOrDefault();         
+            Person result = conn.Query<Person>("SELECT [Id], [Email], [FirstName], [LastName], [PhoneNumber], [UserName] FROM [AspNetUsers] WHERE Id =@Id", new { Id = id }).SingleOrDefault();         
             conn.Close();
             return result;
         }
@@ -54,7 +54,7 @@ namespace DAL
         {
             conn.Open();
 
-            Person result = conn.Query<Person>("SELECT [Email], [FirstName], [LastName], [Phone] FROM [Person] WHERE Email =@Email", new { Email = email }).SingleOrDefault();
+            Person result = conn.Query<Person>("SELECT [Email], [FirstName], [LastName], [PhoneNumber] FROM [AspNetUsers] WHERE Email =@Email", new { Email = email }).SingleOrDefault();
 
 
             conn.Close();
