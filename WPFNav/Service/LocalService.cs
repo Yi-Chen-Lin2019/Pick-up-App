@@ -28,11 +28,6 @@ namespace WPFNav.Service
             _client = new HttpClient();
             _baseUrl = _ipDomain + ":" + 44386;
             _restUrl = _baseUrl + "/";
-            if (null != Application.Current.Resources["TokenInfo"])
-            {
-                Token token = Application.Current.Resources["TokenInfo"] as Token;
-                _client.DefaultRequestHeaders.Add("Authorization", $"Bearer { token.AccessToken }");
-            }
         }
 
         public async Task<Token> Authenticate(string username, string password)
@@ -118,7 +113,8 @@ namespace WPFNav.Service
 
         public async Task<List<Order>> GetAllOrders()
         {
-
+            Token token = Application.Current.Resources["TokenInfo"] as Token;
+            _client.DefaultRequestHeaders.Add("Authorization", $"Bearer { token.AccessToken }");
             List<Order> ordersFromService;
 
             // Create URI
