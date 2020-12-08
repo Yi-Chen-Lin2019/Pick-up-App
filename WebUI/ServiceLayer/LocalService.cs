@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Web;
 using WebUI.ViewModels;
 using System.Web.Script.Serialization;
+using System.Text;
 
 namespace WebUI.ServiceLayer
 {
@@ -25,9 +26,41 @@ namespace WebUI.ServiceLayer
             _client = new HttpClient();
             _baseUrl = _ipDomain + ":" + 44386;
             _restUrl = _baseUrl + "/";
+            if (null != HttpContext.Current.Session["TokenInfo"])
+            {
+                Token token = HttpContext.Current.Session["TokenInfo"] as Token;
+                _client.DefaultRequestHeaders.Add("Authorization", $"Bearer { token.AccessToken }");
+            }
         }
 
-        public async Task<UserViewModel> GetPersonById(int id)
+        public async Task<Token> Authenticate(string username, string password)
+        {
+            var data = new FormUrlEncodedContent(new[]
+            {
+                new KeyValuePair<string, string>("grant_type", "password"),
+                new KeyValuePair<string, string>("username", username),
+                new KeyValuePair<string, string>("password", password)
+            });
+
+            string useRestUrl = _restUrl + "Token";
+            var uri = new Uri(string.Format(useRestUrl));
+
+            using (HttpResponseMessage response = await _client.PostAsync(uri, data))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadAsAsync<Token>();
+                    HttpContext.Current.Session["TokenInfo"] = result;
+                    return result;
+                }
+                else
+                {
+                    throw (new Exception(response.ReasonPhrase));
+                }
+            }
+        }
+
+        public async Task<UserViewModel> GetPersonById(string id)
         {
             Person personFromService;
 
@@ -59,31 +92,62 @@ namespace WebUI.ServiceLayer
             return new UserViewModel(personFromService);
         }
 
-        public async Task PostOrder(OrderViewModel order)
+        public async Task<Boolean> PostOrder(Order order)
         {
-            // Create URI
+            //// Create URI
+            //string useRestUrl = _restUrl + "Orders";
+            //var uri = new Uri(string.Format(useRestUrl));
+            
+            //try
+            //{
+            //    StringContent content = new StringContent(JsonConvert.SerializeObject(order));
+            //    var response = await _client.PostAsync(uri, content);
+
+            //    if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            //    {
+            //        throw (new HttpRequestValidationException(response.StatusCode.ToString()));
+            //    }
+            //    else
+            //    {
+            //        throw (new Exception());
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    throw ex;
+            //}
+            bool PostedOk;
             string useRestUrl = _restUrl + "Orders";
             var uri = new Uri(string.Format(useRestUrl));
-            
             try
             {
-                StringContent content = new StringContent(JsonConvert.SerializeObject(order));
-                var response = await _client.PostAsync(uri, content);
+                var json = JsonConvert.SerializeObject(order);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                HttpResponseMessage response = null;
+                response = await _client.PostAsync(uri, content);
+
+                if (response.IsSuccessStatusCode)
                 {
+                    PostedOk = true;
+                }
+                else if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    PostedOk = false;
                     throw (new HttpRequestValidationException(response.StatusCode.ToString()));
                 }
                 else
                 {
-                    throw (new Exception());
+                    PostedOk = false;
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                PostedOk = false;
             }
-        }
+
+            return PostedOk;
+    }
 
         public async Task<List<Product>> GetAllProducts()
         {

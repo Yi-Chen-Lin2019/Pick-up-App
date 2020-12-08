@@ -10,17 +10,17 @@ namespace WebUI.ViewModels
     {
         public UserViewModel(Person person)
         {
-            this.PersonId = person.PersonId;
+            this.PersonId = person.Id;
             this.FirstName = person.FirstName;
             this.LastName = person.LastName;
             this.Email = person.Email;
-            this.Phone = person.Phone;
+            this.Phone = person.PhoneNumber;
         }
 
-        public int PersonId { get; set; }
+        public string PersonId { get; set; }
         public String FirstName { get; set; }
         public String LastName { get; set; }
         public String Email { get; set; }
-        public int Phone { get; set; }
+        public string Phone { get; set; }
     }
 }

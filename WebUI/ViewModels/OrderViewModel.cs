@@ -40,5 +40,18 @@ namespace WebUI.ViewModels
             OrderLineList.Add(orderLine);
         }
 
+        public Order fromViewModelToOrderModel()
+        {
+            Order o = new Order();
+            foreach (var item in Current.OrderLineList)
+            {
+                OrderLine ol = new OrderLine();
+                ol.Product = new Product();
+                ol.Product.ProductId = item.product.id;
+                ol.Quantity = item.quantity;
+            }
+            o.PickUpTime = Current.PickUpTime;
+            return o;
+        }
     }
 }

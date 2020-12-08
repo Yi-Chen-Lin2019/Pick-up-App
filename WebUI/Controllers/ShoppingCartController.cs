@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,10 +24,16 @@ namespace WebUI.Controllers
         [HttpPost]
         public async Task<ActionResult> PostOrder()
         {
+            //TODO remove authentication from here
+
+            LocalService serviceA = new LocalService();
+            Token token = await serviceA.Authenticate("superadmin@pickup.com", "Pwd123!");
             LocalService service = new LocalService();
-            //TODO Get Person By User ID
-            OrderViewModel.Current.Customer = await service.GetPersonById(1);
-            await service.PostOrder(OrderViewModel.Current);
+
+            //TODO read the selected pickup time
+            OrderViewModel.Current.PickUpTime = DateTime.Now;
+            Order order = OrderViewModel.Current.fromViewModelToOrderModel();
+            await service.PostOrder(order);
 
             return this.Json(new { success = true, text = "Order placed correctly." });
         }
