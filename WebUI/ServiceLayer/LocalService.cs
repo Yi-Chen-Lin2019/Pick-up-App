@@ -6,6 +6,8 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
+using WebUI.ViewModels;
+using System.Web.Script.Serialization;
 
 namespace WebUI.ServiceLayer
 {
@@ -23,6 +25,64 @@ namespace WebUI.ServiceLayer
             _client = new HttpClient();
             _baseUrl = _ipDomain + ":" + 44386;
             _restUrl = _baseUrl + "/";
+        }
+
+        public async Task<UserViewModel> GetPersonById(int id)
+        {
+            Person personFromService;
+
+            // Create URI
+            string useRestUrl = _restUrl + "Persons/"+id.ToString();
+            var uri = new Uri(string.Format(useRestUrl));
+            //
+            try
+            {
+                var response = await _client.GetAsync(uri);
+                if (response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    personFromService = JsonConvert.DeserializeObject<Person>(content);
+                }
+                else if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    throw (new HttpRequestValidationException(response.StatusCode.ToString()));
+                }
+                else
+                {
+                    throw (new Exception());
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return new UserViewModel(personFromService);
+        }
+
+        public async Task PostOrder(OrderViewModel order)
+        {
+            // Create URI
+            string useRestUrl = _restUrl + "Orders";
+            var uri = new Uri(string.Format(useRestUrl));
+            
+            try
+            {
+                StringContent content = new StringContent(JsonConvert.SerializeObject(order));
+                var response = await _client.PostAsync(uri, content);
+
+                if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    throw (new HttpRequestValidationException(response.StatusCode.ToString()));
+                }
+                else
+                {
+                    throw (new Exception());
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public async Task<List<Product>> GetAllProducts()

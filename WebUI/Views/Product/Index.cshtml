@@ -2,17 +2,7 @@
 @using PagedList.Mvc;
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
-@*SEARCH_BOX*@
-@using (Html.BeginForm("Search", "Product", FormMethod.Get))
-{
-    <div>
-        @Html.TextBox("query")
-        <input type="submit" value="Search" />
-    </div>
-}
-
 @*SORTING_DROPDOWN*@
-
 @{
     List<SelectListItem> sortingOptions = new List<SelectListItem>();
     sortingOptions.Add(new SelectListItem
@@ -42,67 +32,64 @@
     });
 }
 @Html.DropDownList("sortDD", sortingOptions,
-    new { @class = "form-control", @onchange = "document.location.href = '/Product/Index?sortOrder=' + this.options[this.selectedIndex].value;" })
+    new { @class = "sorting-drop-box", @onchange = "document.location.href = '/Product/Index?sortOrder=' + this.options[this.selectedIndex].value;" })
 
 
-
-<div class="col-lg-12">
-    @*CATEGORY_LIST*@
-    <div class="col-sm-2">
+@*CATEGORY_LIST*@
+<div class="categories-container">
+    <div class="categories-box">
         @{
             IEnumerable<WebUI.ViewModels.CategoryViewModel> cats = Model.categories;
+
+            //If statement using if needed to add a bottom border for last category label
+            var count = cats.Count();
+            var i = 1;
             foreach (var item in cats)
             {
-                <div>
-                    <input type="button" value="@item.name"
-                           onclick="location.href='@Url.Action("Index", "Product")?category=' + @item.id" />
-                </div>
-            }
+                if (i == count)
+                {<label style="border-bottom: 1px solid lightgray;" onclick="location.href='@Url.Action("Index", "Product")?category=' + @item.id">@item.name</label>}
+            else
+            {<label onclick="location.href='@Url.Action("Index", "Product")?category=' + @item.id">@item.name</label>}
+        i++;
+    }
         }
 
-    </div>
-    <script>
-        function addToCart(productId, price, name, image, isSNProduct) {
-            var quantity = 0;
-            if (isSNProduct == 'false') {
-                quantity = parseInt(prompt("Please enter quantity", "1"));
-            }
-            else {
-                quantity = 1;
-            }
-
-
-            if (quantity != null && quantity != NaN && quantity != 0) {
-                $(function () {
-                    $.post('/ShoppingCart/AddToCart',
-                        { productId: productId, price: price, name: name, image: image, quantity: quantity, isSNProduct: isSNProduct }, function (data) {
-                            if (data.success) {
-                                alert("Item added to cart.");
-                            }
-                            else {
-                                alert("Failure!");
-                            }
-                        });
-                });
-            }
-
-        }
-    </script>
-    @*PRODUCT_LIST*@
-    <div class="productList-container">
-        @foreach (var item in Model.products)
-        {
-            <div class="productDisplay">
-                <div class="product-photo">
-                    @Html.Partial("~/Views/Product/Details.cshtml", item)
-                </div>
-                <div class="product-title">
-                    <p style="font-size: 20px;">&nbsp @item.name</p>
-                    <p style="font-size: 14px;">&nbsp @String.Format("{0:0.00} DKK", item.price)</p>
-                </div>
-            </div>
-        }
     </div>
 </div>
-@Html.PagedListPager(Model.products, page => Url.Action("Index", new { page }))
+
+<script>
+    function addToCart(productId, price, name, image) {
+
+        $(function () {
+            $.post('/ShoppingCart/AddToCart',
+                { productId: productId, price: price, name: name, image: image }, function (data) {
+                    if (data.success) {
+                        alert("Item added to cart.");
+                    }
+                    else {
+                        alert("Failure!");
+                    }
+                });
+        });
+
+    }
+</script>
+@*PRODUCT_LIST*@
+<div class="productList-container">
+    @foreach (var item in Model.products)
+    {
+        <div class="productDisplay">
+            <div class="product-photo">
+                @Html.Partial("~/Views/Product/Details.cshtml", item)
+            </div>
+            <div class="product-title">
+                <p style="font-size: 20px;">&nbsp @item.name</p>
+                <p style="font-size: 14px;">&nbsp @String.Format("{0:0.00} DKK", item.price)</p>
+            </div>
+        </div>
+    }
+</div>
+<div class="pagin-container">
+    @Html.PagedListPager(Model.products, page => Url.Action("Index", new { page }))
+</div>
 

@@ -1,0 +1,98 @@
+﻿//Register----------------------------------------------
+.register-box-container {
+
+    .register-box {
+        position: relative;
+        min-width: 320px;
+        width: 100%;
+        max-width: 500px;
+        padding-right: 16px;
+        padding-left: 16px;
+        margin-right: auto;
+        margin-left: auto;
+
+        .board {
+            padding: 10px;
+            box-shadow: 0 0 2px 1px #59b527;
+            background-color: #e7e7e7;
+            border-radius: 5px;
+
+            label{
+                margin-left: 15px;
+            }
+
+            input[type="email"], input[type="password"], input[type="text"], input[type="number"] {
+                padding: 7px 7px;
+                margin: 0 9px 10px 9px;
+                width: 96%;
+                display: block;
+                font-size: 18px;
+                border-radius: 5px;
+                border: none;
+                box-shadow: 0 0 1px 1px #bababa;
+
+                &:focus {
+                    outline: none;
+                    box-shadow: 0 0 1px 1px #59b527;
+                }
+
+                -webkit-transition: 0.3s linear;
+                -moz-transition: 0.3s linear;
+                -o-transition: 0.3s linear;
+                transition: 0.3s linear;
+            }
+
+            input[type="submit"] {
+                margin: 30px 9px 10px 9px;
+                background: #59b527;
+                padding: 10px;
+                font-size: 20px;
+                display: block;
+                width: 96%;
+                border: none;
+                color: #fff;
+                border-radius: 5px;
+
+                &:hover {
+                    background: #70db36;
+                }
+            }
+        }
+    }
+}
+
+//User Profile-----------------------------------------------
+.option-container {
+    position: absolute;
+    width: 15rem;
+    height: auto;
+
+    label {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        border: 1px solid lightgray;
+        border-bottom: none;
+        font-family: "Lato", sans-serif;
+        font-size: 14px;
+        width: 15rem;
+        height: 2rem;
+        text-align: left;
+        margin: 0;
+        transition: ease-in-out;
+        transition-duration: 0.2s;
+
+        &:hover {
+            background-color: #b0f39e;
+        }
+    }
+}
+
+.option-view-container {
+    position: absolute;
+    left: 17rem;
+    height: 1rem;
+    width: 60%;
+    background-color: aqua;
+}
+

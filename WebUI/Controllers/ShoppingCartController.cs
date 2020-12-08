@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using WebUI.ServiceLayer;
 using WebUI.ViewModels;
 
 namespace WebUI.Controllers
@@ -17,6 +19,18 @@ namespace WebUI.Controllers
             return Details();
         }
 
+        // POST: ShoppingCart/Send
+        [HttpPost]
+        public async Task<ActionResult> PostOrder()
+        {
+            LocalService service = new LocalService();
+            //TODO Get Person By User ID
+            OrderViewModel.Current.Customer = await service.GetPersonById(1);
+            await service.PostOrder(OrderViewModel.Current);
+
+            return this.Json(new { success = true, text = "Order placed correctly." });
+        }
+
         // GET: ShoppingCart/Details/5
         public ActionResult Details()
         {
@@ -25,38 +39,28 @@ namespace WebUI.Controllers
 
         // GET: ShoppingCart/Create
         [HttpPost]
-        public ActionResult AddToCart(int productId, double price, string name, string image, int quantity, bool isSNProduct)
+        public ActionResult AddToCart(int productId, double price, string name, string image)
         {
-
-
             shoppingCart = OrderViewModel.Current;
 
-            ProductViewModel product;
-            if (isSNProduct)
-            {
-                product = new SNProductViewModel();
-            }
-            else
-            {
-                product = new ProductViewModel();
-            }
+            ProductViewModel product = new ProductViewModel();
 
             product.id = productId;
             product.name = name;
             product.image = image;
             product.price = price;
 
-
-            OrderLineViewModel orderLine = new OrderLineViewModel(quantity, product);
-
-            if (product is SNProductViewModel)
+            bool isInCart = false;
+            foreach(OrderLineViewModel order in shoppingCart.OrderLineList)
             {
-                shoppingCart.snProductList.Add((SNProductViewModel)product);
+                if(order.product.id == product.id) { order.quantity++; isInCart = true; break; }
             }
-            else
+            if (!isInCart)
             {
-                shoppingCart.orderLineList.Add(orderLine);
+                OrderLineViewModel orderLine = new OrderLineViewModel(1, product);
+                shoppingCart.OrderLineList.Add(orderLine);
             }
+            
 
 
             Session["Cart"] = shoppingCart;
@@ -69,8 +73,7 @@ namespace WebUI.Controllers
         public ActionResult RemoveFromCart(int productId)
         {
             shoppingCart = OrderViewModel.Current;
-            shoppingCart.orderLineList.Remove(shoppingCart.orderLineList.Find(x => x.product.id == productId));
-            shoppingCart.snProductList.Remove(shoppingCart.snProductList.Find(x => x.id == productId));
+            shoppingCart.OrderLineList.Remove(shoppingCart.OrderLineList.Find(x => x.product.id == productId));
 
 
             Session["Cart"] = shoppingCart;

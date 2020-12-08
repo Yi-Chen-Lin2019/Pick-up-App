@@ -18,6 +18,12 @@
         function redirectToShoppingCart() {
             window.location.href = '/ShoppingCart';
         }
+        function redirectToRegister() {
+            window.location.href = '/Account';
+        }
+        function searchProduct() {
+            window.location.href = '/Product/Search?query=' + document.querySelector('#searchTerm').value.toLowerCase();
+        }
     </script>
     <main class="main-container">
         <div class="container-fluid">
@@ -34,12 +40,12 @@
                 </div>
                 <div class="searchBar-container">
                     <div class="searchBar-box">
-                        <input type="text" class="searchTerm" placeholder="Search e.g. Milk">
-                        <button type="submit" class="searchButton">
+                        <input type="text" class="searchTerm" id="searchTerm" placeholder="Search e.g. Milk">
+                        <button type="submit" class="searchButton" onclick="searchProduct()">
                             <i class="fa fa-search">GO</i>
                         </button>
                     </div>
-                </div>
+                 </div>
                 <div class="cartContainer" onclick="redirectToShoppingCart()">
                     <div class="cartIcon">
                         <img src="~/Content/img/CartIcon.svg" runat="server" style="height: 3rem; width: 3rem;" />
@@ -49,17 +55,43 @@
                     </div>
                 </div>
                 <div class="user-profile-container">
-                    <div class="user-icon">
-                        <img src="~/Content/img/UserIcon.svg" runat="server" style="height: 3rem; width: 3rem;" />
+                    <div class="user-profile-box" onclick="LogInWindowOnClick()">
+                        <div class="user-icon">
+                            <img src="~/Content/img/UserIcon.svg" runat="server" style="height: 3rem; width: 3rem;" />
+                        </div>
+                        <div class="user-name">
+                            LOG IN
+                        </div>
                     </div>
-                    <div class="user-name">
-                        LOG IN
+                    <div class="login loginDisable" id="login-id">
+                        <div class="arrow-up"></div>
+                        <div class="formholder">
+                            <div class="randompad">
+                                <fieldset>
+                                    <label name="email">Email</label>
+                                    <input type="email" value="example@example.eg" />
+                                    <label name="password">Password</label>
+                                    <input type="password" />
+                                    <input type="submit" value="Login" />
+                                </fieldset>
+                                <label id="register" name="register" onclick="redirectToRegister()">Register</label>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </header>
-
+    <script>
+        function LogInWindowOnClick() {
+            if (document.querySelector('#login-id').classList.length == 2) {
+                document.querySelector('#login-id').classList.remove("loginDisable");
+            }
+            else {
+                document.querySelector('#login-id').classList.add("loginDisable");
+            }
+        }
+    </script>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
