@@ -6,6 +6,7 @@ namespace REST.Models
 {
     // Models used as parameters to AccountController actions.
 
+
     public class AddExternalLoginBindingModel
     {
         [Required]
