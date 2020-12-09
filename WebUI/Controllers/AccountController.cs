@@ -22,21 +22,24 @@ namespace WebUI.Controllers
             return View();
         }
 
-        // POST: Account/Create
+        // POST: Account/Register
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public async Task<ActionResult> Register(RegisterViewModel register)
         {
-            try
-            {
-                // TODO: Add insert logic here
+            LocalService service = new LocalService();
+            var result = await service.Register(register);
 
-                return RedirectToAction("Index");
+            if (result) {
+                return this.Json(new { success = true, text = "Welcome!" });
             }
-            catch
+            else
             {
-                return View();
+                return this.Json(new { success = false, text = "Register fail!" });
+
             }
+
         }
+
 
 
         // POST: Account/Edit/5
