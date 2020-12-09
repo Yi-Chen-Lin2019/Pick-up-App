@@ -33,6 +33,37 @@ namespace WebUI.ServiceLayer
             }
         }
 
+        public async Task<bool> Register(RegisterViewModel registeration)
+        {
+            bool registerOk;
+            string useRestUrl = _restUrl + "api/Account/Register";
+            var uri = new Uri(string.Format(useRestUrl));
+            try
+            {
+                var json = JsonConvert.SerializeObject(registeration);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                HttpResponseMessage response = null;
+                response = await _client.PostAsync(uri, content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    registerOk = true;
+                }
+                else
+                {
+                    registerOk = false;
+                    throw (new HttpRequestValidationException(response.StatusCode.ToString()));
+                }
+            }
+            catch
+            {
+                registerOk = false;
+            }
+
+            return registerOk;
+        }
+
         public async Task<Token> Authenticate(string username, string password)
         {
             var data = new FormUrlEncodedContent(new[]
