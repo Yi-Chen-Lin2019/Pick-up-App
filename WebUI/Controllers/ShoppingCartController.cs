@@ -33,9 +33,20 @@ namespace WebUI.Controllers
             //TODO read the selected pickup time
             OrderViewModel.Current.PickUpTime = DateTime.Now;
             Order order = OrderViewModel.Current.fromViewModelToOrderModel();
-            await service.PostOrder(order);
-
-            return this.Json(new { success = true, text = "Order placed correctly." });
+            var response = await service.PostOrder(order);
+            if (response.IsSuccessStatusCode)
+            {
+                return this.Json(new { success = true, text = "Order placed correctly." });
+            }
+            else if(response.StatusCode == System.Net.HttpStatusCode.Conflict)
+            {
+                Session["Cart"] = null;
+                return this.Json(new { success = false, text = "Insufficient product quantity, please try again." });
+            }
+            else
+            {
+                return this.Json(new { success = false, text = response.ReasonPhrase });
+            }
         }
 
         // GET: ShoppingCart/Details/5

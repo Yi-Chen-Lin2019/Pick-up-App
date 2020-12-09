@@ -155,7 +155,7 @@ namespace DAL
                         else 
                         {
                            transaction.Rollback();
-                           return null; 
+                           throw new Exception();
                         };
                         #endregion
 
@@ -163,7 +163,7 @@ namespace DAL
                     catch (Exception ex)
                     {
                         transaction.Rollback();
-                        return null;
+                        throw(ex);
                     }
                 }
         }
