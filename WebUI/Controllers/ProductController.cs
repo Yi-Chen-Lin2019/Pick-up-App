@@ -61,8 +61,6 @@ namespace WebUI.Controllers
             foreach (var item in foundProducts)
             {
                 products.Add(new ProductViewModel(item));
-                //TODO: separate Product from SNProduct
-
 
                 //TODO do the categories properly
                 if (!categories.Any(cat => cat.id == item.Category.CategoryId))
@@ -118,7 +116,7 @@ namespace WebUI.Controllers
         {
             await fetchItemsAsync();
             List<ProductViewModel> prods = products;
-            prods = prods.FindAll(p => p.name.Contains(query));
+            prods = prods.FindAll(p => p.name.ToLower().Contains(query.ToLower()));
             IPagedList<ProductViewModel> prodVM = new StaticPagedList<ProductViewModel>(prods,  1, 5, prods.Count());
             return View("Index", new ViewModels.BrowseViewModel() { categories = this.categories, products = prodVM });
         }

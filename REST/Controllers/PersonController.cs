@@ -28,15 +28,15 @@ namespace REST.Controllers
     public class PersonController : ApiController
     {
         /// <summary>
-        /// Get all persons
+        /// Get all users
         /// </summary>
         /// <remarks>
-        /// Get a list of persons
+        /// Get a list of users
         /// </remarks>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>List&lt;Person&gt;</returns>
         /// <response code = "200">Persons found</response>
-        [Route("Persons")]
+        [Route("Person")]
         [HttpGet]
         [Authorize(Roles = "Admin")]
         [ResponseType(typeof(IEnumerable<Person>))]
@@ -45,7 +45,7 @@ namespace REST.Controllers
             try
             {
                 PersonManagement pm = new PersonManagement();
-                IEnumerable<Person> foundPersons = pm.GetAllPersons();
+                IEnumerable<Person> foundPersons = pm.GetPeople();
                 return Ok(foundPersons);
             }
             catch (Exception e)
@@ -64,7 +64,7 @@ namespace REST.Controllers
         /// <returns>List&lt;Person&gt;</returns>
         /// <response code = "200">Person found</response>
         /// <response code = "404">Person not found</response>
-        [Route("Persons/UserName")]
+        [Route("Person/UserName")]
         [HttpGet]
         [Authorize(Roles = "Customer")]
         [ResponseType(typeof(Person))]
@@ -91,20 +91,20 @@ namespace REST.Controllers
         }
 
         /// <summary>
-        /// Update a person by ID
+        /// Update personal info by ID
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="personID">Person ID</param>
         /// <param name="person">Person to update</param>
         /// <returns></returns>
         /// <response code = "200">Person updated</response>
-        [Route("Persons/{personID}")]
+        [Route("Person/{personID}")]
         [HttpPut]
         [Authorize(Roles = "Admin")]
         [ResponseType(typeof(Person))]
-        public IHttpActionResult Put(int personID, [FromBody] Person person)
+        public IHttpActionResult Put(string personID, [FromBody] Person person)
         {
-            if (personID != person.PersonId || null == person) { return BadRequest(); };
+            if (personID != person.Id || null == person) { return BadRequest(); };
             try
             {
                 PersonManagement pm = new PersonManagement();

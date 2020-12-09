@@ -6,6 +6,8 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using WPFNav.Models;
 
 namespace WPFNav.Service
 {
@@ -24,6 +26,38 @@ namespace WPFNav.Service
             _client = new HttpClient();
             _baseUrl = _ipDomain + ":" + 44386;
             _restUrl = _baseUrl + "/";
+            if (null != Application.Current.Resources["TokenInfo"])
+            {
+                Token token = Application.Current.Resources["TokenInfo"] as Token;
+                _client.DefaultRequestHeaders.Add("Authorization", $"Bearer { token.AccessToken }");
+            }
+        }
+
+        public async Task<Token> Authenticate(string username, string password)
+        {
+            System.Net.ServicePointManager.ServerCertificateValidationCallback = (senderX, certificate, chain, sslPolicyErrors) => { return true; };
+            var data = new FormUrlEncodedContent(new[]
+            {
+                new KeyValuePair<string, string>("grant_type", "password"),
+                new KeyValuePair<string, string>("username", username),
+                new KeyValuePair<string, string>("password", password)
+            });
+
+            string useRestUrl = _restUrl + "Token";
+            var uri = new Uri(string.Format(useRestUrl));
+
+            using (HttpResponseMessage response = await _client.PostAsync(uri, data))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadAsAsync<Token>();
+                    return result;
+                }
+                else
+                {
+                    throw (new Exception(response.ReasonPhrase));
+                }
+            }
         }
 
         public async Task<Order> GetOrder(int orderId)

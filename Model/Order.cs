@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Tracing;
@@ -64,7 +65,6 @@ namespace Model
         public List<OrderLine> OrderLineList { get; set; }
 
         public Person Customer { get; set; }
-
         public Person Employee { get; set; }
 
         public DateTime PickUpTime { get; set; }
@@ -87,7 +87,6 @@ namespace Model
                 catch (ArgumentException) { this.status = StatusEnum.Error; }
             }
         }
-
         public byte[] RowId { get; set; }
         public Int64 RowIdBig { get; set; }
 

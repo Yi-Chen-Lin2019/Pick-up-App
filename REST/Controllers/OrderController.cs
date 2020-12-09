@@ -1,5 +1,7 @@
 ﻿
 using BusinessLayer;
+using DAL;
+using Microsoft.AspNet.Identity;
 using Model;
 using System;
 using System.Collections.Generic;
@@ -85,9 +87,16 @@ namespace REST.Controllers
                 {
                     return BadRequest();
                 }
+                order.Customer = new Person() { Id = RequestContext.Principal.Identity.GetUserId() };
+                order.OrderedTime = System.DateTime.Now;
+                order.OrderStatus = "Received";
                 OrderManagement om = new OrderManagement();
                 Order result = om.InsertOrder(order);
                 return Ok(result);
+            }
+            catch (OutOfStockException oe)
+            {
+                return BadRequest(oe.Message);
             }
             catch (Exception)
             {
@@ -114,6 +123,7 @@ namespace REST.Controllers
             try
             {
                 OrderManagement om = new OrderManagement();
+                order.Employee = new Person() { Id = RequestContext.Principal.Identity.GetUserId() };
                 result = om.UpdateOrder(order);
             }
             catch (SqlException)

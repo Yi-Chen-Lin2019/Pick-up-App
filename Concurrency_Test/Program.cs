@@ -112,8 +112,8 @@ namespace Concurrency_Test
             order.OrderLineList = orderLines;
 
 
-            order.Customer = perR.GetPersonById(1);
-            //order.Employee = perR.GetPersonById(2);
+            var customer = new Person() { UserName = "superadmin@pickup.com" };
+            order.Customer = customer;
 
 
             //Time and Total Price
@@ -168,8 +168,8 @@ namespace Concurrency_Test
             };
             order.OrderLineList = orderLines;
 
-
-            order.Customer = perR.GetPersonById(1);
+            var customer = new Person() { UserName = "superadmin@pickup.com" };
+            order.Customer = customer;
             //order.Employee = perR.GetPersonById(2);
 
 

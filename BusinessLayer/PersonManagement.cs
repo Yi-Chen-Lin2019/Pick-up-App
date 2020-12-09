@@ -10,24 +10,24 @@ namespace BusinessLayer
 {
     public class PersonManagement
     {
-        public IEnumerable<Person> GetAllPersons()
+        public IEnumerable<Person> GetPeople()
         {
             IPersonRepository pRepo = new PersonRepository();
             return pRepo.GetPeople();
         }
 
-        public Person GetPersonById(int personID)
+        public Person GetPersonById(string personID)
         {
             IPersonRepository pRepo = new PersonRepository();
             return pRepo.GetPersonById(personID);
         }
-        
+        /*
         public Person Insert(Person person)
         {
             IPersonRepository pRepo = new PersonRepository();
             return pRepo.InsertPerson(person);
         }
-
+        */
         public bool UpdatePerson(Person person)
         {
             IPersonRepository pRepo = new PersonRepository();

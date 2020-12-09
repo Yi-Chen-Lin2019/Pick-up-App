@@ -9,11 +9,11 @@ namespace DAL
     {
         List<Person> GetPeople();
 
-        Person GetPersonById(int id);
+        Person GetPersonById(string id);
 
         Person GetPersonByEmail(String email);
 
-        Person GetPersonByPhone(int phone);
+        Person GetPersonByPhone(String phone);
 
         /*
         CustomerRole InsertCustomerRoleToPerson(Person person);
@@ -21,8 +21,8 @@ namespace DAL
         EmployeeRole InsertEmployeeRoleToPerson(Person person);
         */
         Role InsertRole(Role role);
-     
-        Person InsertPerson(Person person);
+        
+        //Person InsertPerson(Person person);
 
         bool UpdatePerson(Person person);
     }

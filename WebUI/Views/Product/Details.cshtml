@@ -30,20 +30,8 @@
 
     </div>
 
-    <div class="addToCart-btn" onclick='addToCart(@Model.id, "@Model.price", "@Model.name", "@Model.image", @(Model is WebUI.ViewModels.SNProductViewModel ? "true" : "false"))'>
+    <div class="addToCart-btn" onclick='addToCart(@Model.id, "@Model.price", "@Model.name", "@Model.image")'>
         Add to Cart
-        @*
-        if (Model is WebUI.ViewModels.SNProductViewModel)
-        {
-            <input type="button" value="Add to Cart"
-                   onclick='addToCart(@Model.id, "@Model.price", "@Model.name", "@Model.image", "true")' />
-        }
-       else
-            {
-            <input type="button" value="Add to Cart"
-            onclick='addToCart(@Model.id, "@Model.price", "@Model.name", "@Model.image", "false")' />
-            }
-       }*@
     </div>
 
 </div>

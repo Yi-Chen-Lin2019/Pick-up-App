@@ -31,9 +31,9 @@ namespace DAL
             //Gets ID of all people, then gets each person by this id
             conn.Open();
             List<Person> result = new List<Person>();
-            List<int> ids = conn.Query<int>("SELECT [PersonId] FROM [Person]").ToList();
+            List<string> ids = conn.Query<string>("SELECT [Id] FROM [AspNetUsers]").ToList();
             conn.Close();
-            foreach (int i in ids)
+            foreach (string i in ids)
             {
                 result.Add(GetPersonById(i));
             }
@@ -41,11 +41,11 @@ namespace DAL
             return result;
         }
 
-        public Person GetPersonById(int id)
+        public Person GetPersonById(string id)
         {
             conn.Open();
 
-            Person result = conn.Query<Person>("SELECT [PersonId], [Email], [FirstName], [LastName], [Phone], [UserId] FROM [Person] WHERE PersonId =@PersonId", new { PersonId = id }).SingleOrDefault();         
+            Person result = conn.Query<Person>("SELECT [Id], [Email], [FirstName], [LastName], [PhoneNumber], [UserName] FROM [AspNetUsers] WHERE Id =@Id", new { Id = id }).SingleOrDefault();         
             conn.Close();
             return result;
         }
@@ -54,18 +54,18 @@ namespace DAL
         {
             conn.Open();
 
-            Person result = conn.Query<Person>("SELECT [Email], [FirstName], [LastName], [Phone] FROM [Person] WHERE Email =@Email", new { Email = email }).SingleOrDefault();
+            Person result = conn.Query<Person>("SELECT [Id], [Email], [FirstName], [LastName], [PhoneNumber], [UserName] FROM [AspNetUsers] WHERE Email =@Email", new { Email = email }).SingleOrDefault();
 
 
             conn.Close();
             return result;
         }
 
-        public Person GetPersonByPhone(int phone)
+        public Person GetPersonByPhone(String phone)
         {
             conn.Open();
 
-            Person result = conn.Query<Person>("SELECT [PersonId], [Email], [FirstName], [LastName], [Phone] FROM [Person] WHERE Phone =@Phone", new { Phone = phone }).SingleOrDefault();
+            Person result = conn.Query<Person>("SELECT [Id], [Email], [FirstName], [LastName], [PhoneNumber], [UserName] FROM [AspNetUsers] WHERE PhoneNumber =@Phone", new { Phone = phone }).SingleOrDefault();
 
             //result.CustomerRole = conn.Query<CustomerRole>("SELECT [CustomerRole].[CustomerRoleId] FROM [CustomerRole] INNER JOIN [Person] ON [CustomerRole].[CustomerRoleId] = [Person].[CustomerRoleId] WHERE [Phone]=@Phone", new { Phone = phone }).SingleOrDefault();
             //result.EmployeeRole = conn.Query<EmployeeRole>("SELECT [EmployeeRole].[EmployeeRoleId] FROM [EmployeeRole] INNER JOIN [Person] ON [EmployeeRole].[EmployeeRoleId] = [Person].[EmployeeRoleId] WHERE [Phone]=@Phone", new { Phone = phone }).SingleOrDefault();
@@ -74,6 +74,7 @@ namespace DAL
             return result;
         }
     
+        /*
         public Person InsertPerson(Person person)
         {
             conn.Open();
@@ -90,7 +91,7 @@ namespace DAL
             if (rowsAffected >= 1) { person.PersonId = id; return person; }
             else { return null; }
         }
-
+        */
         public bool UpdatePerson(Person person)
         {
             conn.Open();
@@ -104,8 +105,8 @@ namespace DAL
             //    //conn.Execute("UPDATE [EmployeeRole] SET ... WHERE EmployeeRoleId = @EmployeeRoleId", new { EmployeeRoleId = person.EmployeeRole.EmployeeRoleId });
             //}
 
-            int rowsAffected = conn.Execute("UPDATE [Person] SET Email = @Email, FirstName = @FirstName, LastName = @LastName, Phone = @Phone, Password = @Password WHERE PersonId = @PersonId",
-                new { Email = person.Email, FirstName = person.FirstName, LastName = person.LastName, Phone = person.Phone, Password = "default", PersonId = person.PersonId });
+            int rowsAffected = conn.Execute("UPDATE [AspNetUsers] SET Email = @Email, FirstName = @FirstName, LastName = @LastName, PhoneNumber = @Phone, UserName = @UserName WHERE Id = @PersonId",
+                new { Email = person.Email, FirstName = person.FirstName, LastName = person.LastName, Phone = person.PhoneNumber, UserName = person.UserName, PersonId = person.Id });
             
             conn.Close();
 

@@ -48,10 +48,10 @@ namespace DAL
                 List<int> orderLineList = conn.Query<int>("SELECT [OrderLineId] FROM [OrderLine] WHERE OrderId =@OrderId", new { OrderId = id }).ToList();
                 conn.Close();
 
-                result.Customer = persR.GetPersonById(conn.Query<int>("SELECT [CustomerId] FROM [Order] WHERE OrderId =@OrderId", new { OrderId = id }).SingleOrDefault());
+                result.Customer = persR.GetPersonById(conn.Query<string>("SELECT [CustomerId] FROM [Order] WHERE OrderId =@OrderId", new { OrderId = id }).SingleOrDefault());
                 try
                 {
-                    result.Employee = persR.GetPersonById(conn.Query<int>("SELECT [EmployeeId] FROM [Order] WHERE OrderId =@OrderId", new { OrderId = id }).SingleOrDefault());  
+                    result.Employee = persR.GetPersonById(conn.Query<string>("SELECT [EmployeeId] FROM [Order] WHERE OrderId =@OrderId", new { OrderId = id }).SingleOrDefault());  
                 }
                 catch (Exception e)
                 {
@@ -100,7 +100,7 @@ namespace DAL
                 conn.Open();
 
                 rowsAffected = conn.Execute("INSERT INTO [Order] VALUES(@PickUpTime, @OrderedTime, @OrderStatus, @TotalPrice, @CustomerId, null, null)",
-                    new { PickUpTime = order.PickUpTime, OrderedTime = order.OrderedTime, OrderStatus = order.OrderStatus, TotalPrice = order.TotalPrice, CustomerId = order.Customer.PersonId });
+                    new { PickUpTime = order.PickUpTime, OrderedTime = order.OrderedTime, OrderStatus = order.OrderStatus, TotalPrice = order.TotalPrice, CustomerId = order.Customer.Id});
                 int id = conn.Query<int>("SELECT @@IDENTITY").SingleOrDefault();
                 order.OrderId = id;
                 order.RowIdBig = conn.Query<int>("SELECT CAST(RowId as bigint) AS RowIdBig from [Order] where OrderId = @OrderId", new { OrderId = order.OrderId }).SingleOrDefault();
@@ -222,15 +222,14 @@ namespace DAL
                 {
                     try
                     {
-                        rowsAffected = conn.Execute("UPDATE [Order] SET PickUpTime=@PickUpTime, OrderStatus=@OrderStatus, TotalPrice=@TotalPrice, CustomerId=@CustomerId, EmployeeId=@EmployeeId WHERE OrderId = @OrderId AND (cast(@OldRowIdBig as binary(8)) = RowId)",
-                    new { PickUpTime = order.PickUpTime, OrderStatus = order.OrderStatus, TotalPrice = order.TotalPrice, CustomerId = order.Customer.PersonId, EmployeeId = order.Employee.PersonId, OrderId = order.OrderId, OldRowIdBig = order.RowIdBig }, transaction);
+                        rowsAffected = conn.Execute("UPDATE [Order] SET PickUpTime=@PickUpTime, OrderStatus=@OrderStatus, TotalPrice=@TotalPrice, EmployeeId=@EmployeeId WHERE OrderId = @OrderId AND (cast(@OldRowIdBig as binary(8)) = RowId)",
+                    new { PickUpTime = order.PickUpTime, OrderStatus = order.OrderStatus, TotalPrice = order.TotalPrice, EmployeeId = order.Employee.Id, OrderId = order.OrderId, OldRowIdBig = order.RowIdBig }, transaction);
 
 
 
 
 
                         transaction.Commit();
-
                     }
                     catch (Exception ex)
                     {
@@ -241,36 +240,36 @@ namespace DAL
                 }
 
             }
-            Order oldOrder = GetOrderById(order.OrderId);
-            //Check and update new OrderLines
-            if (oldOrder.OrderLineList.Count != order.OrderLineList.Count)
-            {
-                List<OrderLine> newOrderLines = new List<OrderLine>(order.OrderLineList);
-                foreach (OrderLine ol in order.OrderLineList)
-                {
-                    if (ol.OrderLineId > 0)
-                    {
-                        newOrderLines.Remove(ol);
-                        //Update orderLines that were already inserted (Quantity might have changed)
-                        conn.Open();
-                        conn.Execute("UPDATE [OrderLine] SET Quantity = @Quantity WHERE OrderLineId = @OrderLineId",
-                            new { Quantity = ol.Quantity, OrderLineId = ol.OrderLineId });
-                        conn.Close();
-                    }
-                    //It will leave inside newOrderLines only new OrderLines, later to insert
-                }
-                //Insert all newOrderLines
-                foreach (OrderLine orderLine in newOrderLines)
-                {
-                    orderLine.OrderId = order.OrderId;
-                    using (conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
-                    {
-                        conn.Open();
-                        conn.Execute("INSERT INTO [OrderLine] VALUES(@Quantity, @OrderId, @ProductId)",
-                            new { Quantity = orderLine.Quantity, OrderId = orderLine.OrderId, ProductId = orderLine.Product.ProductId });
-                    }
-                }
-            }
+            //Order oldOrder = GetOrderById(order.OrderId);
+            ////Check and update new OrderLines
+            //if (oldOrder.OrderLineList.Count != order.OrderLineList.Count)
+            //{
+            //    List<OrderLine> newOrderLines = new List<OrderLine>(order.OrderLineList);
+            //    foreach (OrderLine ol in order.OrderLineList)
+            //    {
+            //        if (ol.OrderLineId > 0)
+            //        {
+            //            newOrderLines.Remove(ol);
+            //            //Update orderLines that were already inserted (Quantity might have changed)
+            //            conn.Open();
+            //            conn.Execute("UPDATE [OrderLine] SET Quantity = @Quantity WHERE OrderLineId = @OrderLineId",
+            //                new { Quantity = ol.Quantity, OrderLineId = ol.OrderLineId });
+            //            conn.Close();
+            //        }
+            //        //It will leave inside newOrderLines only new OrderLines, later to insert
+            //    }
+            //    //Insert all newOrderLines
+            //    foreach (OrderLine orderLine in newOrderLines)
+            //    {
+            //        orderLine.OrderId = order.OrderId;
+            //        using (conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
+            //        {
+            //            conn.Open();
+            //            conn.Execute("INSERT INTO [OrderLine] VALUES(@Quantity, @OrderId, @ProductId)",
+            //                new { Quantity = orderLine.Quantity, OrderId = orderLine.OrderId, ProductId = orderLine.Product.ProductId });
+            //        }
+            //    }
+            //}
 
             /*
             //Check and update new SnProducts

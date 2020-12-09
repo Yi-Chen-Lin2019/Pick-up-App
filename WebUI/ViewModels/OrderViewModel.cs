@@ -23,26 +23,35 @@ namespace WebUI.ViewModels
             }
         }
 
-        public DateTime pickUpTime { get; set; }
-        public double totalPrice { get; set; }
-        public List<SNProductViewModel> snProductList { get; set; }
-        public List<OrderLineViewModel> orderLineList { get; set; }
+        public DateTime PickUpTime { get; set; }
+        public DateTime OrderedTime { get; set; }
+        public double TotalPrice { get; set; }
+        public UserViewModel Customer { get; set; }
+        public UserViewModel Employee { get; set; }
+        public List<OrderLineViewModel> OrderLineList { get; set; }
 
         public OrderViewModel()
         {
-            snProductList = new List<SNProductViewModel>();
-            orderLineList = new List<OrderLineViewModel>();
-        }
-
-        public void AddSNProduct(SNProductViewModel snProduct)
-        {
-            snProductList.Add(snProduct);
+            OrderLineList = new List<OrderLineViewModel>();
         }
 
         public void AddOrderLine(OrderLineViewModel orderLine)
         {
-            orderLineList.Add(orderLine);
+            OrderLineList.Add(orderLine);
         }
 
+        public Order fromViewModelToOrderModel()
+        {
+            Order o = new Order();
+            foreach (var item in Current.OrderLineList)
+            {
+                OrderLine ol = new OrderLine();
+                ol.Product = new Product();
+                ol.Product.ProductId = item.product.id;
+                ol.Quantity = item.quantity;
+            }
+            o.PickUpTime = Current.PickUpTime;
+            return o;
+        }
     }
 }
