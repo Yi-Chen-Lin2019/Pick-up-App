@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFNav"
         mc:Ignorable="d"
-        Title="PickUpAppEmployeeClient" Height="600" Width="750" Background="AliceBlue"
+        Title="PickUpAppEmployeeClient" WindowState="Maximized" Background="AliceBlue"
         MinWidth="500" MinHeight="500">
     <Grid>
         <Grid.ColumnDefinitions>

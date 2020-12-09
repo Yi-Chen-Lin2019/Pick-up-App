@@ -143,17 +143,16 @@ namespace WPFNav
                     //this is how we get it when we need it later on:
                     //Token token = Application.Current.Resources["TokenInfo"] as Token;
                     //
-                    Application.Current.Resources["TokenInfo"] = await service.Authenticate(username, password);
-
-
-                    MainWindow main = new MainWindow();
-                    main.Show();
-                    this.Close();
-
+                    //var result = Task.Run(async () => await service.Authenticate(username, password)).Result;
+                    Application.Current.Resources["TokenInfo"] = Task.Run(async () => await service.Authenticate(username, password)).Result; 
+                    //Application.Current.Resources["TokenInfo"] = await service.Authenticate(username, password);
+                        MainWindow main = new MainWindow();
+                        main.Show();
+                        this.Close();
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message);
+                    MessageBox.Show(ex.Message + "bad credentials, try again");
                 }
             }
 

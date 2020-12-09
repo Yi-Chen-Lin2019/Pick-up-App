@@ -31,18 +31,35 @@ namespace WPFNav.StartingPoint.ManageNavigation
             LoadCategories();
         }
 
+        private void ClearTextBoxes()
+        {
+            foreach (UIElement ctl in ProductGrid.Children)
+            {
+                if (ctl.GetType() == typeof(TextBox))
+                    ((TextBox)ctl).Text = string.Empty;
+            }
+        }
+
         public async void LoadCategories()
         {
-            List<Category> categoryList = await ls.GetAllCategories();
-            foreach (var category in categoryList)
+            try
             {
-                CategoryList.Items.Add(category);
-                CategoryList.DisplayMemberPath = "CategoryName";
-                CategoryList.SelectedValuePath = "CategoryId";
-                CategoryUpdateList.Items.Add(category);
-                CategoryUpdateList.DisplayMemberPath = "CategoryName";
-                CategoryUpdateList.SelectedValuePath = "CategoryId";
+                List<Category> categoryList = await ls.GetAllCategories();
+                foreach (var category in categoryList)
+                {
+                    CategoryList.Items.Add(category);
+                    CategoryList.DisplayMemberPath = "CategoryName";
+                    CategoryList.SelectedValuePath = "CategoryId";
+                    CategoryUpdateList.Items.Add(category);
+                    CategoryUpdateList.DisplayMemberPath = "CategoryName";
+                    CategoryUpdateList.SelectedValuePath = "CategoryId";
+                }
             }
+            catch 
+            {
+                MessageBox.Show("Please start API project, otherwise application can not get categories");
+            }
+            
         }
         public async void ReadProductsButton_Click(object sender, RoutedEventArgs e)
         {
@@ -72,6 +89,7 @@ namespace WPFNav.StartingPoint.ManageNavigation
                 if (await ls.UpdateProduct(updatedProduct))
                 {
                     MessageBox.Show("done");
+                    ClearTextBoxes();
                 }
                 else
                 {
@@ -80,6 +98,11 @@ namespace WPFNav.StartingPoint.ManageNavigation
 
 
             }
+            else
+            {
+                MessageBox.Show("type in id");
+            }
+
 
         }
 
@@ -109,18 +132,14 @@ namespace WPFNav.StartingPoint.ManageNavigation
                 Category = (Category)CategoryList.SelectedItem
             };
 
-            bool success;
-
                if(await ls.PostProduct(product))
-            {
-                success = true;
+                {
                 MessageBox.Show("done");
-            } else
-            {
-                success = false;
+                ClearTextBoxes();
+                } else
+                {
                 MessageBox.Show("Something went wrong, try using unique barcode");
-            }
-
+                }
 
         }
 

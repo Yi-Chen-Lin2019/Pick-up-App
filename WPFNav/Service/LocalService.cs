@@ -111,6 +111,30 @@ namespace WPFNav.Service
             return productFromService;
         }
 
+        public async Task<Category> GetCategory(string categoryName)
+        {
+            Category categoryFromService;
+            string useRestUrl = _restUrl + "Categories/" + categoryName;
+            var uri = new Uri(string.Format(useRestUrl));
+            try
+            {
+                var response = await _client.GetAsync(uri);
+                if(response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    categoryFromService = JsonConvert.DeserializeObject<Category>(content);
+
+                } else
+                {
+                    throw (new Exception());
+                }
+            } catch (Exception ex)
+            {
+                throw ex;
+            }
+            return categoryFromService;
+        }
+
         public async Task<bool> UpdateOrder(Order order)
         {
             bool PutOk = false;
@@ -141,10 +165,10 @@ namespace WPFNav.Service
         public async Task<bool> UpdateProduct(Product product)
         {
             bool PutOk = false;
-            //string useRestUrl = _restUrl + "Products/" + product.ProductId.ToString();
-            // var uri = new Uri(string.Format(useRestUrl));
-            string url = $"https://localhost:44386/Products/" + product.ProductId.ToString();
-            var uri = new Uri(string.Format(url, string.Empty));
+            string useRestUrl = _restUrl + "Products/" + product.ProductId.ToString();
+            var uri = new Uri(string.Format(useRestUrl));
+            //string url = $"https://localhost:44386/Products/" + product.ProductId.ToString();
+            //var uri = new Uri(string.Format(url, string.Empty));
 
             try
             {
@@ -158,6 +182,31 @@ namespace WPFNav.Service
                 }
 
             } catch
+            {
+                PutOk = false;
+            }
+
+            return PutOk;
+        }
+
+        public async Task<bool> UpdateCategory(Category category)
+        {
+            bool PutOk = false;
+            string useRestUrl = _restUrl + "Categories/" + category.CategoryId.ToString();
+            var uri = new Uri(string.Format(useRestUrl));
+
+            try
+            {
+                var json = JsonConvert.SerializeObject(category);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = null;
+                response = await _client.PutAsync(uri, content);
+                if(response.IsSuccessStatusCode)
+                {
+                    PutOk = true;
+                }
+            } 
+            catch
             {
                 PutOk = false;
             }
@@ -271,6 +320,35 @@ namespace WPFNav.Service
                     PostedOk = false;
                 }
             }
+            catch
+            {
+                PostedOk = false;
+            }
+
+            return PostedOk;
+        }
+
+        public async Task<bool> PostCategory(Category category)
+        {
+            bool PostedOk;
+            string useRestUrl = _restUrl + "Categories";
+            var uri = new Uri(string.Format(useRestUrl));
+            try
+            {
+                var json = JsonConvert.SerializeObject(category);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                HttpResponseMessage response = null;
+                response = await _client.PostAsync(uri, content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    PostedOk = true;
+                } else
+                {
+                    PostedOk = false;
+                }
+            } 
             catch
             {
                 PostedOk = false;
