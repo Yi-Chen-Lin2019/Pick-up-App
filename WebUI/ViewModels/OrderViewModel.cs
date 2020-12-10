@@ -43,14 +43,15 @@ namespace WebUI.ViewModels
         public Order fromViewModelToOrderModel()
         {
             Order o = new Order();
-            foreach (var item in Current.OrderLineList)
+            foreach (var item in OrderLineList)
             {
                 OrderLine ol = new OrderLine();
                 ol.Product = new Product();
                 ol.Product.ProductId = item.product.id;
                 ol.Quantity = item.quantity;
+                o.AddOrderLine(ol);
             }
-            o.PickUpTime = Current.PickUpTime;
+            o.PickUpTime = PickUpTime;
             return o;
         }
     }

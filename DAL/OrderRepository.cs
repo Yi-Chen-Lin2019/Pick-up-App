@@ -98,52 +98,74 @@ namespace DAL
             using (conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
             {
                 conn.Open();
-
-                rowsAffected = conn.Execute("INSERT INTO [Order] VALUES(@PickUpTime, @OrderedTime, @OrderStatus, @TotalPrice, @CustomerId, null, null)",
-                    new { PickUpTime = order.PickUpTime, OrderedTime = order.OrderedTime, OrderStatus = order.OrderStatus, TotalPrice = order.TotalPrice, CustomerId = order.Customer.Id});
-                int id = conn.Query<int>("SELECT @@IDENTITY").SingleOrDefault();
-                order.OrderId = id;
-                order.RowIdBig = conn.Query<int>("SELECT CAST(RowId as bigint) AS RowIdBig from [Order] where OrderId = @OrderId", new { OrderId = order.OrderId }).SingleOrDefault();
-
-            }
-            if (rowsAffected >= 1)
-            {
-                if (order.OrderLineList.Count != 0)
-                {
-                    foreach (var item in order.OrderLineList)
+                SqlTransaction transaction;
+                transaction = (SqlTransaction)conn.BeginTransaction();
+                    try
                     {
-                        item.OrderId = order.OrderId;
-                        var subTotal = InsertOrderLineList(item);
-                        if (subTotal != 0) { order.TotalPrice += subTotal; }
+                        #region insertOrder
+                        rowsAffected = conn.Execute("INSERT INTO [Order] VALUES(@PickUpTime, @OrderedTime, @OrderStatus, @TotalPrice, @CustomerId, null, null)",
+                    new { PickUpTime = order.PickUpTime, OrderedTime = order.OrderedTime, OrderStatus = order.OrderStatus, TotalPrice = order.TotalPrice, CustomerId = order.Customer.Id },
+                    transaction);
+                        int newOrderId = conn.ExecuteScalar<int>("SELECT @@IDENTITY", null, transaction);
+                        order.OrderId = newOrderId;
+                        order.RowIdBig = conn.Query<int>("SELECT CAST(RowId as bigint) AS RowIdBig from [Order] where OrderId = @OrderId", new { OrderId = order.OrderId }, transaction).SingleOrDefault();
+                        #endregion
+
+                        #region insertOrderLines
+                        //if order inserted then we insert orderLines
+                        if (rowsAffected >= 1)
+                        {
+                                if (order.OrderLineList.Count != 0)
+                                {
+                                    ProductRepository productRepository = new ProductRepository();
+                                    foreach (var item in order.OrderLineList)
+                                    {
+                                        item.OrderId = order.OrderId;
+                                        //get the info about the product
+                                        Product productRetrived = conn.Query<Product>("SELECT [ProductId], [ProductName], [Barcode], [ProductPrice], [StockQuantity] ,[RowId], CAST(RowId as bigint) AS RowIdBig FROM [Product] WHERE ProductId =@ProductId", new { ProductId = item.Product.ProductId }, transaction).SingleOrDefault();
+                                        //compare the quantities of item
+                                        if (productRetrived.StockQuantity >= item.Quantity)
+                                        {
+                                                //insert the orderline
+                                                conn.Execute("INSERT INTO [OrderLine] VALUES(@Quantity, @OrderId, @ProductId)",
+                                                new { Quantity = item.Quantity, OrderId = item.OrderId, ProductId = item.Product.ProductId }, transaction);
+                                                //update product stock quantity
+                                                productRetrived.StockQuantity -= item.Quantity;
+                                                rowsAffected = conn.Execute("UPDATE [Product] SET StockQuantity = @StockQuantity WHERE ProductId = @ProductId AND (cast(@OldRowIdBig as binary(8)) = RowId)",
+                                                new { StockQuantity = productRetrived.StockQuantity, ProductId = productRetrived.ProductId, OldRowIdBig = productRetrived.RowIdBig }, transaction);
+                                                order.TotalPrice += productRetrived.ProductPrice * item.Quantity;
+                                        }
+                                        else
+                                        {
+                                            throw new OutOfStockException();
+                                        }
+                                    }
+                                }   
+                        }
+                        #endregion
+
+                        #region updateOrderTotalPrice
+                        int affected = conn.Execute("UPDATE [Order] SET TotalPrice=@TotalPrice WHERE OrderId = @OrderId",
+                               new { TotalPrice = order.TotalPrice, OrderId = order.OrderId }, transaction);
+                        if (affected == 1) 
+                        {
+                           transaction.Commit();
+                           return order; 
+                        } 
+                        else 
+                        {
+                           transaction.Rollback();
+                           throw new Exception();
+                        };
+                        #endregion
+
                     }
-                };
-               // if (order.SnProductList.Count != 0) { order.TotalPrice += InsertSNProductList(order); };
-
-
-
-                using (conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
-                {
-                    conn.Open();
-                    using (var transaction = conn.BeginTransaction())
+                    catch (Exception ex)
                     {
-                        try
-                        {
-                            int affected = conn.Execute("UPDATE [Order] SET TotalPrice=@TotalPrice WHERE OrderId = @OrderId",
-                    new { TotalPrice = order.TotalPrice, OrderId = order.OrderId }, transaction);
-                            transaction.Commit();
-                            if (affected >= 1) { return order; } else { return null; };
-                        }
-                        catch (Exception)
-                        {
-                            transaction.Rollback();
-                            throw;
-                        }
-
-
+                        transaction.Rollback();
+                        throw(ex);
                     }
                 }
-            }
-            else { return null; }
         }
         private decimal InsertOrderLineList(OrderLine orderLine)
         {
