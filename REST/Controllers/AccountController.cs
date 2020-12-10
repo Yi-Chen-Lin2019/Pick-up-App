@@ -29,30 +29,19 @@ namespace REST.Controllers
     {
         private const string LocalLoginProvider = "Local";
         private ApplicationUserManager _userManager;
-        private ApplicationSignInManager _signInManager;
 
         public AccountController()
         {
         }
 
-        public AccountController(ApplicationUserManager userManager,
+        public AccountController(ApplicationUserManager userManager, 
             ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
         {
             UserManager = userManager;
             AccessTokenFormat = accessTokenFormat;
         }
 
-        public ApplicationSignInManager SignInManager
-        {
-            get
-            {
-                return _signInManager ?? Request.GetOwinContext().Get<ApplicationSignInManager>();
-            }
-            private set
-            {
-                _signInManager = value;
-            }
-        }
+        
         private IAuthenticationManager AuthenticationManager
         {
             get
@@ -75,29 +64,7 @@ namespace REST.Controllers
         
         public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; private set; }
 
-        [AllowAnonymous]
-        [Route("Login")]
-        public async Task<IHttpActionResult> LoginAsync(LoginViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                BadRequest(ModelState);
-            }
-            var signinManager = Request.GetOwinContext().Get<ApplicationSignInManager>();
-
-            // This doesn't count login failures towards account lockout
-            // To enable password failures to trigger account lockout, change to shouldLockout: true
-            SignInStatus result =
-                signinManager.PasswordSignIn(model.Email, model.Password, model.RememberMe, false);
-            switch (result)
-            {
-                case SignInStatus.Success:
-                    return Ok();
-                default:
-                    return BadRequest("Login failure.");
-            }
-        }
-
+       
         // GET api/Account/UserInfo
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
         [Route("UserInfo")]
