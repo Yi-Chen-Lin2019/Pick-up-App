@@ -39,6 +39,38 @@ namespace WebUI.Controllers
             }
 
         }
+        // GET: /Account/Login
+        [AllowAnonymous]
+        public ActionResult Login(string returnUrl)
+        {
+            ViewBag.ReturnUrl = returnUrl;
+            return View();
+        }
+
+
+        // POST: /Home/Login
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Login(LoginViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            LocalService service = new LocalService();
+            var result = await service.Authenticate(model.Email, model.Password);
+            if (result != null)
+            {
+                return this.Json(new { success = true, text = "Welcome" });
+            }
+            else
+            {
+                return View(model);
+            }
+
+        }
 
 
 
