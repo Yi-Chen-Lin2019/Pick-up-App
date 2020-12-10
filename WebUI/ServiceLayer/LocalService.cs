@@ -9,6 +9,7 @@ using System.Web;
 using WebUI.ViewModels;
 using System.Web.Script.Serialization;
 using System.Text;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace WebUI.ServiceLayer
 {
@@ -62,6 +63,38 @@ namespace WebUI.ServiceLayer
             }
 
             return registerOk;
+        }
+
+        public async Task<bool> Login(LoginViewModel model, bool shouldLockout)
+        {
+            bool logInOk;
+            string useRestUrl = _restUrl + "api/Account/Login";
+            var uri = new Uri(string.Format(useRestUrl));
+            try
+            {
+                var json = JsonConvert.SerializeObject(model);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                HttpResponseMessage response = null;
+                response = await _client.PostAsync(uri, content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    logInOk = true;
+                }
+                else
+                {
+                    logInOk = false;
+                    throw (new HttpRequestValidationException(response.StatusCode.ToString()));
+                }
+            }
+            catch
+            {
+                logInOk = false;
+            }
+
+            return logInOk;
+
         }
 
         public async Task<Token> Authenticate(string username, string password)

@@ -1,4 +1,5 @@
 ﻿@using System.Web.Optimization;
+@model WebUI.ViewModels.LoginViewModel
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,7 +13,7 @@
 </head>
 <body>
     <script>
-        function redirectToHomePage(){
+        function redirectToHomePage() {
             window.location.href = '/';
         }
         function redirectToShoppingCart() {
@@ -45,7 +46,7 @@
                             <i class="fa fa-search">GO</i>
                         </button>
                     </div>
-                 </div>
+                </div>
                 <div class="cartContainer" onclick="redirectToShoppingCart()">
                     <div class="cartIcon">
                         <img src="~/Content/img/CartIcon.svg" runat="server" style="height: 3rem; width: 3rem;" />
@@ -67,13 +68,22 @@
                         <div class="arrow-up"></div>
                         <div class="formholder">
                             <div class="randompad">
-                                <fieldset>
-                                    <label name="email">Email</label>
-                                    <input type="email" value="example@example.eg" />
-                                    <label name="password">Password</label>
-                                    <input type="password" />
-                                    <input type="submit" value="Login" />
-                                </fieldset>
+                                @using (Html.BeginForm("Login", "Account", FormMethod.Post))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.Email)
+                                        @Html.TextBoxFor(m => m.Email, "", new { @class = "form-control", @placeholder = "Email" })
+
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.Password)
+                                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password" })
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="submit" name="submit" class="btn btn-primary" value="Login" />
+                                    </div>
+                                }
                                 <label id="register" name="register" onclick="redirectToRegister()">Register</label>
                             </div>
                         </div>
