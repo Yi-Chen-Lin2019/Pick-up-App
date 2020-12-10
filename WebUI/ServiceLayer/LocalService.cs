@@ -9,7 +9,6 @@ using System.Web;
 using WebUI.ViewModels;
 using System.Web.Script.Serialization;
 using System.Text;
-using Microsoft.AspNet.Identity.Owin;
 
 namespace WebUI.ServiceLayer
 {
@@ -64,7 +63,6 @@ namespace WebUI.ServiceLayer
 
             return registerOk;
         }
-
         public async Task<Token> Authenticate(string username, string password)
         {
             var data = new FormUrlEncodedContent(new[]
@@ -124,30 +122,8 @@ namespace WebUI.ServiceLayer
             return new UserViewModel(personFromService);
         }
 
-        public async Task<HttpResponseMessage> PostOrder(Order order)
+        public async Task<HttpResponseMessage> PostOrder(OrderViewModel order)
         {
-            //// Create URI
-            //string useRestUrl = _restUrl + "Orders";
-            //var uri = new Uri(string.Format(useRestUrl));
-
-            //try
-            //{
-            //    StringContent content = new StringContent(JsonConvert.SerializeObject(order));
-            //    var response = await _client.PostAsync(uri, content);
-
-            //    if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
-            //    {
-            //        throw (new HttpRequestValidationException(response.StatusCode.ToString()));
-            //    }
-            //    else
-            //    {
-            //        throw (new Exception());
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw ex;
-            //}
             HttpResponseMessage response;
             string useRestUrl = _restUrl + "Orders";
             var uri = new Uri(string.Format(useRestUrl));
@@ -164,7 +140,40 @@ namespace WebUI.ServiceLayer
             }
 
             return response;
-    }
+            /*
+            bool PostedOk;
+            string useRestUrl = _restUrl + "Orders";
+            var uri = new Uri(string.Format(useRestUrl));
+            try
+            {
+                var json = JsonConvert.SerializeObject(order);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                HttpResponseMessage response = null;
+                response = await _client.PostAsync(uri, content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    PostedOk = true;
+                }
+                else if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    PostedOk = false;
+                    throw (new HttpRequestValidationException(response.StatusCode.ToString()));
+                }
+                else
+                {
+                    PostedOk = false;
+                }
+            }
+            catch
+            {
+                PostedOk = false;
+            }
+
+            return PostedOk;
+            */
+        }
 
         public async Task<List<Product>> GetAllProducts()
         {

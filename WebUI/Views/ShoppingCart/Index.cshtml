@@ -15,6 +15,37 @@
                 });
         });
     }
+
+    function updateQuantity(productId, quantity) {
+        $.post('/ShoppingCart/UpdateQuantity',
+            { productId: productId, quantity: quantity }, function (data) {
+                if (data.success) {
+                }
+                else {
+                    alert("Failure!");
+                }
+            });
+    }
+
+    function sendOrder() {
+        var day = document.querySelector("#day").value;
+        var hour = document.querySelector("#hour").value;
+        var minute = document.querySelector("#minute").value;
+
+        $.ajax({
+            type: 'post',
+            url: '@Url.Action("PostOrder","ShoppingCart")',
+            data: {
+                day: day,
+                hour: hour,
+                minute: minute
+            },
+            complete: function (xhr) {
+                alert(xhr.responseJSON.text);
+                location.reload();
+            }
+        });
+    }
 </script>
 
 @if (Model.OrderLineList.Count > 0)
@@ -56,12 +87,10 @@
     </div>
 </div>
 
-    using (Html.BeginForm("PostOrder", "ShoppingCart", FormMethod.Post))
-    {
 <div class="confirm-order-button-container">
-    <input type="submit" value="Confirm Order" id="confirmOrderBtn" />
+    <input type="submit" value="Confirm<br>Order" id="confirmOrderBtn" onclick="sendOrder()"/>
 </div>
-    }
+
 }
 else
 {
@@ -70,34 +99,10 @@ else
 </div>
 }
 
-@*<div>
-    <h4>Order</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.pickUpTime)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.pickUpTime)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.totalPrice)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.totalPrice)
-        </dd>
-
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>*@
 
 <script type="text/javascript">
+
+    //PickUpTime select Box
     var CurrentHour = new Date().getHours();
     var availableHours = new Array();
     for (var i = 6; i <= 23; i++) {

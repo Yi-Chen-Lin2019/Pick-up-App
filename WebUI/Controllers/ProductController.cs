@@ -83,16 +83,16 @@ namespace WebUI.Controllers
             switch (sortOrder)
             {
                 case "price_desc":
-                    prods = prods.OrderByDescending(s => s.price).ToList();
+                    prods = prods.OrderByDescending(s => s.ProductPrice).ToList();
                     break;
                 case "price_asc":
-                    prods = prods.OrderBy(s => s.price).ToList();
+                    prods = prods.OrderBy(s => s.ProductPrice).ToList();
                     break;
                 case "name_asc":
-                    prods = prods.OrderByDescending(s => s.name).ToList();
+                    prods = prods.OrderByDescending(s => s.ProductName).ToList();
                     break;
                 case "name_desc":
-                    prods = prods.OrderBy(s => s.name).ToList();
+                    prods = prods.OrderBy(s => s.ProductName).ToList();
                     break;
                 default:
                     break;
@@ -116,7 +116,7 @@ namespace WebUI.Controllers
         {
             await fetchItemsAsync();
             List<ProductViewModel> prods = products;
-            prods = prods.FindAll(p => p.name.ToLower().Contains(query.ToLower()));
+            prods = prods.FindAll(p => p.ProductName.ToLower().Contains(query.ToLower()));
             IPagedList<ProductViewModel> prodVM = new StaticPagedList<ProductViewModel>(prods,  1, 5, prods.Count());
             return View("Index", new ViewModels.BrowseViewModel() { categories = this.categories, products = prodVM });
         }

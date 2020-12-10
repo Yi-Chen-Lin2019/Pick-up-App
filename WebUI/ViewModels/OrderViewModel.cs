@@ -24,7 +24,6 @@ namespace WebUI.ViewModels
         }
 
         public DateTime PickUpTime { get; set; }
-        public DateTime OrderedTime { get; set; }
         public double TotalPrice { get; set; }
         public UserViewModel Customer { get; set; }
         public UserViewModel Employee { get; set; }
@@ -43,15 +42,14 @@ namespace WebUI.ViewModels
         public Order fromViewModelToOrderModel()
         {
             Order o = new Order();
-            foreach (var item in OrderLineList)
+            foreach (var item in Current.OrderLineList)
             {
                 OrderLine ol = new OrderLine();
                 ol.Product = new Product();
-                ol.Product.ProductId = item.product.id;
-                ol.Quantity = item.quantity;
-                o.AddOrderLine(ol);
+                ol.Product.ProductId = item.Product.ProductId;
+                ol.Quantity = item.Quantity;
             }
-            o.PickUpTime = PickUpTime;
+            o.PickUpTime = Current.PickUpTime;
             return o;
         }
     }
