@@ -34,11 +34,20 @@ namespace REST.Controllers
         {
         }
 
-        public AccountController(ApplicationUserManager userManager,
+        public AccountController(ApplicationUserManager userManager, 
             ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
         {
             UserManager = userManager;
             AccessTokenFormat = accessTokenFormat;
+        }
+
+        
+        private IAuthenticationManager AuthenticationManager
+        {
+            get
+            {
+                return Request.GetOwinContext().Authentication;
+            }
         }
 
         public ApplicationUserManager UserManager
@@ -52,9 +61,10 @@ namespace REST.Controllers
                 _userManager = value;
             }
         }
-
+        
         public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; private set; }
 
+       
         // GET api/Account/UserInfo
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
         [Route("UserInfo")]
@@ -336,14 +346,59 @@ namespace REST.Controllers
                 UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, PhoneNumber = model.PhoneNumber};
             
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
-            UserManager.AddToRole(user.Id, "Customer");
-
+            
             if (!result.Succeeded)
             {
                 return GetErrorResult(result);
-            } 
+            }
 
-            return Ok();
+            UserManager.AddToRole(user.Id, "Customer");
+
+            //send confirm email
+            string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+            var callbackUrl = new Uri(Url.Link("ConfirmEmailRoute", new { userId = user.Id, code = code }));
+            await UserManager.SendEmailAsync(user.Id, "Comfirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+            Uri locationHeader = new Uri(Url.Link("GetUserById", new { id = user.Id }));
+            
+            return Created(locationHeader, TheModelFactory.Create(user));
+        }
+
+        [Authorize(Roles = "Admin")]
+        [Route("user/{id:guid}", Name = "GetUserById")]
+        public async Task<IHttpActionResult> GetUser(string Id)
+        {
+            //Only SuperAdmin or Admin can delete users (Later when implement roles)
+            var user = await this.AppUserManager.FindByIdAsync(Id);
+
+            if (user != null)
+            {
+                return Ok(this.TheModelFactory.Create(user));
+            }
+
+            return NotFound();
+
+        }
+
+        [HttpGet]
+        [Route("ConfirmEmail", Name = "ConfirmEmailRoute")]
+        public async Task<IHttpActionResult> ConfirmEmail(string userId = "", string code = "")
+        {
+            if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(code))
+            {
+                ModelState.AddModelError("", "User Id and Code are required");
+                return BadRequest(ModelState);
+            }
+
+            IdentityResult result = await UserManager.ConfirmEmailAsync(userId, code);
+
+            if (result.Succeeded)
+            {
+                return Ok();
+            }
+            else
+            {
+                return GetErrorResult(result);
+            }
         }
 
         // POST api/Account/RegisterExternal

@@ -63,7 +63,6 @@ namespace WebUI.ServiceLayer
 
             return registerOk;
         }
-
         public async Task<Token> Authenticate(string username, string password)
         {
             var data = new FormUrlEncodedContent(new[]
@@ -86,7 +85,7 @@ namespace WebUI.ServiceLayer
                 }
                 else
                 {
-                    throw (new Exception(response.ReasonPhrase));
+                    return null;
                 }
             }
         }
@@ -123,30 +122,25 @@ namespace WebUI.ServiceLayer
             return new UserViewModel(personFromService);
         }
 
-        public async Task<Boolean> PostOrder(Order order)
+        public async Task<HttpResponseMessage> PostOrder(OrderViewModel order)
         {
-            //// Create URI
-            //string useRestUrl = _restUrl + "Orders";
-            //var uri = new Uri(string.Format(useRestUrl));
-            
-            //try
-            //{
-            //    StringContent content = new StringContent(JsonConvert.SerializeObject(order));
-            //    var response = await _client.PostAsync(uri, content);
+            HttpResponseMessage response;
+            string useRestUrl = _restUrl + "Orders";
+            var uri = new Uri(string.Format(useRestUrl));
+            try
+            {
+                var json = JsonConvert.SerializeObject(order);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            //    if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
-            //    {
-            //        throw (new HttpRequestValidationException(response.StatusCode.ToString()));
-            //    }
-            //    else
-            //    {
-            //        throw (new Exception());
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw ex;
-            //}
+                response = await _client.PostAsync(uri, content);
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+
+            return response;
+            /*
             bool PostedOk;
             string useRestUrl = _restUrl + "Orders";
             var uri = new Uri(string.Format(useRestUrl));
@@ -178,7 +172,8 @@ namespace WebUI.ServiceLayer
             }
 
             return PostedOk;
-    }
+            */
+        }
 
         public async Task<List<Product>> GetAllProducts()
         {

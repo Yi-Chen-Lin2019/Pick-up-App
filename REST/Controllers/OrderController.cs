@@ -94,11 +94,11 @@ namespace REST.Controllers
                 Order result = om.InsertOrder(order);
                 return Ok(result);
             }
-            catch (OutOfStockException oe)
+            catch (OutOfStockException ex)
             {
-                return BadRequest(oe.Message);
+                return Conflict();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return InternalServerError();
             }

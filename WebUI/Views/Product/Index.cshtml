@@ -83,8 +83,8 @@
                 @Html.Partial("~/Views/Product/Details.cshtml", item)
             </div>
             <div class="product-title">
-                <p style="font-size: 20px;">&nbsp @item.name</p>
-                <p style="font-size: 14px;">&nbsp @String.Format("{0:0.00} DKK", item.price)</p>
+                <p style="font-size: 20px;">&nbsp @item.ProductName</p>
+                <p style="font-size: 14px;">&nbsp @String.Format("{0:0.00} DKK", item.ProductPrice)</p>
             </div>
         </div>
     }

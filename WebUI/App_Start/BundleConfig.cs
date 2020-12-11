@@ -36,7 +36,7 @@ namespace WebUI
             BundleResolver.Current = new CustomBundleResolver();
             var commonStyleBundle = new CustomStyleBundle("~/Bundle/sass");
 
-            commonStyleBundle.Include("~/Content/css/main.scss", "~/Content/css/product.scss", "~/Content/css/shoppingCart.scss");
+            commonStyleBundle.Include("~/Content/css/main.scss", "~/Content/css/product.scss", "~/Content/css/shoppingCart.scss","~/Content/css/account.scss");
             commonStyleBundle.Orderer = nullOrderer;
             bundles.Add(commonStyleBundle);
         }

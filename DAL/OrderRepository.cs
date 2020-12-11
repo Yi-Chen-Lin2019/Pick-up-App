@@ -103,7 +103,7 @@ namespace DAL
                     try
                     {
                         #region insertOrder
-                        rowsAffected = conn.Execute("INSERT INTO [Order] VALUES(@PickUpTime, @OrderedTime, @OrderStatus, @TotalPrice, @CustomerId, null, null)",
+                        rowsAffected = conn.Execute("INSERT INTO [Order] VALUES(@OrderedTime, @PickUpTime, @OrderStatus, @TotalPrice, @CustomerId, null, null)",
                     new { PickUpTime = order.PickUpTime, OrderedTime = order.OrderedTime, OrderStatus = order.OrderStatus, TotalPrice = order.TotalPrice, CustomerId = order.Customer.Id },
                     transaction);
                         int newOrderId = conn.ExecuteScalar<int>("SELECT @@IDENTITY", null, transaction);
@@ -155,7 +155,7 @@ namespace DAL
                         else 
                         {
                            transaction.Rollback();
-                           return null; 
+                           throw new Exception();
                         };
                         #endregion
 
@@ -163,7 +163,7 @@ namespace DAL
                     catch (Exception ex)
                     {
                         transaction.Rollback();
-                        return null;
+                        throw(ex);
                     }
                 }
         }
