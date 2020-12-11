@@ -121,7 +121,7 @@ namespace WPFNav
         //    }
         //}
 
-        public async void LoginButton_Click(object sender, RoutedEventArgs e)
+        public void LoginButton_Click(object sender, RoutedEventArgs e)
         {
             string username = usrBox.Text;
             string password = pwdBox.Password.ToString();
