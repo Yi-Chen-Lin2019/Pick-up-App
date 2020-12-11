@@ -85,7 +85,7 @@ namespace WebUI.ServiceLayer
                 }
                 else
                 {
-                    throw (new Exception(response.ReasonPhrase));
+                    return null;
                 }
             }
         }

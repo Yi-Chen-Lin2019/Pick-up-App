@@ -1,5 +1,4 @@
 ﻿@using System.Web.Optimization;
-@model WebUI.ViewModels.LoginViewModel
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,6 +21,11 @@
         function redirectToRegister() {
             window.location.href = '/Account';
         }
+
+        function redirectToProfilePage() {
+            window.location.href = '/Account/Profile';
+        }
+
         function searchProduct() {
             window.location.href = '/Product/Search?query=' + document.querySelector('#searchTerm').value.toLowerCase();
         }
@@ -51,39 +55,59 @@
                     <div class="cartIcon">
                         <img src="~/Content/img/CartIcon.svg" runat="server" style="height: 3rem; width: 3rem;" />
                         <div class="cartPrice">
-                            999999 DKK
+                            @if (Session["Cart"] is null)
+                            {
+                            }
+                            else
+                            {
+                                var cart = (WebUI.ViewModels.OrderViewModel)Session["Cart"];
+                                double cartTotal = 0;
+                                foreach (var item in cart.OrderLineList)
+                                {
+                                    cartTotal += item.Product.ProductPrice * item.Quantity;
+                                }
+                                <label>@cartTotal DKK</label>
+                            }
                         </div>
                     </div>
                 </div>
                 <div class="user-profile-container">
-                    <div class="user-profile-box" onclick="LogInWindowOnClick()">
+                    <div class="user-profile-box">
                         <div class="user-icon">
                             <img src="~/Content/img/UserIcon.svg" runat="server" style="height: 3rem; width: 3rem;" />
                         </div>
-                        <div class="user-name">
-                            LOG IN
-                        </div>
+                        @if (Session["TokenInfo"] is null)
+                        {
+                            <div class="user-name" onclick="LogInWindowOnClick()">
+                                LOG IN
+                            </div>
+                        }
+                        else
+                        {
+                            var token = (WebUI.ViewModels.Token)Session["TokenInfo"];
+                            <div class="user-name" onclick="redirectToProfilePage()">
+                                <label>@token.UserName</label>
+                            </div>
+                        }
                     </div>
                     <div class="login loginDisable" id="login-id">
                         <div class="arrow-up"></div>
                         <div class="formholder">
                             <div class="randompad">
-                                @using (Html.BeginForm("Login", "Account", FormMethod.Post))
-                                {
-                                    @Html.AntiForgeryToken()
-                                    <div class="form-group">
-                                        @Html.LabelFor(m => m.Email)
-                                        @Html.TextBoxFor(m => m.Email, "", new { @class = "form-control", @placeholder = "Email" })
+                                
+                                    <form action="~/Account/Login" method="post">
+                                        @Html.AntiForgeryToken()
 
-                                    </div>
-                                    <div class="form-group">
-                                        @Html.LabelFor(m => m.Password)
-                                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password" })
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="submit" name="submit" class="btn btn-primary" value="Login" />
-                                    </div>
-                                }
+                                        <label for="fname">Email:</label>
+                                        <input type="email" id="Email" name="Email" required><br><br>
+                                        <label for="lname">Password:</label>
+                                        <input type="password" id="Password" name="Password" required><br><br>
+                                        <input type="submit" value="Submit">
+                                    </form>
+                                
+                           
+
+
                                 <label id="register" name="register" onclick="redirectToRegister()">Register</label>
                             </div>
                         </div>

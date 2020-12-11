@@ -56,18 +56,25 @@ namespace WebUI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return View("~/Views/Shared/Error.cshtml");
             }
 
             LocalService service = new LocalService();
-            var result = await service.Authenticate(model.Email, model.Password);
-            if (result != null)
+            try
             {
-                return this.Json(new { success = true, text = "Welcome" });
+                var result = await service.Authenticate(model.Email, model.Password);
+                if (result != null)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    return View("~/Views/Shared/Error.cshtml");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return View(model);
+                return View("~/Views/Shared/Error.cshtml");
             }
 
         }
