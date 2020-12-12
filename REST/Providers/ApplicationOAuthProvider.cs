@@ -39,6 +39,12 @@ namespace REST.Providers
                 return;
             }
 
+            if (!user.EmailConfirmed)
+            {
+                context.SetError("invalid_grant", "Email registration wasn't confirmed.");
+                return;
+            }
+
             ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(userManager,
                OAuthDefaults.AuthenticationType);
             ClaimsIdentity cookiesIdentity = await user.GenerateUserIdentityAsync(userManager,

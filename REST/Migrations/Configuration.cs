@@ -31,7 +31,8 @@
                 UserName = "superadmin@pickup.com",
                 Email = "superadmin@pickup.com",
                 FirstName = "Group 4",
-                LastName = "dmaj0919"
+                LastName = "dmaj0919",
+                EmailConfirmed = true
             };
 
             manager.Create(user, "Pwd123!");
@@ -44,7 +45,7 @@
             }
 
             var adminUser = manager.FindByEmail("superadmin@pickup.com");
-
+            
             manager.AddToRoles(adminUser.Id, new string[] { "Admin", "Employee", "Customer" });
             base.Seed(context);
         }

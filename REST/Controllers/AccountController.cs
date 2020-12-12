@@ -358,27 +358,10 @@ namespace REST.Controllers
             string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
             var callbackUrl = new Uri(Url.Link("ConfirmEmailRoute", new { userId = user.Id, code = code }));
             await UserManager.SendEmailAsync(user.Id, "Comfirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-            //Uri locationHeader = new Uri(Url.Link("GetUserById", new { id = user.Id }));
-
-            //return Created(locationHeader, TheModelFactory.Create(user));
+            
             return Ok();
         }
 
-        [Authorize(Roles = "Admin")]
-        [Route("user/{id:guid}", Name = "GetUserById")]
-        public async Task<IHttpActionResult> GetUser(string Id)
-        {
-            //Only SuperAdmin or Admin can delete users (Later when implement roles)
-            var user = await this.AppUserManager.FindByIdAsync(Id);
-
-            if (user != null)
-            {
-                return Ok(this.TheModelFactory.Create(user));
-            }
-
-            return NotFound();
-
-        }
 
         [HttpGet]
         [AllowAnonymous]
