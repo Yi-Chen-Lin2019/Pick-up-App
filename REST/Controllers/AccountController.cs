@@ -358,9 +358,10 @@ namespace REST.Controllers
             string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
             var callbackUrl = new Uri(Url.Link("ConfirmEmailRoute", new { userId = user.Id, code = code }));
             await UserManager.SendEmailAsync(user.Id, "Comfirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-            Uri locationHeader = new Uri(Url.Link("GetUserById", new { id = user.Id }));
-            
-            return Created(locationHeader, TheModelFactory.Create(user));
+            //Uri locationHeader = new Uri(Url.Link("GetUserById", new { id = user.Id }));
+
+            //return Created(locationHeader, TheModelFactory.Create(user));
+            return Ok();
         }
 
         [Authorize(Roles = "Admin")]
@@ -380,6 +381,7 @@ namespace REST.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         [Route("ConfirmEmail", Name = "ConfirmEmailRoute")]
         public async Task<IHttpActionResult> ConfirmEmail(string userId = "", string code = "")
         {
@@ -392,8 +394,8 @@ namespace REST.Controllers
             IdentityResult result = await UserManager.ConfirmEmailAsync(userId, code);
 
             if (result.Succeeded)
-            {
-                return Ok();
+            {              
+                return Ok("Welcome!");
             }
             else
             {

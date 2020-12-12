@@ -31,7 +31,7 @@ namespace REST.Models
                 Email = appUser.Email,
                 EmailConfirmed = appUser.EmailConfirmed,
                 Roles = _AppUserManager.GetRolesAsync(appUser.Id).Result,
-                Claims = _AppUserManager.GetClaimsAsync(appUser.Id).Result
+                //Claims = _AppUserManager.GetClaimsAsync(appUser.Id).Result
             };
 
         }
@@ -58,10 +58,8 @@ namespace REST.Models
         public string FullName { get; set; }
         public string Email { get; set; }
         public bool EmailConfirmed { get; set; }
-        public int Level { get; set; }
-        public DateTime JoinDate { get; set; }
         public IList<string> Roles { get; set; }
-        public IList<System.Security.Claims.Claim> Claims { get; set; }
+        //public IList<System.Security.Claims.Claim> Claims { get; set; }
 
     }
 
