@@ -3,18 +3,20 @@ using BusinessLayer;
 using DAL;
 using Microsoft.AspNet.Identity;
 using Model;
+using REST.Services;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 
 namespace REST.Controllers
 {
-    public class OrderController : ApiController
+    public class OrderController : BaseApiController
     {
         /// <summary>
         /// Get all  orders. 
@@ -79,7 +81,7 @@ namespace REST.Controllers
         [HttpPost]
         [Authorize(Roles = "Customer")]
         [ResponseType(typeof(Order))]
-        public IHttpActionResult Post([FromBody] Order order)
+        public async Task<IHttpActionResult> PostAsync([FromBody] Order order)
         {
             try
             {
@@ -92,6 +94,12 @@ namespace REST.Controllers
                 order.OrderStatus = "Received";
                 OrderManagement om = new OrderManagement();
                 Order result = om.InsertOrder(order);
+
+                //send confirm email
+                await AppUserManager.SendEmailAsync(
+                    order.Customer.Id, "Your Order Confirmation",
+                    "Hello " + order.Customer.FirstName + " " + order.Customer.LastName + " ! "+
+                    "Thank you for your order, your order is received and it is now being processed");
                 return Ok(result);
             }
             catch (OutOfStockException ex)
@@ -116,7 +124,7 @@ namespace REST.Controllers
         [HttpPut]
         [Authorize(Roles = "Employee")]
         [ResponseType(typeof(Order))]
-        public IHttpActionResult Put(int orderID, [FromBody] Order order)
+        public async Task<IHttpActionResult> PutAsync(int orderID, [FromBody] Order order)
         {
             bool result = false;
             if (orderID != order.OrderId || null == order) { return BadRequest(); };
@@ -132,6 +140,12 @@ namespace REST.Controllers
             }
             if (result)
             {
+                //send update email
+                await AppUserManager.SendEmailAsync(
+                    order.Customer.Id, "Your order status",
+                    "Hello " + order.Customer.FirstName + " " + order.Customer.LastName + " ! " +
+                    "Order ID: " + order.OrderId +
+                    " is now " + order.OrderStatus);
                 return Ok();
             }
             else
