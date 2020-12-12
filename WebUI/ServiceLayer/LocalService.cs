@@ -33,6 +33,37 @@ namespace WebUI.ServiceLayer
             }
         }
 
+        public async Task<bool> GetUserOrders()
+        {
+            // Create URI
+            string useRestUrl = _restUrl + "Orders";
+            var uri = new Uri(string.Format(useRestUrl));
+            //
+            try
+            {
+                var response = await _client.GetAsync(uri);
+                if (response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    UserViewModel.Current.Orders = JsonConvert.DeserializeObject<List<OrderViewModel>>(content);
+                    List<OrderViewModel> orders = UserViewModel.Current.Orders;
+                }
+                else if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    throw (new HttpRequestValidationException(response.StatusCode.ToString()));
+                }
+                else
+                {
+                    throw (new Exception());
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return true;
+        }
+
         public async Task<bool> Register(RegisterViewModel registeration)
         {
             bool registerOk;

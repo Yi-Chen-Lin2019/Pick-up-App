@@ -22,8 +22,9 @@ namespace WebUI.ViewModels
                 return cart;
             }
         }
-
+        public DateTime OrderedTime { get; set; }
         public DateTime PickUpTime { get; set; }
+        public String OrderStatus { get; set; }
         public double TotalPrice { get; set; }
         public UserViewModel Customer { get; set; }
         public UserViewModel Employee { get; set; }

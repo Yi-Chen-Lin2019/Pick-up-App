@@ -17,9 +17,30 @@ namespace WebUI.Controllers
             return View();
         }
 
-        public ActionResult Profile()
+        public async Task<ActionResult> orders()
         {
-            return View();
+            await GetUserOrders();
+            return View((UserViewModel)UserViewModel.Current);
+        }
+        public ActionResult user()
+        {
+            return View((UserViewModel)UserViewModel.Current);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> GetUserOrders()
+        {
+            LocalService service = new LocalService();
+            Boolean result = await service.GetUserOrders();
+
+            if (result)
+            {
+                return this.Json(new { success = true, text = "Orders loaded correctly." });
+            }
+            else
+            {
+                return this.Json(new { success = false, text = "Couldn't get the orders." });
+            }
         }
 
         // POST: Account/Register

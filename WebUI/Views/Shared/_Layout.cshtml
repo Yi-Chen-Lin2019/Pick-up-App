@@ -57,6 +57,7 @@
                         <div class="cartPrice">
                             @if (Session["Cart"] is null)
                             {
+                            <p>0 DKK</p>
                             }
                             else
                             {
@@ -66,19 +67,19 @@
                                 {
                                     cartTotal += item.Product.ProductPrice * item.Quantity;
                                 }
-                                <label>@cartTotal DKK</label>
+                                <p>@cartTotal DKK</p>
                             }
                         </div>
                     </div>
                 </div>
                 <div class="user-profile-container">
-                    <div class="user-profile-box">
+                    <div class="user-profile-box" onclick="LogInWindowOnClick()">
                         <div class="user-icon">
                             <img src="~/Content/img/UserIcon.svg" runat="server" style="height: 3rem; width: 3rem;" />
                         </div>
                         @if (Session["TokenInfo"] is null)
                         {
-                            <div class="user-name" onclick="LogInWindowOnClick()">
+                            <div class="user-name">
                                 LOG IN
                             </div>
                         }
@@ -99,10 +100,10 @@
                                         @Html.AntiForgeryToken()
 
                                         <label for="fname">Email:</label>
-                                        <input type="email" id="Email" name="Email" required><br><br>
+                                        <input type="email" id="Email" name="Email" required>
                                         <label for="lname">Password:</label>
-                                        <input type="password" id="Password" name="Password" required><br><br>
-                                        <input type="submit" value="Submit">
+                                        <input type="password" id="Password" name="Password" required>
+                                        <input type="submit" value="Log In">
                                     </form>
                                 
                            

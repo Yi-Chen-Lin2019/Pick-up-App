@@ -1,0 +1,33 @@
+﻿@model WebUI.ViewModels.OrderViewModel
+
+<div class="order-container">
+    <div class="order-box">
+        <div class="time-box">
+            <div class="ordered-time">
+                Ordered Time:
+                @Model.OrderedTime.ToString()
+            </div>
+            <div class="pick-up-time">
+                Pick-Up Time:
+                @Model.PickUpTime.ToString()
+            </div>
+        </div>
+        <div class="price-status-box">
+            <div class="total-price">
+                Total Price:
+                @Model.TotalPrice.ToString() DKK
+            </div>
+            <div class="status">
+                Status:
+                @Model.OrderStatus.ToString()
+            </div>
+        </div>
+        <div class="view-btn">
+            <p>View</p>
+        </div>
+        <div class="order-again-btn">
+            <p>Order Again</p>
+        </div>
+    </div>
+</div>
+

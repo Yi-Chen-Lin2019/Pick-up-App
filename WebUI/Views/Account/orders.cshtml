@@ -1,0 +1,20 @@
+﻿@model WebUI.ViewModels.UserViewModel
+
+@Html.Partial("~/Views/Account/options.cshtml")
+<div class="option-view-container">
+    @{ 
+        if(Model != null)
+        {
+            foreach (var item in Model.Orders)
+            {
+                @Html.Partial("~/Views/Account/orderPartial.cshtml", item)
+            }
+        }
+        else
+        {
+            <p style="font-size: 24px; font-family: 'Lato', sans-serif">User Not Logged In</p>
+        }
+    }
+</div>
+
+
