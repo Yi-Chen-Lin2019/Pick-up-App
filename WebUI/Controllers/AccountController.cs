@@ -26,18 +26,26 @@ namespace WebUI.Controllers
         [HttpPost]
         public async Task<ActionResult> Register(RegisterViewModel register)
         {
-            LocalService service = new LocalService();
-            var result = await service.Register(register);
-
-            if (result) {
-                return this.Json(new { success = true, text = "Welcome!" });
-            }
-            else
+            if (ModelState.IsValid)
             {
-                return this.Json(new { success = false, text = "Register fail!" });
+                LocalService service = new LocalService();
+                var result = await service.Register(register);
+
+                if (result)
+                {
+                    ViewBag.Message = "Check your email and confirm your account, you must be confirmed "
+                            + "before you can log in.";
+                    //return View("Info");
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    return this.Json(new { success = false, text = "Register fail!" });
+                }
 
             }
-
+            // If we got this far, something failed, redisplay form
+            return View(register);
         }
         // GET: /Account/Login
         [AllowAnonymous]
