@@ -50,6 +50,7 @@
 
 @if (Model.OrderLineList.Count > 0)
 {
+
     @*PRODUCT_LIST*@
     <div class="product-item-container">
 
@@ -60,55 +61,55 @@
 
     </div>
 
-    <div class="pick-up-time-container" id="pick-up-time-container">
-        <div class="pick-up-time-box">
-            <div class="pick-up-time-text">Select Pick Up Time:</div>
-            <div class="pick-up-time-select">
-                <form class="pick-up-time-form" id="pick-up-time-form">
-                    <select name="day" id="day" onchange="updateHourSelectBox(this)">
-                        <option value="Today">Today</option>
-                        <option value="Tomorrow">Tomorrow</option>
-                        <option value="Days2">2 Days</option>
-                        <option value="Days3">3 Days</option>
-                        <option value="Days4">4 Days</option>
-                        <option value="Days5">5 Days</option>
-                    </select>
-                    <select name="hour" id="hour">
-                        <!--populated using JavaScript-->
-                    </select>
-                    <select name="minute" id="minute">
-                        <option value="00">00</option>
-                        <option value="15">15</option>
-                        <option value="30">30</option>
-                        <option value="45">45</option>
-                    </select>
-                </form>
+    <div class="order-finalize-container">
+        <div class="pick-up-time-container" id="pick-up-time-container">
+            <div class="pick-up-time-box">
+                <div class="pick-up-time-text">Select Pick Up Time:</div>
+                <div class="pick-up-time-select">
+                    <form class="pick-up-time-form" id="pick-up-time-form">
+                        <select name="day" id="day" onchange="updateHourSelectBox(this)">
+                            <option value="Today">Today</option>
+                            <option value="Tomorrow">Tomorrow</option>
+                            <option value="Days2">2 Days</option>
+                            <option value="Days3">3 Days</option>
+                            <option value="Days4">4 Days</option>
+                            <option value="Days5">5 Days</option>
+                        </select>
+                        <select name="hour" id="hour">
+                            <!--populated using JavaScript-->
+                        </select>
+                        <select name="minute" id="minute">
+                            <option value="00">00</option>
+                            <option value="15">15</option>
+                            <option value="30">30</option>
+                            <option value="45">45</option>
+                        </select>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
-        
-        if (Session["TokenInfo"] is null)
+
+        @if (Session["TokenInfo"] is null)
         {
-        <div class="confirm-order-button-container">
-            <div id="confirmOrderBtn" style="width: 120px; margin-left: 8rem;">You must log in to finish ordering.</div>
-        </div>
+            <div class="confirm-order-button-container">
+                <div id="confirmOrderBtn" style="width: 120px; margin-left: 8rem;">You must log in to finish ordering.</div>
+            </div>
         }
         else
         {
-        <div class="confirm-order-button-container">
-            <input type="submit" value="Confirm Order" id="confirmOrderBtn" onclick="sendOrder()" />
-        </div>
+            <div class="confirm-order-button-container">
+                <input type="submit" value="Confirm Order" id="confirmOrderBtn" onclick="sendOrder()" />
+            </div>
         }
-        
-
-
-}
-                    else
-                    {
-    <div class="col-sm-10">
-        <div style="font-family: 'Lato', sans-serif; font-size: 24px; vertical-align: middle; text-align: center;">You have no products in your cart.</div>
     </div>
 }
+else
+{
+<div class="col-sm-10">
+    <div style="font-family: 'Lato', sans-serif; font-size: 24px; vertical-align: middle; text-align: center;">You have no products in your cart.</div>
+</div>
+}
+
 
 
 <script type="text/javascript">

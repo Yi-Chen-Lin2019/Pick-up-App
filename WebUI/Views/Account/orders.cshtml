@@ -2,8 +2,9 @@
 
 @Html.Partial("~/Views/Account/options.cshtml")
 <div class="option-view-container">
-    @{ 
-        if(Model != null)
+    <h2>Order History</h2>
+    @{
+        if (Model != null)
         {
             foreach (var item in Model.Orders)
             {
@@ -16,5 +17,19 @@
         }
     }
 </div>
+
+<script>
+    function orderAgain(orderId) {
+        $.post('/Account/OrderAgain',
+            { orderId: orderId }, function (data) {
+                if (data.success) {
+                    window.location.href = '/ShoppingCart';
+                }
+                else {
+                    alert("Failure!");
+                }
+        });
+    }
+</script>
 
 

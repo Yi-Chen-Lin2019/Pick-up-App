@@ -43,6 +43,25 @@ namespace WebUI.Controllers
             }
         }
 
+        [HttpPost]
+        public ActionResult OrderAgain(int orderId)
+        {
+            Boolean result = false;
+            foreach(OrderViewModel i in UserViewModel.Current.Orders)
+            {
+                if (i.OrderId == orderId) { Session["Cart"] = i; result = true; }
+            }
+
+            if (result)
+            {
+                return this.Json(new { success = true, text = "Cart is now ready to order again." });
+            }
+            else
+            {
+                return this.Json(new { success = false, text = "Failure." });
+            }
+        }
+
         // POST: Account/Register
         [HttpPost]
         public async Task<ActionResult> Register(RegisterViewModel register)

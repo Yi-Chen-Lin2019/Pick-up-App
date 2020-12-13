@@ -63,10 +63,14 @@
 
 }
 
+.order-finalize-container{
+    position: absolute;
+    left: 72%;
+    height: 30rem;
+    width: 20rem;
+}
 .pick-up-time-container {
     position: relative;
-    float: left;
-    width: 29%;
 
     .pick-up-time-box {
         position: relative;
@@ -106,12 +110,12 @@
 .confirm-order-button-container {
     top: 1.8rem;
     position: relative;
-    float: left;
-    width: 29%;
     text-align: center;
     #confirmOrderBtn{
+        white-space: normal;
         width: 8rem;
         height: 4rem;
         font-size: 18px;
+        word-wrap: break-word;
     }
 }

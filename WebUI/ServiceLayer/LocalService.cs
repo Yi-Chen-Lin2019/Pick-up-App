@@ -36,7 +36,7 @@ namespace WebUI.ServiceLayer
         public async Task<bool> GetUserOrders()
         {
             // Create URI
-            string useRestUrl = _restUrl + "Orders";
+            string useRestUrl = _restUrl + "Orders/UserId";
             var uri = new Uri(string.Format(useRestUrl));
             //
             try
