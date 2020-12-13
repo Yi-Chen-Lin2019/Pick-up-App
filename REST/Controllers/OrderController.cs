@@ -43,6 +43,34 @@ namespace REST.Controllers
             }
         }
 
+        /// <summary>
+        /// Get specific customer's orders. 
+        /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="userId">Put in user ID.</param>
+        /// <returns>List&lt;Order&gt;</returns>
+        /// <response code = "200">Orders found</response>
+        [Route("Orders/UserId")]
+        [HttpGet]
+        [Authorize(Roles = "Customer")]
+        [ResponseType(typeof(IEnumerable<Order>))]
+        public IHttpActionResult GetMyOrder()
+        {  
+            try
+                {
+                    OrderManagement om = new OrderManagement();
+                    IEnumerable<Order> foundOrders = om.GetMyOrders(RequestContext.Principal.Identity.GetUserId());
+                    return Ok(foundOrders);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    return InternalServerError();
+                }
+
+                
+        }
+
 
         /// <summary>
         /// By passing in the order ID, you can get the order of the order ID in the system. 
