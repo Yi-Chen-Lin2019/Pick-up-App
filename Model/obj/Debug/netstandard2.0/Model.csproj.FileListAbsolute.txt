@@ -33,3 +33,12 @@ C:\Users\kidsk\OneDrive\桌面\sprint1_main\Model\obj\Debug\netstandard2.0\Model
 C:\Users\kidsk\OneDrive\桌面\sprint1_main\Model\obj\Debug\netstandard2.0\Model.dll
 C:\Users\kidsk\OneDrive\桌面\sprint1_main\Model\obj\Debug\netstandard2.0\Model.pdb
 C:\Users\kidsk\OneDrive\桌面\sprint1_main\Model\obj\Debug\netstandard2.0\Model.csprojAssemblyReference.cache
+C:\Users\kidsk\OneDrive\桌面\branches\sprint4\Pick-up-App_sprint4\Model\bin\Debug\netstandard2.0\Model.deps.json
+C:\Users\kidsk\OneDrive\桌面\branches\sprint4\Pick-up-App_sprint4\Model\bin\Debug\netstandard2.0\Model.dll
+C:\Users\kidsk\OneDrive\桌面\branches\sprint4\Pick-up-App_sprint4\Model\bin\Debug\netstandard2.0\Model.pdb
+C:\Users\kidsk\OneDrive\桌面\branches\sprint4\Pick-up-App_sprint4\Model\obj\Debug\netstandard2.0\Model.csprojAssemblyReference.cache
+C:\Users\kidsk\OneDrive\桌面\branches\sprint4\Pick-up-App_sprint4\Model\obj\Debug\netstandard2.0\Model.AssemblyInfoInputs.cache
+C:\Users\kidsk\OneDrive\桌面\branches\sprint4\Pick-up-App_sprint4\Model\obj\Debug\netstandard2.0\Model.AssemblyInfo.cs
+C:\Users\kidsk\OneDrive\桌面\branches\sprint4\Pick-up-App_sprint4\Model\obj\Debug\netstandard2.0\Model.csproj.CoreCompileInputs.cache
+C:\Users\kidsk\OneDrive\桌面\branches\sprint4\Pick-up-App_sprint4\Model\obj\Debug\netstandard2.0\Model.dll
+C:\Users\kidsk\OneDrive\桌面\branches\sprint4\Pick-up-App_sprint4\Model\obj\Debug\netstandard2.0\Model.pdb

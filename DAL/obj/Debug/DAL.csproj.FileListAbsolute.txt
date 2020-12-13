@@ -73,3 +73,15 @@ C:\Users\kidsk\OneDrive\桌面\sprint1_main\DAL\obj\Debug\DAL.csproj.CoreCompile
 C:\Users\kidsk\OneDrive\桌面\sprint1_main\DAL\obj\Debug\DAL.csproj.CopyComplete
 C:\Users\kidsk\OneDrive\桌面\sprint1_main\DAL\obj\Debug\DAL.exe
 C:\Users\kidsk\OneDrive\桌面\sprint1_main\DAL\obj\Debug\DAL.pdb
+C:\Users\kidsk\OneDrive\桌面\branches\sprint4\Pick-up-App_sprint4\DAL\bin\Debug\DAL.exe.config
+C:\Users\kidsk\OneDrive\桌面\branches\sprint4\Pick-up-App_sprint4\DAL\bin\Debug\DAL.exe
+C:\Users\kidsk\OneDrive\桌面\branches\sprint4\Pick-up-App_sprint4\DAL\bin\Debug\DAL.pdb
+C:\Users\kidsk\OneDrive\桌面\branches\sprint4\Pick-up-App_sprint4\DAL\bin\Debug\Dapper.dll
+C:\Users\kidsk\OneDrive\桌面\branches\sprint4\Pick-up-App_sprint4\DAL\bin\Debug\Model.dll
+C:\Users\kidsk\OneDrive\桌面\branches\sprint4\Pick-up-App_sprint4\DAL\bin\Debug\Model.pdb
+C:\Users\kidsk\OneDrive\桌面\branches\sprint4\Pick-up-App_sprint4\DAL\bin\Debug\Dapper.xml
+C:\Users\kidsk\OneDrive\桌面\branches\sprint4\Pick-up-App_sprint4\DAL\obj\Debug\DAL.csprojAssemblyReference.cache
+C:\Users\kidsk\OneDrive\桌面\branches\sprint4\Pick-up-App_sprint4\DAL\obj\Debug\DAL.csproj.CoreCompileInputs.cache
+C:\Users\kidsk\OneDrive\桌面\branches\sprint4\Pick-up-App_sprint4\DAL\obj\Debug\DAL.csproj.CopyComplete
+C:\Users\kidsk\OneDrive\桌面\branches\sprint4\Pick-up-App_sprint4\DAL\obj\Debug\DAL.exe
+C:\Users\kidsk\OneDrive\桌面\branches\sprint4\Pick-up-App_sprint4\DAL\obj\Debug\DAL.pdb

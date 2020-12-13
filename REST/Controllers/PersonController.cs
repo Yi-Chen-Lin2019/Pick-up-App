@@ -60,22 +60,19 @@ namespace REST.Controllers
         /// By passing in the username, you can get the person of the username in the system. 
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="userName">Put in person username.</param>
         /// <returns>List&lt;Person&gt;</returns>
         /// <response code = "200">Person found</response>
         /// <response code = "404">Person not found</response>
-        [Route("Person/UserName")]
+        [Route("Person/UserId")]
         [HttpGet]
         [Authorize(Roles = "Customer")]
         [ResponseType(typeof(Person))]
-        public IHttpActionResult Get(String userName)
+        public IHttpActionResult GetMyInfo()
         {
-            if (RequestContext.Principal.Identity.GetUserName().Equals(userName))
-            {
-                try
+               try
                 {
                     PersonManagement pm = new PersonManagement();
-                    Person result = pm.GetPersonByUserName(userName);
+                    Person result = pm.GetPersonByUserName(RequestContext.Principal.Identity.GetUserName());
                     return Ok(result);
                 }
                 catch (Exception e)
@@ -83,11 +80,7 @@ namespace REST.Controllers
                     Console.WriteLine(e);
                     return InternalServerError();
                 }
-            } else
-            {
-                return BadRequest();
-            }
-                
+             
         }
 
         /// <summary>
