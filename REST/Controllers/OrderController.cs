@@ -47,6 +47,7 @@ namespace REST.Controllers
         /// Get specific customer's orders. 
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="userId">Put in user ID.</param>
         /// <returns>List&lt;Order&gt;</returns>
         /// <response code = "200">Orders found</response>
         [Route("Orders/UserId")]
