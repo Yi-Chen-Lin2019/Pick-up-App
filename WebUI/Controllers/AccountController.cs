@@ -110,20 +110,46 @@ namespace WebUI.Controllers
 
 
 
-        // POST: Account/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        // GET: Account/Edit
+        [HttpGet]
+        public async Task<ActionResult> Edit()
         {
+            UserViewModel userViewModel;
             try
             {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
+                LocalService service = new LocalService();
+                userViewModel = await service.GetUserInfo();
+                Session["User"] = userViewModel;
             }
             catch
             {
-                return View();
+                throw new Exception("not logged in or couldn't be found");
             }
+            return View(userViewModel);
+        }
+
+        // POST: Account/Edit
+        [HttpPost]
+        public async Task<ActionResult> Edit(UserViewModel userViewModel)
+        {
+            try
+            {
+                LocalService service = new LocalService();
+
+                if(await service.PutUserInfo(userViewModel.transformToPerson()))
+                {
+                    Session["User"] = userViewModel;
+                }
+                else
+                {
+                    throw new Exception("failed to update");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return View(userViewModel);
         }
 
     }

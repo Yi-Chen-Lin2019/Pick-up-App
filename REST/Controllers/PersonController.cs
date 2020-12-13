@@ -63,7 +63,7 @@ namespace REST.Controllers
         /// <returns>List&lt;Person&gt;</returns>
         /// <response code = "200">Person found</response>
         /// <response code = "404">Person not found</response>
-        [Route("Person/UserId")]
+        [Route("Person/Info")]
         [HttpGet]
         [Authorize(Roles = "Customer")]
         [ResponseType(typeof(Person))]
@@ -73,7 +73,7 @@ namespace REST.Controllers
                 try
                 {
                     PersonManagement pm = new PersonManagement();
-                    Person result = pm.GetPersonByUserName(RequestContext.Principal.Identity.GetUserId());
+                    Person result = pm.GetPersonById(RequestContext.Principal.Identity.GetUserId());
                     return Ok(result);
                 }
                 catch (Exception e)
@@ -93,19 +93,21 @@ namespace REST.Controllers
         /// <param name="person">Person to update</param>
         /// <returns></returns>
         /// <response code = "200">Person updated</response>
-        [Route("Person/{personID}")]
+        [Route("Person/UpdateInfo")]
         [HttpPut]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Customer")]
         [ResponseType(typeof(Person))]
-        public IHttpActionResult Put(string personID, [FromBody] Person person)
+        public IHttpActionResult Put([FromBody] Person person)
         {
-            if (personID != person.Id || null == person) { return BadRequest(); };
+            if ( null == person) { return BadRequest(); };
             try
             {
+                person.Id = RequestContext.Principal.Identity.GetUserId();
+                person.UserName = RequestContext.Principal.Identity.GetUserName();
                 PersonManagement pm = new PersonManagement();
                 bool result = pm.UpdatePerson(person);
             }
-            catch (SqlException)
+            catch (SqlException ex)
             {
 
                 return InternalServerError();

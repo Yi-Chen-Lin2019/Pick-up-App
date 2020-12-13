@@ -121,12 +121,39 @@ namespace WebUI.ServiceLayer
             }
         }
 
-        public async Task<UserViewModel> GetPersonById(string id)
+        public async Task<bool> PutUserInfo(Person person)
+        {
+                bool PutOk = false;
+                string useRestUrl = _restUrl + "/Person/UpdateInfo";
+                var uri = new Uri(string.Format(useRestUrl, string.Empty));
+
+                try
+                {
+                    var json = JsonConvert.SerializeObject(person);
+                    var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                    HttpResponseMessage response = null;
+                    response = await _client.PutAsync(uri, content);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        PutOk = true;
+                    }
+                }
+                catch
+                {
+                    PutOk = false;
+                }
+
+            return PutOk;
+        }
+
+        public async Task<UserViewModel> GetUserInfo()
         {
             Person personFromService;
 
             // Create URI
-            string useRestUrl = _restUrl + "Persons/"+id.ToString();
+            string useRestUrl = _restUrl + "Person/Info";
             var uri = new Uri(string.Format(useRestUrl));
             //
             try
