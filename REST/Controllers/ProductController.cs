@@ -95,10 +95,7 @@ namespace REST.Controllers
         {
             try
             {
-                if (null == product)
-                {
-                    throw new Exception();
-                }
+                if (null == product){ return BadRequest();}
                 ProductManagement pm = new ProductManagement();
                 Product result = pm.InsertProduct(product);
                 return Ok(result);
