@@ -86,7 +86,7 @@ namespace WebUI.Controllers
 
         // GET: ShoppingCart/Create
         [HttpPost]
-        public ActionResult AddToCart(int productId, double price, string name, string image)
+        public ActionResult AddToCart(int productId, double price, string name, string ImageUrl)
         {
             shoppingCart = OrderViewModel.Current;
 
@@ -94,7 +94,7 @@ namespace WebUI.Controllers
 
             product.ProductId = productId;
             product.ProductName = name;
-            product.image = image;
+            product.ImageUrl = ImageUrl;
             product.ProductPrice = price;
 
             bool isInCart = false;
