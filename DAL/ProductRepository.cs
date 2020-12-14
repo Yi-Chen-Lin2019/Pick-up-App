@@ -213,7 +213,7 @@ namespace DAL
         public Product GetProductById(int productId)
         {
             conn.Open();
-            Product result = conn.Query<Product>("SELECT [ProductId], [ProductName], [Barcode], [ProductPrice], [StockQuantity] ,[RowId], CAST(RowId as bigint) AS RowIdBig FROM [Product] WHERE ProductId =@ProductId", new { ProductId = productId }).SingleOrDefault();
+            Product result = conn.Query<Product>("SELECT Product.[ProductId], [ProductName], [Barcode], [ProductPrice], [StockQuantity], [ImageUrl], [RowId], CAST(RowId as bigint) AS RowIdBig FROM [Product] LEFT JOIN [ProductImage] ON Product.ProductId = ProductImage.ProductId WHERE Product.ProductId =@ProductId", new { ProductId = productId }).SingleOrDefault();
             if (result == null) { conn.Close(); return null; }
             result.Category = conn.Query<Category>("SELECT [Category].[CategoryId], [Category].[CategoryName] FROM [Category] INNER JOIN [Product] ON [Category].[CategoryId] = [Product].[CategoryId] WHERE [Product].[ProductId]=@ProductId", new { ProductId = productId }).SingleOrDefault();
             conn.Close();
@@ -254,19 +254,38 @@ namespace DAL
 
         public Product InsertProduct(Product product)
         {
-            conn.Open();
             int rowsAffected = 0;
-            try {
-                rowsAffected = conn.Execute(@"INSERT INTO [Product] VALUES(@ProductName, @Barcode, @ProductPrice, @StockQuantity, @CategoryId, null)",
-              new { ProductName = product.ProductName, Barcode = product.Barcode, ProductPrice = product.ProductPrice, StockQuantity = product.StockQuantity, CategoryId = product.Category.CategoryId });
-                product.ProductId = conn.Query<int>("SELECT @@IDENTITY").FirstOrDefault();
+            using (conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
+            {
+                conn.Open();
+                using (var transaction = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        rowsAffected = conn.Execute(@"INSERT INTO [Product] VALUES(@ProductName, @Barcode, @ProductPrice, @StockQuantity, @CategoryId, null)",
+                        new { ProductName = product.ProductName, Barcode = product.Barcode, ProductPrice = product.ProductPrice, StockQuantity = product.StockQuantity, CategoryId = product.Category.CategoryId }, transaction);
+                        product.ProductId = conn.Query<int>("SELECT @@IDENTITY", null,transaction).FirstOrDefault();
+                        rowsAffected += conn.Execute(@"INSERT INTO [ProductImage] VALUES(@ImageUrl, @ProductId)", new { ImageUrl = product.ImageUrl, ProductId = product.ProductId }, transaction);
+                        if (rowsAffected == 2) { 
+                            transaction.Commit();
+                            return product; }
+                        else
+                        {
+                            transaction.Rollback();
+                            return null;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+
+                        Console.WriteLine(ex.Message);
+                        transaction.Rollback();
+                    }
+
+                }
+
             }
-            catch(NullReferenceException) { Debug.WriteLine("Product didn't have category variable."); }
-
-            conn.Close();
-
-            if (rowsAffected >= 1) { return product; }
-            else { return null; }
+            return null;
         }
 
         public bool UpdateProduct(Product product)
@@ -281,8 +300,16 @@ namespace DAL
                     {
                         rowsAffected = conn.Execute("UPDATE [Product] SET ProductName = @ProductName, Barcode = @Barcode, ProductPrice = @ProductPrice, StockQuantity = @StockQuantity, CategoryId = @CategoryId WHERE ProductId = @ProductId AND (cast(@OldRowIdBig as binary(8)) = RowId)",
                             new { ProductName = product.ProductName, Barcode = product.Barcode, ProductPrice = product.ProductPrice, StockQuantity = product.StockQuantity, CategoryId = product.Category.CategoryId, ProductId = product.ProductId, OldRowIdBig = product.RowIdBig }, transaction);
-
-                        transaction.Commit();
+                        rowsAffected += conn.Execute("UPDATE [ProductImage] SET ImageUrl = @ImageUrl WHERE ProductId = @ProductId", new { ImageUrl = product.ImageUrl, ProductId = product.ProductId}, transaction);
+                        if (rowsAffected == 2) {
+                            transaction.Commit();
+                            return true; }
+                        else
+                        {
+                            transaction.Rollback();
+                            return false;
+                        }
+                        
                     }
                     catch (Exception ex)
                     {
@@ -291,10 +318,11 @@ namespace DAL
                         transaction.Rollback();
 
                     }
+                   
                 }
             }
-            if (rowsAffected >= 1) { return true; }
-            else { return false; }
+            return false;
+            
         }
 
     }
