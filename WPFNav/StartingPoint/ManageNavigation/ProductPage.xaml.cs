@@ -25,6 +25,7 @@ namespace WPFNav.StartingPoint.ManageNavigation
     public partial class ProductPage : Page
     {
         LocalService ls = new LocalService();
+        Product product;
         public ProductPage()
         {
             InitializeComponent();
@@ -65,43 +66,76 @@ namespace WPFNav.StartingPoint.ManageNavigation
         {
             //List<Product> productList;
             //LocalService ls = new LocalService();
+            ProductList.Items.Clear();
             List<Product> productList = await ls.GetAllProducts();
-
-            ProductList.ItemsSource = productList;   
+            foreach (var item in productList)
+            {
+                ListViewItem listViewItem = new ListViewItem();
+                listViewItem.Content = item.ToString();
+                listViewItem.Uid = item.ProductId.ToString();
+                ProductList.Items.Add(listViewItem);
+            }
+            //ProductList.ItemsSource = productList;   
         }
 
         
         public async void UpdateProductButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!String.IsNullOrWhiteSpace(ProductIdUpdateBox.Text))
+
+            LocalService service = new LocalService();
+            product.ImageUrl = ProductImageUpdateBox.Text;
+            product.ProductId = int.Parse(ProductIdUpdateBox.Text);
+            product.ProductName = ProductNameUpdateBox.Text;
+            product.Barcode = int.Parse(BarcodeUpdateBox.Text);
+            product.ProductPrice = decimal.Parse(PriceUpdateBox.Text);
+            product.StockQuantity = int.Parse(StockQuantityUpdateBox.Text);
+            if (CategoryUpdateList.SelectedItem == null)
             {
-                Product updatedProduct = await ls.GetProduct(int.Parse(ProductIdUpdateBox.Text));
-                if(updatedProduct != null)
-                {
-                    updatedProduct.ProductId = int.Parse(ProductIdUpdateBox.Text);
-                    updatedProduct.ProductName = ProductNameUpdateBox.Text;
-                    updatedProduct.Barcode = int.Parse(BarcodeUpdateBox.Text);
-                    updatedProduct.ProductPrice = decimal.Parse(PriceUpdateBox.Text);
-                    updatedProduct.StockQuantity = int.Parse(StockQuantityUpdateBox.Text);
-                    updatedProduct.Category = (Category)CategoryUpdateList.SelectedItem;
-                };
-
-                if (await ls.UpdateProduct(updatedProduct))
-                {
-                    MessageBox.Show("done");
-                    ClearTextBoxes();
-                }
-                else
-                {
-                    MessageBox.Show("Something went wrong");
-                }
-
-
+                MessageBox.Show("choose category");
             }
             else
             {
-                MessageBox.Show("type in id");
+                product.Category = (Category)CategoryUpdateList.SelectedItem;
+                if (await service.UpdateProduct(this.product))
+                {
+                    MessageBox.Show("updated successfully");
+                }
+                else
+                {
+                    MessageBox.Show("failed to update. please try again");
+                }
+                ReadProductsButton_Click(null, null);
             }
+
+            //if (!String.IsNullOrWhiteSpace(ProductIdUpdateBox.Text))
+            //{
+            //    Product updatedProduct = await ls.GetProduct(int.Parse(ProductIdUpdateBox.Text));
+            //    if(updatedProduct != null)
+            //    {
+            //        updatedProduct.ProductId = int.Parse(ProductIdUpdateBox.Text);
+            //        updatedProduct.ProductName = ProductNameUpdateBox.Text;
+            //        updatedProduct.Barcode = int.Parse(BarcodeUpdateBox.Text);
+            //        updatedProduct.ProductPrice = decimal.Parse(PriceUpdateBox.Text);
+            //        updatedProduct.StockQuantity = int.Parse(StockQuantityUpdateBox.Text);
+            //        updatedProduct.Category = (Category)CategoryUpdateList.SelectedItem;
+            //    };
+
+            //    if (await ls.UpdateProduct(updatedProduct))
+            //    {
+            //        MessageBox.Show("done");
+            //        ClearTextBoxes();
+            //    }
+            //    else
+            //    {
+            //        MessageBox.Show("Something went wrong");
+            //    }
+
+
+            //}
+            //else
+            //{
+            //    MessageBox.Show("type in id");
+            //}
 
 
         }
@@ -125,6 +159,7 @@ namespace WPFNav.StartingPoint.ManageNavigation
 
             Product product = new Product
             {
+                ImageUrl = ProductImageBox.Text,
                 ProductName = ProductNameBox.Text,
                 Barcode = int.Parse(BarcodeBox.Text),
                 ProductPrice = decimal.Parse(PriceBox.Text),
@@ -141,6 +176,28 @@ namespace WPFNav.StartingPoint.ManageNavigation
                 MessageBox.Show("Something went wrong, try using unique barcode");
                 }
 
+        }
+
+        private void ProductList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ListView v = (ListView)sender;
+            if (v.HasItems)
+            {
+                ListViewItem selectedItem = (ListViewItem)e.AddedItems[0];
+                loadProduct(int.Parse(selectedItem.Uid));
+            }
+        }
+
+        private async void loadProduct(int productId)
+        {
+            LocalService service = new LocalService();
+            product = await service.GetProduct(productId);
+            ProductIdUpdateBox.Text = product.ProductId.ToString();
+            ProductNameUpdateBox.Text = product.ProductName;
+            BarcodeUpdateBox.Text = product.Barcode.ToString();
+            PriceUpdateBox.Text = product.ProductPrice.ToString();
+            StockQuantityUpdateBox.Text = product.StockQuantity.ToString();
+            CategoryUpdateList.SelectedItem = product.Category;
         }
 
     }

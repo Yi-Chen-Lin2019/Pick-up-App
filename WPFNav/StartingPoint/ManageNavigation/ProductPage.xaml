@@ -49,14 +49,37 @@
                    VerticalAlignment="Center"
                    Grid.ColumnSpan="2"/>
 
-        <TextBlock x:Name="UpdateProductText" Text="Update product" Grid.Column="7"
-                   Grid.Row="1" Margin="5 5 5 5" FontSize="20" 
-                   TextWrapping="WrapWithOverflow"
-                   HorizontalAlignment="Center"
+        <TextBlock x:Name="ProductImageUpdate" Grid.Column="7"
+                   Grid.Row="1"
+                   Text="Product new image link:"
+                   HorizontalAlignment="Left"
                    VerticalAlignment="Center"
-                   Grid.ColumnSpan="2"/>
+                   TextWrapping="WrapWithOverflow"
+                   FontSize="15"/>
+
+        <TextBox x:Name="ProductImageUpdateBox" Grid.Column="8"
+                 Grid.Row="1"
+                 Text=""
+                 Margin="5 25 5 25"
+                 TextWrapping="WrapWithOverflow"
+                 />
 
         <!--Row 2-->
+        <TextBlock x:Name="ProductImage" Grid.Column="1"
+                   Grid.Row="2"
+                   Text="Product image link:"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Center"
+                   TextWrapping="WrapWithOverflow"
+                   FontSize="15"/>
+
+        <TextBox x:Name="ProductImageBox" Grid.Column="2"
+                 Grid.Row="2"
+                 Text=""
+                 Margin="5 25 5 25"
+                 TextWrapping="WrapWithOverflow"
+                 />
+        
         <TextBlock x:Name="ProductIdUpdate" Grid.Column="7"
                    Grid.Row="2"
                    Text="ProductId:"
@@ -68,7 +91,8 @@
                  Grid.Row="2"
                  Text=""
                  Margin="5 25 5 25"
-                 TextWrapping="WrapWithOverflow"/>
+                 TextWrapping="WrapWithOverflow"
+                 IsReadOnly="True"/>
         
         <!--Row 3-->
         <TextBlock x:Name="ProductName" Grid.Column="1"
@@ -135,7 +159,8 @@
                   Grid.Column="4"
                   Grid.ColumnSpan="2"
                   Grid.RowSpan="2"
-                  Grid.Row="4"></ListView>
+                  Grid.Row="4"
+                  SelectionChanged="ProductList_SelectionChanged"></ListView>
 
         <!--Row 5-->
         <TextBlock x:Name="Price" Grid.Column="1"

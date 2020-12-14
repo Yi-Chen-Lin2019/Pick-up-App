@@ -83,7 +83,6 @@ namespace WPFNav
 
         private void OrderList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var senderis = sender.ToString();
                 ListBox s = (ListBox)sender;
                 if (s.HasItems)
                 {
