@@ -14,5 +14,6 @@ namespace DAL
         Order GetOrderById(int id);
         Order InsertOrder(Order order);
         bool UpdateOrder(Order order);
+        List<Order> GetOrderByCustomerId(String customerId);
     }
 }

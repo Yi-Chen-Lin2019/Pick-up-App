@@ -39,5 +39,11 @@ namespace BusinessLayer
             IOrderRepository pRepo = new OrderRepository();
             return pRepo.GetOrderById(orderID);
         }
+
+        public IEnumerable<Order> GetMyOrders(string customerId)
+        {
+            IOrderRepository pRepo = new OrderRepository();
+            return pRepo.GetOrderByCustomerId(customerId);
+        }
     }
 }

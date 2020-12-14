@@ -23,10 +23,6 @@ namespace WebUI.Controllers
         [HttpPost]
         public async Task<ActionResult> PostOrder(String day, int hour, int minute)
         {
-            //TODO remove authentication from here
-
-            LocalService serviceA = new LocalService();
-            Token token = await serviceA.Authenticate("superadmin@pickup.com", "Pwd123!");
             LocalService service = new LocalService();
 
             //Making pickUpTime

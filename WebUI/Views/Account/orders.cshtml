@@ -1,0 +1,35 @@
+﻿@model WebUI.ViewModels.UserViewModel
+
+@Html.Partial("~/Views/Account/options.cshtml")
+<div class="option-view-container">
+    <h2>Order History</h2>
+    @{
+        if (Model != null)
+        {
+            foreach (var item in Model.Orders)
+            {
+                @Html.Partial("~/Views/Account/orderPartial.cshtml", item)
+            }
+        }
+        else
+        {
+            <p style="font-size: 24px; font-family: 'Lato', sans-serif">User Not Logged In</p>
+        }
+    }
+</div>
+
+<script>
+    function orderAgain(orderId) {
+        $.post('/Account/OrderAgain',
+            { orderId: orderId }, function (data) {
+                if (data.success) {
+                    window.location.href = '/ShoppingCart';
+                }
+                else {
+                    alert("Failure!");
+                }
+        });
+    }
+</script>
+
+

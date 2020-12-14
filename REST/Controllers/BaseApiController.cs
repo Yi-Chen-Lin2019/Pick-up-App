@@ -12,7 +12,7 @@ namespace REST.Controllers
 {
     public class BaseApiController : ApiController
     {
-        private ModelFactory _modelFactory;
+        
         private ApplicationUserManager _AppUserManager = null;
         private ApplicationRoleManager _AppRoleManager = null;
 
@@ -36,17 +36,6 @@ namespace REST.Controllers
         {
         }
 
-        protected ModelFactory TheModelFactory
-        {
-            get
-            {
-                if (_modelFactory == null)
-                {
-                    _modelFactory = new ModelFactory(this.Request, this.AppUserManager);
-                }
-                return _modelFactory;
-            }
-        }
 
         protected IHttpActionResult GetErrorResult(IdentityResult result)
         {
