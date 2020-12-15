@@ -117,7 +117,11 @@ namespace DAL
                                         item.OrderId = order.OrderId;
                                         //get the info about the product
                                         Product productRetrived = conn.Query<Product>("SELECT [ProductId], [ProductName], [Barcode], [ProductPrice], [StockQuantity] ,[RowId], CAST(RowId as bigint) AS RowIdBig FROM [Product] WHERE ProductId =@ProductId", new { ProductId = item.Product.ProductId }, transaction).SingleOrDefault();
-                                        //compare the quantities of item
+                                //check if quantity is valid
+                                if (item.Quantity < 1)
+                                {
+                                    throw new Exception("quantity cannot be lower than 1");
+                                }
                                         if (productRetrived.StockQuantity >= item.Quantity)
                                         {
                                                 //insert the orderline
