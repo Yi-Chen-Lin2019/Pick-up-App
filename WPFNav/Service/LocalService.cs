@@ -35,7 +35,6 @@ namespace WPFNav.Service
 
         public async Task<Token> Authenticate(string username, string password)
         {
-            System.Net.ServicePointManager.ServerCertificateValidationCallback = (senderX, certificate, chain, sslPolicyErrors) => { return true; };
             var data = new FormUrlEncodedContent(new[]
             {
                 new KeyValuePair<string, string>("grant_type", "password"),
@@ -217,7 +216,6 @@ namespace WPFNav.Service
         public async Task<List<Order>> GetAllOrders()
         {
             List<Order> ordersFromService;
-            System.Net.ServicePointManager.ServerCertificateValidationCallback = (senderX, certificate, chain, sslPolicyErrors) => { return true; };
             // Create URI
             string useRestUrl = _restUrl + "Orders";
             var uri = new Uri(string.Format(useRestUrl));
@@ -245,7 +243,6 @@ namespace WPFNav.Service
         public async Task<List<Product>> GetAllProducts()
         {
             List<Product> productsFromService;
-            System.Net.ServicePointManager.ServerCertificateValidationCallback = (senderX, certificate, chain, sslPolicyErrors) => { return true; };
             // Create URI
             string useRestUrl = _restUrl + "Products";
             var uri = new Uri(string.Format(useRestUrl));
@@ -273,7 +270,6 @@ namespace WPFNav.Service
         public async Task<List<Category>> GetAllCategories()
         {
             List<Category> catsFromService;
-            System.Net.ServicePointManager.ServerCertificateValidationCallback = (senderX, certificate, chain, sslPolicyErrors) => { return true; };
             // Create URI
             string useRestUrl = _restUrl + "Categories";
             var uri = new Uri(string.Format(useRestUrl));
