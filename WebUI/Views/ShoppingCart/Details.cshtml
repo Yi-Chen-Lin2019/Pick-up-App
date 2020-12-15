@@ -1,7 +1,7 @@
 ﻿@model WebUI.ViewModels.OrderLineViewModel
 
 <div class="shopping-cart-product-container">
-    <div class="product-image" style="background-image: url(https://homepages.cae.wisc.edu/~ece533/images/zelda.png); background-repeat: no-repeat"></div>
+    <div class="product-image" style="background-image: url(@Model.Product.ImageUrl); background-repeat: no-repeat"></div>
     <div class="product-name-remove">
         <div class="product-name">
             <b>@Html.DisplayFor(model => model.Product.ProductName)</b>

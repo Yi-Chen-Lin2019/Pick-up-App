@@ -10,7 +10,7 @@ namespace WebUI.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            return RedirectToAction("Index", "Product");
         }
 
         public ActionResult About()

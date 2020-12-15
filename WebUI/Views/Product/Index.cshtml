@@ -58,11 +58,11 @@
 </div>
 
 <script>
-    function addToCart(productId, price, name, image) {
+    function addToCart(productId, price, name, ImageUrl) {
 
         $(function () {
             $.post('/ShoppingCart/AddToCart',
-                { productId: productId, price: price, name: name, image: image }, function (data) {
+                { productId: productId, price: price, name: name, ImageUrl: ImageUrl }, function (data) {
                     if (data.success) {
                         alert("Item added to cart.");
                     }
