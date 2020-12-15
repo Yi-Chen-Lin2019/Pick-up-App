@@ -91,53 +91,21 @@ namespace WPFNav.StartingPoint.ManageNavigation
             product.StockQuantity = int.Parse(StockQuantityUpdateBox.Text);
             if (CategoryUpdateList.SelectedItem == null)
             {
-                MessageBox.Show("choose category");
+                MessageBox.Show("Choose category");
             }
             else
             {
                 product.Category = (Category)CategoryUpdateList.SelectedItem;
                 if (await service.UpdateProduct(this.product))
                 {
-                    MessageBox.Show("updated successfully");
+                    MessageBox.Show("Updated successfully");
                 }
                 else
                 {
-                    MessageBox.Show("failed to update. please try again");
+                    MessageBox.Show("Failed to update. Please try again");
                 }
                 ReadProductsButton_Click(null, null);
             }
-
-            //if (!String.IsNullOrWhiteSpace(ProductIdUpdateBox.Text))
-            //{
-            //    Product updatedProduct = await ls.GetProduct(int.Parse(ProductIdUpdateBox.Text));
-            //    if(updatedProduct != null)
-            //    {
-            //        updatedProduct.ProductId = int.Parse(ProductIdUpdateBox.Text);
-            //        updatedProduct.ProductName = ProductNameUpdateBox.Text;
-            //        updatedProduct.Barcode = int.Parse(BarcodeUpdateBox.Text);
-            //        updatedProduct.ProductPrice = decimal.Parse(PriceUpdateBox.Text);
-            //        updatedProduct.StockQuantity = int.Parse(StockQuantityUpdateBox.Text);
-            //        updatedProduct.Category = (Category)CategoryUpdateList.SelectedItem;
-            //    };
-
-            //    if (await ls.UpdateProduct(updatedProduct))
-            //    {
-            //        MessageBox.Show("done");
-            //        ClearTextBoxes();
-            //    }
-            //    else
-            //    {
-            //        MessageBox.Show("Something went wrong");
-            //    }
-
-
-            //}
-            //else
-            //{
-            //    MessageBox.Show("type in id");
-            //}
-
-
         }
 
 
@@ -145,11 +113,12 @@ namespace WPFNav.StartingPoint.ManageNavigation
         {
             if (String.IsNullOrWhiteSpace(ProductIdBox.Text))
             {
-                MessageBox.Show("type in id");
+                MessageBox.Show("Type in Id.");
             }
             else
             {
                 Product product = await ls.GetProduct(int.Parse(ProductIdBox.Text));
+                product = await loadProduct(int.Parse(ProductIdBox.Text));
                 ProductByIdBox.Text = product.ToString();
             }
         }
@@ -169,36 +138,36 @@ namespace WPFNav.StartingPoint.ManageNavigation
 
                if(await ls.PostProduct(product))
                 {
-                MessageBox.Show("done");
+                MessageBox.Show("Product created.");
                 ClearTextBoxes();
                 } else
                 {
-                MessageBox.Show("Something went wrong, try using unique barcode");
+                MessageBox.Show("Something went wrong.");
                 }
 
         }
 
-        private void ProductList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void ProductList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ListView v = (ListView)sender;
             if (v.HasItems)
             {
                 ListViewItem selectedItem = (ListViewItem)e.AddedItems[0];
-                loadProduct(int.Parse(selectedItem.Uid));
+               product = await loadProduct(int.Parse(selectedItem.Uid));
             }
         }
 
-        private async void loadProduct(int productId)
+        private async Task<Product> loadProduct(int productId)
         {
             LocalService service = new LocalService();
-            product = await service.GetProduct(productId);
-            ProductIdUpdateBox.Text = product.ProductId.ToString();
-            ProductNameUpdateBox.Text = product.ProductName;
-            BarcodeUpdateBox.Text = product.Barcode.ToString();
-            PriceUpdateBox.Text = product.ProductPrice.ToString();
-            StockQuantityUpdateBox.Text = product.StockQuantity.ToString();
-            CategoryUpdateList.SelectedItem = product.Category;
+            Product productById = await service.GetProduct(productId);
+            ProductIdUpdateBox.Text = productById.ProductId.ToString();
+            ProductNameUpdateBox.Text = productById.ProductName;
+            BarcodeUpdateBox.Text = productById.Barcode.ToString();
+            PriceUpdateBox.Text = productById.ProductPrice.ToString();
+            StockQuantityUpdateBox.Text = productById.StockQuantity.ToString();
+            CategoryUpdateList.SelectedItem = productById.Category;
+            return productById;
         }
-
     }
 }

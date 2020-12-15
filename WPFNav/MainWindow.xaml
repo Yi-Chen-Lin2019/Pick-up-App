@@ -22,6 +22,9 @@
             <RowDefinition  Height="10"/>
         </Grid.RowDefinitions>
 
+        <Border Grid.Row="2" Grid.ColumnSpan="100" Grid.RowSpan="100" BorderBrush="Black" 
+        BorderThickness="1,1,1,1" Background="{x:Null}" />
+
         <!--Row 1-->
         <TextBlock x:Name="HomeText" Grid.Column="1" Grid.Row="1"
                    FontSize="30"

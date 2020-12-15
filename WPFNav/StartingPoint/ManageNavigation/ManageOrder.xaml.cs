@@ -36,6 +36,7 @@ namespace WPFNav
         {
             LocalService service = new LocalService();
             orders = await service.GetAllOrders();
+            orders = orders.OrderByDescending(x => x.OrderId).ToList();
             OrderList.Items.Clear();
             foreach (var item in orders)
             {
@@ -66,16 +67,34 @@ namespace WPFNav
 
         private async void UpdateOrderButton_Click(object sender, RoutedEventArgs e)
         {
-            this.order.OrderStatus = OrderStatusList.SelectedValue.ToString();
-            LocalService service = new LocalService();
-            if (await service.UpdateOrder(this.order))
+           
+            try
             {
-                OrderInfo.Text = "updated successfully";
+                if (null == OrderStatusList.SelectedValue)
+                {
+                    MessageBox.Show("Status not selected");
+                    throw new Exception("Not selected status");
+                }
+                this.order.OrderStatus = OrderStatusList.SelectedValue.ToString();
+                LocalService service = new LocalService();
+                if (await service.UpdateOrder(this.order))
+                {
+                    MessageBox.Show("Updated successfully");
+                    OrderInfo.Text = "";
+                    //OrderInfo.Text = "Updated successfully";
+                }
+                else
+                {
+                    MessageBox.Show("Failed to update. Please try again");
+
+                    // OrderInfo.Text = "failed to update. please try again";
+                }
             }
-            else
+            catch (Exception ex)
             {
-                OrderInfo.Text = "failed to update. please try again";
+                MessageBox.Show("Failed to update. Please try again");
             }
+           
             OrderStatusList.Visibility = Visibility.Hidden;
             UpdateOrderButton.Visibility = Visibility.Hidden;
             loadOrders();

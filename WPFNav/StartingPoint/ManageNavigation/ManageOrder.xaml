@@ -23,11 +23,21 @@
             <RowDefinition  Height="Auto"/>
             <RowDefinition  Height="20"/>
         </Grid.RowDefinitions>
-        <TextBlock Text="Orders (id, status):"
-                   Grid.Column="1" Grid.Row="1"
-                   />
+        <Border Grid.Column="2" Grid.RowSpan="10" BorderBrush="Black" 
+        BorderThickness="1,0,1,0" Background="{x:Null}" />
+        <TextBlock x:Name="SelectOrderText" Text="Orders (id, status)" Grid.Column="0"
+                   Grid.Row="1" Margin="5 5 5 5" FontSize="20" 
+                   TextWrapping="WrapWithOverflow"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Grid.ColumnSpan="2"/>
+
+
+        <!--<TextBlock Text="Orders (id, status):"
+                   Grid.Column="1" Grid.Row="2"
+                   />-->
         <ListBox x:Name="OrderList"
-                 Grid.Column="1" Grid.Row="2"
+                 Grid.Column="1" Grid.Row="2" Grid.RowSpan="5"
                  SelectionChanged="OrderList_SelectionChanged"
                   >
             

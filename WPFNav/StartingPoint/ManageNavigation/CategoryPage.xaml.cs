@@ -46,7 +46,7 @@ namespace WPFNav.StartingPoint.ManageNavigation
 
             if (await ls.PostCategory(category))
             {
-                MessageBox.Show("done");
+                MessageBox.Show("Done");
                 ClearTextBoxes();
             }
             else
@@ -66,7 +66,7 @@ namespace WPFNav.StartingPoint.ManageNavigation
             int parsedValue;
             if (String.IsNullOrWhiteSpace(OldCategoryNameBox.Text) || int.TryParse(OldCategoryNameBox.Text, out parsedValue))
             {
-                MessageBox.Show("type in name");
+                MessageBox.Show("Type in Name");
             } 
             else
             {
@@ -78,7 +78,7 @@ namespace WPFNav.StartingPoint.ManageNavigation
 
                 if (await ls.UpdateCategory(updatedCategory))
                 {
-                    MessageBox.Show("done");
+                    MessageBox.Show("Done");
                     ClearTextBoxes();
                 }
                 else
@@ -93,7 +93,7 @@ namespace WPFNav.StartingPoint.ManageNavigation
             int parsedValue;
             if (String.IsNullOrWhiteSpace(ReadCategoryNameBox.Text) || int.TryParse(ReadCategoryNameBox.Text, out parsedValue))
             {
-                MessageBox.Show("type in name");
+                MessageBox.Show("Type in name");
             }
             else
             {

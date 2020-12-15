@@ -316,7 +316,7 @@ namespace WPFNav.Service
                     PostedOk = false;
                 }
             }
-            catch
+            catch (Exception ex)
             {
                 PostedOk = false;
             }
