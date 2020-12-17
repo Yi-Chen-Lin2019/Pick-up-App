@@ -26,6 +26,7 @@ namespace WPFNav.StartingPoint.ManageNavigation
     {
         LocalService ls = new LocalService();
         Product product;
+        List<Product> productList = new List<Product>();
         public ProductPage()
         {
             InitializeComponent();
@@ -62,67 +63,9 @@ namespace WPFNav.StartingPoint.ManageNavigation
             }
             
         }
-        public async void ReadProductsButton_Click(object sender, RoutedEventArgs e)
-        {
-            //List<Product> productList;
-            //LocalService ls = new LocalService();
-            ProductList.Items.Clear();
-            List<Product> productList = await ls.GetAllProducts();
-            foreach (var item in productList)
-            {
-                ListViewItem listViewItem = new ListViewItem();
-                listViewItem.Content = item.ToString();
-                listViewItem.Uid = item.ProductId.ToString();
-                ProductList.Items.Add(listViewItem);
-            }
-            //ProductList.ItemsSource = productList;   
-        }
-
-        
-        public async void UpdateProductButton_Click(object sender, RoutedEventArgs e)
-        {
-
-            LocalService service = new LocalService();
-            product.ImageUrl = ProductImageUpdateBox.Text;
-            product.ProductId = int.Parse(ProductIdUpdateBox.Text);
-            product.ProductName = ProductNameUpdateBox.Text;
-            product.Barcode = int.Parse(BarcodeUpdateBox.Text);
-            product.ProductPrice = decimal.Parse(PriceUpdateBox.Text);
-            product.StockQuantity = int.Parse(StockQuantityUpdateBox.Text);
-            if (CategoryUpdateList.SelectedItem == null)
-            {
-                MessageBox.Show("Choose category");
-            }
-            else
-            {
-                product.Category = (Category)CategoryUpdateList.SelectedItem;
-                if (await service.UpdateProduct(this.product))
-                {
-                    MessageBox.Show("Updated successfully");
-                }
-                else
-                {
-                    MessageBox.Show("Failed to update. Please try again");
-                }
-                ReadProductsButton_Click(null, null);
-            }
-        }
 
 
-        public async void ReadProductById_Click(object sender, RoutedEventArgs e)
-        {
-            if (String.IsNullOrWhiteSpace(ProductIdBox.Text))
-            {
-                MessageBox.Show("Type in Id.");
-            }
-            else
-            {
-                Product product = await ls.GetProduct(int.Parse(ProductIdBox.Text));
-                product = await loadProduct(int.Parse(ProductIdBox.Text));
-                ProductByIdBox.Text = product.ToString();
-            }
-        }
-
+        #region CreateProduct
         public async void CreateProductButton_Click(object sender, RoutedEventArgs e)
         {
 
@@ -136,31 +79,69 @@ namespace WPFNav.StartingPoint.ManageNavigation
                 Category = (Category)CategoryList.SelectedItem
             };
 
-               if(await ls.PostProduct(product))
-                {
+            if (await ls.PostProduct(product))
+            {
                 MessageBox.Show("Product created.");
                 ClearTextBoxes();
-                } else
-                {
+            }
+            else
+            {
                 MessageBox.Show("Something went wrong.");
-                }
+            }
 
         }
 
+        #endregion
+        #region ReadProducts
+        public async void ReadProductsButton_Click(object sender, RoutedEventArgs e)
+        {
+            await getAllProductsAsync();
+            repopulateProductList();
+        }
+        private void repopulateProductList()
+        {
+            ProductList.Items.Clear();
+            foreach (var item in productList)
+            {
+                ListViewItem listViewItem = new ListViewItem();
+                listViewItem.Content = item.ToString();
+                listViewItem.Uid = item.ProductId.ToString();
+                ProductList.Items.Add(listViewItem);
+            }
+        }
+        private async Task<List<Product>> getAllProductsAsync()
+        {
+            return productList = await ls.GetAllProducts();
+        }
+        public async void FilterProductsByName_Click(object sender, RoutedEventArgs e)
+        {
+            if (String.IsNullOrWhiteSpace(ProductNameFilterBox.Text))
+            {
+                MessageBox.Show("Type in text");
+            }
+            else
+            {
+                IEnumerable<Product> possibleSuspects = await getAllProductsAsync();
+                possibleSuspects = possibleSuspects.Where(p => p.ToString().ToLower().Contains(ProductNameFilterBox.Text.ToLower()));
+                productList = possibleSuspects.ToList();
+                repopulateProductList();
+            }
+        }
         private async void ProductList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ListView v = (ListView)sender;
             if (v.HasItems)
             {
                 ListViewItem selectedItem = (ListViewItem)e.AddedItems[0];
-               product = await loadProduct(int.Parse(selectedItem.Uid));
+                product = await loadProduct(int.Parse(selectedItem.Uid));
             }
         }
 
+        #endregion
+        #region UpdateProduct
         private async Task<Product> loadProduct(int productId)
         {
-            LocalService service = new LocalService();
-            Product productById = await service.GetProduct(productId);
+            Product productById = await ls.GetProduct(productId);
             ProductIdUpdateBox.Text = productById.ProductId.ToString();
             ProductNameUpdateBox.Text = productById.ProductName;
             BarcodeUpdateBox.Text = productById.Barcode.ToString();
@@ -169,5 +150,42 @@ namespace WPFNav.StartingPoint.ManageNavigation
             CategoryUpdateList.SelectedItem = productById.Category;
             return productById;
         }
+
+        public async void UpdateProductButton_Click(object sender, RoutedEventArgs e)
+        {
+
+            product.ImageUrl = ProductImageUpdateBox.Text;
+            product.ProductId = int.Parse(ProductIdUpdateBox.Text);
+            product.ProductName = ProductNameUpdateBox.Text;
+            product.Barcode = int.Parse(BarcodeUpdateBox.Text);
+            product.ProductPrice = decimal.Parse(PriceUpdateBox.Text);
+            product.StockQuantity = int.Parse(StockQuantityUpdateBox.Text);
+            if (CategoryUpdateList.SelectedItem == null)
+            {
+                MessageBox.Show("Choose category");
+            }
+            else
+            {
+                product.Category = (Category)CategoryUpdateList.SelectedItem;
+                if (await ls.UpdateProduct(this.product))
+                {
+                    MessageBox.Show("Updated successfully");
+                }
+                else
+                {
+                    MessageBox.Show("Failed to update. Please try again");
+                }
+                ReadProductsButton_Click(null, null);
+            }
+        }
+
+        #endregion
+
+
+
+
+
+
+
     }
 }

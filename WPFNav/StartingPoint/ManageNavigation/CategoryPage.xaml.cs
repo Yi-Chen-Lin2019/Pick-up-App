@@ -23,6 +23,7 @@ namespace WPFNav.StartingPoint.ManageNavigation
     public partial class CategoryPage : Page
     {
         LocalService ls = new LocalService();
+        List<Category> categories = new List<Category>();
         public CategoryPage()
         {
             InitializeComponent();
@@ -37,6 +38,12 @@ namespace WPFNav.StartingPoint.ManageNavigation
             }
         }
 
+        private async Task<List<Category>> getAllCategoriesAsync()
+        {
+            return categories = await ls.GetAllCategories();
+        }
+
+        #region CreateCategory
         public async void CreateCategoryButton_Click(object sender, RoutedEventArgs e)
         {
             Category category = new Category
@@ -55,19 +62,17 @@ namespace WPFNav.StartingPoint.ManageNavigation
             }
         }
 
-        public async void ReadCategoriesButton_Click(object sender, RoutedEventArgs e)
-        {
-            List<Category> categoryList = await ls.GetAllCategories();
-            CategoriesList.ItemsSource = categoryList;
-        }
+        #endregion
 
+
+        #region UpdateCategory
         public async void UpdateCategoryButton_Click(object sender, RoutedEventArgs e)
         {
             int parsedValue;
             if (String.IsNullOrWhiteSpace(OldCategoryNameBox.Text) || int.TryParse(OldCategoryNameBox.Text, out parsedValue))
             {
                 MessageBox.Show("Type in Name");
-            } 
+            }
             else
             {
                 Category updatedCategory = await ls.GetCategory(OldCategoryNameBox.Text);
@@ -87,19 +92,32 @@ namespace WPFNav.StartingPoint.ManageNavigation
                 }
             }
         }
+        #endregion
+
+
+
+        #region ReadCategories
+        public async void ReadCategoriesButton_Click(object sender, RoutedEventArgs e)
+        {
+            List<Category> categoryList = await getAllCategoriesAsync();
+            CategoriesList.ItemsSource = categoryList;
+        }
 
         public async void ReadCategoryByNameButton_Click(object sender, RoutedEventArgs e)
         {
-            int parsedValue;
-            if (String.IsNullOrWhiteSpace(ReadCategoryNameBox.Text) || int.TryParse(ReadCategoryNameBox.Text, out parsedValue))
+            if (String.IsNullOrWhiteSpace(ReadCategoryNameBox.Text))
             {
-                MessageBox.Show("Type in name");
+                MessageBox.Show("Type in category name");
             }
             else
             {
-                Category category = await ls.GetCategory(ReadCategoryNameBox.Text);
-                CategoryByNameBox.Text = category.ToString();
+                IEnumerable<Category> possibleSuspects = await getAllCategoriesAsync();
+                possibleSuspects = possibleSuspects.Where(c => c.CategoryName.ToLower().Contains(ReadCategoryNameBox.Text.ToLower()));
+                categories = possibleSuspects.ToList();
+                CategoriesList.ItemsSource = categories;
             }
         }
+        #endregion
+
     }
 }

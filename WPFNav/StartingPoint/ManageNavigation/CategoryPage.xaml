@@ -106,16 +106,8 @@
                 Grid.ColumnSpan="2"
                 Grid.Row="7" 
                 Margin="5 15 5 15" 
-                Click="ReadCategoryByNameButton_Click" Content="Read Category by name"/>
+                Click="ReadCategoryByNameButton_Click" Content="Search"/>
 
-        <TextBox x:Name="CategoryByNameBox" Grid.Column="4"
-                 Grid.Row="8"
-                 Grid.ColumnSpan="2"
-                 IsReadOnly="True"
-                 Text=""
-                 Margin="5 5 5 5"
-                 TextWrapping="WrapWithOverflow"
-                 />
 
         <!--Column 5-->
         <TextBox x:Name="ReadCategoryNameBox" Grid.Column="5"
