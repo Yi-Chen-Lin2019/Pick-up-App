@@ -23,7 +23,8 @@ namespace WPFNav.StartingPoint.ManageNavigation
     public partial class CategoryPage : Page
     {
         LocalService ls = new LocalService();
-        List<Category> categories = new List<Category>();
+        List<Category> categoryList = new List<Category>();
+        Category category;
         public CategoryPage()
         {
             InitializeComponent();
@@ -38,10 +39,7 @@ namespace WPFNav.StartingPoint.ManageNavigation
             }
         }
 
-        private async Task<List<Category>> getAllCategoriesAsync()
-        {
-            return categories = await ls.GetAllCategories();
-        }
+
 
         #region CreateCategory
         public async void CreateCategoryButton_Click(object sender, RoutedEventArgs e)
@@ -74,6 +72,21 @@ namespace WPFNav.StartingPoint.ManageNavigation
 
 
         #region UpdateCategory
+        private async Task<Category> LoadCategory(string categoryName)
+        {
+            try
+            {
+                Category categoryByName = await ls.GetCategory(categoryName);
+                OldCategoryNameBox.Text = categoryByName.CategoryName;
+                return categoryByName;
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Something went wrong.");
+                return null;
+            }
+        }
+
         public async void UpdateCategoryButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -110,19 +123,51 @@ namespace WPFNav.StartingPoint.ManageNavigation
         #endregion
 
 
-
         #region ReadCategories
+        private async Task<List<Category>> GetAllCategoriesAsync()
+        {
+            try
+            {
+                return categoryList = await ls.GetAllCategories();
+            } catch (Exception)
+            {
+                MessageBox.Show("Something went wrong.");
+                return null;
+            }
+        }
+
+        private void RepopulateCategoryList()
+        {
+            CategoryList.Items.Clear();
+            foreach (var item in categoryList)
+            {
+                ListViewItem listViewItem = new ListViewItem();
+                listViewItem.Content = item.ToString();
+                listViewItem.Name = item.CategoryName;
+                CategoryList.Items.Add(listViewItem);
+            }
+        }
+
         public async void ReadCategoriesButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                List<Category> categoryList = await getAllCategoriesAsync();
-                CategoriesList.ItemsSource = categoryList;
+                await GetAllCategoriesAsync();
+                RepopulateCategoryList();
             }
             catch (Exception)
             {
-                MessageBox.Show("Something went wrong, try again");
+                MessageBox.Show("Something went wrong.");
             }
+            //try
+            //{
+            //    List<Category> categoryList = await getAllCategoriesAsync();
+            //    CategoryList.ItemsSource = categoryList;
+            //}
+            //catch (Exception)
+            //{
+            //    MessageBox.Show("Something went wrong, try again");
+            //}
         }
 
         public async void ReadCategoryByNameButton_Click(object sender, RoutedEventArgs e)
@@ -135,15 +180,32 @@ namespace WPFNav.StartingPoint.ManageNavigation
                 }
                 else
                 {
-                    IEnumerable<Category> possibleSuspects = await getAllCategoriesAsync();
+                    IEnumerable<Category> possibleSuspects = await GetAllCategoriesAsync();
                     possibleSuspects = possibleSuspects.Where(c => c.CategoryName.ToLower().Contains(ReadCategoryNameBox.Text.ToLower()));
-                    categories = possibleSuspects.ToList();
-                    CategoriesList.ItemsSource = categories;
+                    categoryList = possibleSuspects.ToList();
+                    CategoryList.ItemsSource = categoryList;
                 }
             }
             catch (Exception)
             {
                 MessageBox.Show("Something went wrong, try again");
+            }
+        }
+
+        private async void CategoryList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                ListView v = (ListView)sender;
+                if (v.HasItems)
+                {
+                    ListViewItem selectedItem = (ListViewItem)e.AddedItems[0];
+                    category = await LoadCategory(selectedItem.Name);
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Something went wrong.");
             }
         }
         #endregion
