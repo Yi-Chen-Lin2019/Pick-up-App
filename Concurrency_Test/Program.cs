@@ -63,8 +63,6 @@ namespace Concurrency_Test
             ProductRepository prodR = new ProductRepository();
             Console.WriteLine("Original stock of product ID 5 (Milk): "
                 + prodR.GetProductById(5).StockQuantity);
-            Console.WriteLine("Original stock of product ID 6 (Sour Cream): "
-                + prodR.GetProductById(6).StockQuantity);
             Thread a = new Thread(new ThreadStart(BuySameProductCustomerA));
             Thread b = new Thread(new ThreadStart(BuySameProductCustomerB));
             a.Start();
@@ -72,10 +70,8 @@ namespace Concurrency_Test
             a.Join();
             b.Join();
             ProductRepository prodRAfter = new ProductRepository();
-            Console.WriteLine("Two customer have buy 50 bottles of milk individually (-100), the remaining stock: "
+            Console.WriteLine("Two customer have buy 5 bottles of milk individually (-10), the remaining stock: "
                 + prodRAfter.GetProductById(5).StockQuantity);
-            Console.WriteLine("Two customer have buy 50 boxes of sour cream individually (-100), the remaining stock: "
-                + prodRAfter.GetProductById(6).StockQuantity);
             Console.ReadLine();
         }
 
@@ -100,20 +96,20 @@ namespace Concurrency_Test
             {
                 new OrderLine(){
                     Product = prodR.GetProductById(5),
-                    Quantity = 50
+                    Quantity = 5
                 },
 
-                new OrderLine()
-                {
-                    Product = prodR.GetProductById(6),
-                    Quantity = 50
-                }
+                //new OrderLine()
+                //{
+                //    Product = prodR.GetProductById(6),
+                //    Quantity = 50
+                //}
+
             };
             order.OrderLineList = orderLines;
 
 
-            var customer = new Person() { UserName = "superadmin@pickup.com" };
-            order.Customer = customer;
+            order.Customer = perR.GetPersonByEmail("superadmin@pickup.com");
 
 
             //Time and Total Price
@@ -157,20 +153,18 @@ namespace Concurrency_Test
             {
                 new OrderLine(){
                     Product = prodR.GetProductById(5),
-                    Quantity = 50
+                    Quantity = 5
                 },
 
-                new OrderLine()
-                {
-                    Product = prodR.GetProductById(6),
-                    Quantity = 50
-                }
+                //new OrderLine()
+                //{
+                //    Product = prodR.GetProductById(6),
+                //    Quantity = 50
+                //}
             };
             order.OrderLineList = orderLines;
 
-            var customer = new Person() { UserName = "superadmin@pickup.com" };
-            order.Customer = customer;
-            //order.Employee = perR.GetPersonById(2);
+            order.Customer = perR.GetPersonByEmail("superadmin@pickup.com");
 
 
             //Time and Total Price

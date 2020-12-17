@@ -9,9 +9,9 @@ namespace UnitTestProject
     [TestClass]
     public class DalTests_OrderRepository
     {
-        private PersonRepository perR;
-        private ProductRepository prodR;
-        private OrderRepository ordR;
+        private IPersonRepository perR;
+        private IProductRepository prodR;
+        private IOrderRepository ordR;
         private Order order;
         private Product product;
         private Person customer;
