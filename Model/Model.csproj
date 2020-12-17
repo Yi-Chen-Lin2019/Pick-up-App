@@ -5,7 +5,39 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="obj\Debug\netstandard2.0\.NETStandard,Version=v2.0.AssemblyAttributes.cs" />
+    <Compile Include="obj\Debug\netstandard2.0\Model.AssemblyInfo.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="bin\Debug\netstandard2.0\Model.deps.json" />
+    <Content Include="obj\Debug\netstandard2.0\Model.csproj.FileListAbsolute.txt" />
+    <Content Include="obj\Model.csproj.nuget.dgspec.json" />
+    <Content Include="obj\project.assets.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bin\Debug\netstandard2.0\Model.dll" />
+    <None Include="bin\Debug\netstandard2.0\Model.pdb" />
+    <None Include="obj\Debug\netstandard2.0\Model.AssemblyInfoInputs.cache" />
+    <None Include="obj\Debug\netstandard2.0\Model.assets.cache" />
+    <None Include="obj\Debug\netstandard2.0\Model.csproj.CoreCompileInputs.cache" />
+    <None Include="obj\Debug\netstandard2.0\Model.csprojAssemblyReference.cache" />
+    <None Include="obj\Debug\netstandard2.0\Model.dll" />
+    <None Include="obj\Debug\netstandard2.0\Model.pdb" />
+    <None Include="obj\Model.csproj.nuget.g.props" />
+    <None Include="obj\Model.csproj.nuget.g.targets" />
+    <None Include="obj\project.nuget.cache" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net20\Newtonsoft.Json.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

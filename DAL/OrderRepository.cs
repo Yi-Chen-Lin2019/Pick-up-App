@@ -6,9 +6,6 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace DAL
 {
@@ -114,7 +111,7 @@ namespace DAL
                                     ProductRepository productRepository = new ProductRepository();
                                     foreach (var item in order.OrderLineList)
                                     {
-                                        item.OrderId = order.OrderId;
+                                        //item.OrderId = order.OrderId;
                                         //get the info about the product
                                         Product productRetrived = conn.Query<Product>("SELECT [ProductId], [ProductName], [Barcode], [ProductPrice], [StockQuantity] ,[RowId], CAST(RowId as bigint) AS RowIdBig FROM [Product] WHERE ProductId =@ProductId", new { ProductId = item.Product.ProductId }, transaction).SingleOrDefault();
                                 //check if quantity is valid
@@ -126,7 +123,7 @@ namespace DAL
                                         {
                                                 //insert the orderline
                                                 conn.Execute("INSERT INTO [OrderLine] VALUES(@Quantity, @OrderId, @ProductId)",
-                                                new { Quantity = item.Quantity, OrderId = item.OrderId, ProductId = item.Product.ProductId }, transaction);
+                                                new { Quantity = item.Quantity, OrderId = order.OrderId, ProductId = item.Product.ProductId }, transaction);
                                                 //update product stock quantity
                                                 productRetrived.StockQuantity -= item.Quantity;
                                                 rowsAffected = conn.Execute("UPDATE [Product] SET StockQuantity = @StockQuantity WHERE ProductId = @ProductId AND (cast(@OldRowIdBig as binary(8)) = RowId)",
@@ -165,51 +162,7 @@ namespace DAL
                     }
                 }
         }
-        private decimal InsertOrderLineList(OrderLine orderLine)
-        {
-            decimal subTotalOfOrderLines = 0;
-            ProductRepository pr = new ProductRepository();
-            Product productRetrived = pr.GetProductById(orderLine.Product.ProductId);
-            var rowBig = productRetrived.RowIdBig;
-            if (productRetrived.StockQuantity >= orderLine.Quantity)
-            {
-                using (conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
-                {
-                    conn.Open();
-                    using (var transaction = conn.BeginTransaction())
-                    {
-                        try
-                        {
-                            conn.Execute("INSERT INTO [OrderLine] VALUES(@Quantity, @OrderId, @ProductId)",
-                       new { Quantity = orderLine.Quantity, OrderId = orderLine.OrderId, ProductId = orderLine.Product.ProductId },
-                       transaction);
-
-                            productRetrived.StockQuantity -= orderLine.Quantity;
-                            while (!pr.UpdateProduct(productRetrived))
-                            {                              
-                                pr.UpdateProduct(productRetrived);
-                                
-                            }
-                            transaction.Commit();
-                            subTotalOfOrderLines += productRetrived.ProductPrice * orderLine.Quantity;
-
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine(ex.Message);
-                            transaction.Rollback();
-                        }
-                    }
-                }
-            }
-            else
-            {
-                throw new OutOfStockException("Out of stock, please wait for in stock or try with different quantity");
-
-            }
-            return subTotalOfOrderLines;
-        }
-
+        
 
         public bool UpdateOrder(Order order)
         {
