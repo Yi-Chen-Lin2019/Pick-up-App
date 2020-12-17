@@ -19,6 +19,14 @@ namespace DAL
         {
             conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
         }
+        public String GetConnectionState()
+        {
+
+            conn.Open();
+            String result = conn.State.ToString();
+            conn.Close();
+            return result;
+        }
 
         //Category methods
         public List<Category> GetAllCategories()
@@ -64,136 +72,136 @@ namespace DAL
             else { return null; }
 
         }
-        public bool DeleteCategory(Category category)
-        {
-            conn.Open();
+        //public bool DeleteCategory(Category category)
+        //{
+        //    conn.Open();
 
-            int rowsAffected = conn.Execute("DELETE FROM [Category] WHERE [CategoryId] = @CategoryId", new { CategoryId = category.CategoryId });
-            conn.Close();
+        //    int rowsAffected = conn.Execute("DELETE FROM [Category] WHERE [CategoryId] = @CategoryId", new { CategoryId = category.CategoryId });
+        //    conn.Close();
 
-            if (rowsAffected >= 1) { return true; }
-            else { return false; }
-        }
+        //    if (rowsAffected >= 1) { return true; }
+        //    else { return false; }
+        //}
 
         //SNProduct methods
-        public List<SNProduct> GetAllSNProducts()
-        {
-            conn.Open();
+        //public List<SNProduct> GetAllSNProducts()
+        //{
+        //    conn.Open();
 
-            List<SNProduct> result = new List<SNProduct>();
+        //    List<SNProduct> result = new List<SNProduct>();
 
-            List<String> serialNumberList = conn.Query<String>("SELECT [SerialNumber] FROM [SNProduct]").ToList();
-            conn.Close();
+        //    List<String> serialNumberList = conn.Query<String>("SELECT [SerialNumber] FROM [SNProduct]").ToList();
+        //    conn.Close();
 
-            foreach (String serialNumber in serialNumberList)
-            {
-                result.Add(GetSNProductBySerialNumber(serialNumber));
-            }
+        //    foreach (String serialNumber in serialNumberList)
+        //    {
+        //        result.Add(GetSNProductBySerialNumber(serialNumber));
+        //    }
 
-            return result;
-        }
+        //    return result;
+        //}
 
-        public SNProduct GetSNProductBySerialNumber(String serialNumber)
-        {
-            conn.Open();
+        //public SNProduct GetSNProductBySerialNumber(String serialNumber)
+        //{
+        //    conn.Open();
 
-            SNProduct snProduct = conn.Query<SNProduct>("SELECT [SNProductId], [SerialNumber] FROM [SNProduct] WHERE SerialNumber = @SerialNumber", 
-                new { SerialNumber = serialNumber }).FirstOrDefault();
-            if(snProduct == null) { conn.Close(); return null;}
-            int productId = conn.Query<int>("SELECT [Product].[ProductId] FROM [Product] INNER JOIN [SNProduct] ON [SNProduct].[ProductId] = [Product].[ProductId] WHERE [SNProduct].[SerialNumber] = @SerialNumber", new { SerialNumber = serialNumber }).FirstOrDefault();
-            conn.Close();
-            snProduct.Product = GetProductById(productId);
+        //    SNProduct snProduct = conn.Query<SNProduct>("SELECT [SNProductId], [SerialNumber] FROM [SNProduct] WHERE SerialNumber = @SerialNumber", 
+        //        new { SerialNumber = serialNumber }).FirstOrDefault();
+        //    if(snProduct == null) { conn.Close(); return null;}
+        //    int productId = conn.Query<int>("SELECT [Product].[ProductId] FROM [Product] INNER JOIN [SNProduct] ON [SNProduct].[ProductId] = [Product].[ProductId] WHERE [SNProduct].[SerialNumber] = @SerialNumber", new { SerialNumber = serialNumber }).FirstOrDefault();
+        //    conn.Close();
+        //    snProduct.Product = GetProductById(productId);
 
-            return snProduct;
-        }
+        //    return snProduct;
+        //}
 
-        public SNProduct InsertSNProduct(SNProduct snProduct)
-        {
-            conn.Open();
-            int rowsAffected = 0;
-            if (snProduct.Product != null)
-            {
-                rowsAffected = conn.Execute(@"INSERT INTO [SNProduct] VALUES(@SerialNumber, null, @ProductId)",
-                    new { SerialNumber = snProduct.SerialNumber, ProductId = snProduct.Product.ProductId });
-            }
+        //public SNProduct InsertSNProduct(SNProduct snProduct)
+        //{
+        //    conn.Open();
+        //    int rowsAffected = 0;
+        //    if (snProduct.Product != null)
+        //    {
+        //        rowsAffected = conn.Execute(@"INSERT INTO [SNProduct] VALUES(@SerialNumber, null, @ProductId)",
+        //            new { SerialNumber = snProduct.SerialNumber, ProductId = snProduct.Product.ProductId });
+        //    }
 
-            conn.Close();
+        //    conn.Close();
 
-            if (rowsAffected >= 1) { return GetSNProductBySerialNumber(snProduct.SerialNumber); }
-            else { return null; }
-        }
+        //    if (rowsAffected >= 1) { return GetSNProductBySerialNumber(snProduct.SerialNumber); }
+        //    else { return null; }
+        //}
 
-        public bool UpdateSNProduct(SNProduct snProduct)
-        {
-            conn.Open();
+        //public bool UpdateSNProduct(SNProduct snProduct)
+        //{
+        //    conn.Open();
 
-            int rowsAffected = conn.Execute("UPDATE [SNProduct] SET OrderId = @OrderId WHERE ProductId = @ProductId",
-                new { OrderId = snProduct.OrderId, ProductId = snProduct.Product.ProductId});
+        //    int rowsAffected = conn.Execute("UPDATE [SNProduct] SET OrderId = @OrderId WHERE ProductId = @ProductId",
+        //        new { OrderId = snProduct.OrderId, ProductId = snProduct.Product.ProductId});
 
-            conn.Close();
-            if (rowsAffected >= 1) { return true; }
-            else { return false; }
-        }
+        //    conn.Close();
+        //    if (rowsAffected >= 1) { return true; }
+        //    else { return false; }
+        //}
 
         //NoSNProduct methods
 
-        public List<NoSNProduct> GetAllNoSNProduct()
-        {
-            conn.Open();
+        //public List<NoSNProduct> GetAllNoSNProduct()
+        //{
+        //    conn.Open();
 
-            List<NoSNProduct> productList = conn.Query<NoSNProduct>("SELECT [NoSNProduct].[NoSNProductId], [Product].[ProductId], [Product].[ProductName], [Product].[Barcode], [Product].[ProductPrice], [Product].[StockQuantity], [Product].[RowId], CAST([Product].[RowId] as bigint) AS RowIdBig FROM [Product] INNER JOIN [NoSNProduct] ON [Product].[ProductId] = [NoSNProduct].[ProductId]").ToList();
+        //    List<NoSNProduct> productList = conn.Query<NoSNProduct>("SELECT [NoSNProduct].[NoSNProductId], [Product].[ProductId], [Product].[ProductName], [Product].[Barcode], [Product].[ProductPrice], [Product].[StockQuantity], [Product].[RowId], CAST([Product].[RowId] as bigint) AS RowIdBig FROM [Product] INNER JOIN [NoSNProduct] ON [Product].[ProductId] = [NoSNProduct].[ProductId]").ToList();
 
-            foreach (NoSNProduct product in productList)
-            {
-                product.Category = conn.Query<Category>("SELECT [Category].[CategoryId], [Category].[CategoryName] FROM [Category] INNER JOIN [Product] ON [Category].[CategoryId] = [Product].[CategoryId] WHERE [Product].[ProductId] = @ProductId", new { ProductId = product.ProductId}).FirstOrDefault();
-            }
+        //    foreach (NoSNProduct product in productList)
+        //    {
+        //        product.Category = conn.Query<Category>("SELECT [Category].[CategoryId], [Category].[CategoryName] FROM [Category] INNER JOIN [Product] ON [Category].[CategoryId] = [Product].[CategoryId] WHERE [Product].[ProductId] = @ProductId", new { ProductId = product.ProductId}).FirstOrDefault();
+        //    }
 
-            conn.Close();
-            return productList;
-        }
+        //    conn.Close();
+        //    return productList;
+        //}
 
-        public List<NoSNProduct> GetNoSNProductByProductId(int productId)
-        {
-            conn.Open();
+        //public List<NoSNProduct> GetNoSNProductByProductId(int productId)
+        //{
+        //    conn.Open();
 
-            List<NoSNProduct> productList = conn.Query<NoSNProduct>("SELECT [NoSNProduct].[NoSNProductId], [Product].[ProductId], [Product].[ProductName], [Product].[Barcode], [Product].[ProductPrice], [Product].[StockQuantity],  [Product].[RowId], CAST([Product].[RowId] as bigint) AS RowIdBig FROM [Product] INNER JOIN [NoSNProduct] ON [Product].[ProductId] = [NoSNProduct].[ProductId] WHERE [NoSNProduct].[ProductId] = @ProductId",
-                new { ProductId = productId }).ToList();
+        //    List<NoSNProduct> productList = conn.Query<NoSNProduct>("SELECT [NoSNProduct].[NoSNProductId], [Product].[ProductId], [Product].[ProductName], [Product].[Barcode], [Product].[ProductPrice], [Product].[StockQuantity],  [Product].[RowId], CAST([Product].[RowId] as bigint) AS RowIdBig FROM [Product] INNER JOIN [NoSNProduct] ON [Product].[ProductId] = [NoSNProduct].[ProductId] WHERE [NoSNProduct].[ProductId] = @ProductId",
+        //        new { ProductId = productId }).ToList();
 
 
-            conn.Close();
-            return productList;
-        }
+        //    conn.Close();
+        //    return productList;
+        //}
 
-        public NoSNProduct InsertNoSNProduct(NoSNProduct noSNProduct)
-        {
-            conn.Open();
+        //public NoSNProduct InsertNoSNProduct(NoSNProduct noSNProduct)
+        //{
+        //    conn.Open();
 
-            int rowsAffected = conn.Execute(@"INSERT INTO [NoSNProduct] VALUES(@ProductId)",
-                new { ProductId = noSNProduct.ProductId});
-            noSNProduct.NoSNProductId = conn.Query<int>("SELECT @@IDENTITY").FirstOrDefault();
-            conn.Close();
+        //    int rowsAffected = conn.Execute(@"INSERT INTO [NoSNProduct] VALUES(@ProductId)",
+        //        new { ProductId = noSNProduct.ProductId});
+        //    noSNProduct.NoSNProductId = conn.Query<int>("SELECT @@IDENTITY").FirstOrDefault();
+        //    conn.Close();
 
-            if (rowsAffected >= 1) { return noSNProduct; }
-            else { return null; }
-        }
+        //    if (rowsAffected >= 1) { return noSNProduct; }
+        //    else { return null; }
+        //}
 
-        public bool UpdateNoSNProduct(NoSNProduct noSNProduct)
-        {
-            ////No variables to update in NoSNProduct, might be useful for future feature
-            //throw new NotImplementedException();
-            //conn.Open();
+        //public bool UpdateNoSNProduct(NoSNProduct noSNProduct)
+        //{
+        //    ////No variables to update in NoSNProduct, might be useful for future feature
+        //    //throw new NotImplementedException();
+        //    //conn.Open();
 
-            //int rowsAffected = conn.Execute("UPDATE [NoSNProduct] SET ... WHERE ProductId = @ProductId",
-            //    new { ProductId = noSNProduct.ProductId });
+        //    //int rowsAffected = conn.Execute("UPDATE [NoSNProduct] SET ... WHERE ProductId = @ProductId",
+        //    //    new { ProductId = noSNProduct.ProductId });
 
-            //conn.Close();
-            //if (rowsAffected >= 1) { return true; }
-            //else { return false; }
-            //placeholder return - delete it later
-            return false;
-        }
+        //    //conn.Close();
+        //    //if (rowsAffected >= 1) { return true; }
+        //    //else { return false; }
+        //    //placeholder return - delete it later
+        //    return false;
+        //}
 
-        //Product methods
+        ////Product methods
 
         public List<Product> GetAllProducts()
         {

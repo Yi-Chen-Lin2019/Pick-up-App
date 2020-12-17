@@ -13,17 +13,17 @@ namespace DAL
         Category GetCategoryByName(String name);
         bool UpdateCategory(Category category);
         Category InsertCategory(Category category);
-        bool DeleteCategory(Category category);
+        //bool DeleteCategory(Category category);
 
-        List<SNProduct> GetAllSNProducts();
-        SNProduct GetSNProductBySerialNumber(String serialNumber);
-        SNProduct InsertSNProduct(SNProduct snProduct);
-        bool UpdateSNProduct(SNProduct snProduct);
+        //List<SNProduct> GetAllSNProducts();
+        //SNProduct GetSNProductBySerialNumber(String serialNumber);
+        //SNProduct InsertSNProduct(SNProduct snProduct);
+        //bool UpdateSNProduct(SNProduct snProduct);
 
-        List<NoSNProduct> GetAllNoSNProduct();
-        List<NoSNProduct> GetNoSNProductByProductId(int productId);
-        NoSNProduct InsertNoSNProduct(NoSNProduct noSNProduct);
-        bool UpdateNoSNProduct(NoSNProduct noSNProduct);
+        //List<NoSNProduct> GetAllNoSNProduct();
+        //List<NoSNProduct> GetNoSNProductByProductId(int productId);
+        //NoSNProduct InsertNoSNProduct(NoSNProduct noSNProduct);
+        //bool UpdateNoSNProduct(NoSNProduct noSNProduct);
 
         List<Product> GetAllProducts();
         Product GetProductById(int productId);
