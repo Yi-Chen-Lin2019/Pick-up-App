@@ -183,12 +183,22 @@ namespace WPFNav.StartingPoint.ManageNavigation
                     IEnumerable<Category> possibleSuspects = await GetAllCategoriesAsync();
                     possibleSuspects = possibleSuspects.Where(c => c.CategoryName.ToLower().Contains(ReadCategoryNameBox.Text.ToLower()));
                     categoryList = possibleSuspects.ToList();
-                    CategoryList.ItemsSource = categoryList;
+                    if (categoryList.Any())
+                    {
+                        CategoryList.Items.Clear();
+                        foreach (var item in categoryList)
+                        {
+                            ListViewItem listViewItem = new ListViewItem();
+                            listViewItem.Content = item.ToString();
+                            listViewItem.Name = item.CategoryName;
+                            CategoryList.Items.Add(listViewItem);
+                        }
+                    }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                MessageBox.Show("Something went wrong, try again");
+                MessageBox.Show("Something went wrong, try again " + ex.Message);
             }
         }
 
@@ -203,9 +213,9 @@ namespace WPFNav.StartingPoint.ManageNavigation
                     category = await LoadCategory(selectedItem.Name);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                MessageBox.Show("Something went wrong.");
+                MessageBox.Show("Something went wrong. " + ex.Message);
             }
         }
         #endregion
