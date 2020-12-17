@@ -57,46 +57,59 @@ namespace WPFNav.StartingPoint.ManageNavigation
                     CategoryUpdateList.SelectedValuePath = "CategoryId";
                 }
             }
-            catch 
+            catch
             {
                 MessageBox.Show("Please start API project, otherwise application can not get categories");
             }
-            
+
         }
 
 
         #region CreateProduct
         public async void CreateProductButton_Click(object sender, RoutedEventArgs e)
         {
-
-            Product product = new Product
+            try
             {
-                ImageUrl = ProductImageBox.Text,
-                ProductName = ProductNameBox.Text,
-                Barcode = int.Parse(BarcodeBox.Text),
-                ProductPrice = decimal.Parse(PriceBox.Text),
-                StockQuantity = int.Parse(StockQuantityBox.Text),
-                Category = (Category)CategoryList.SelectedItem
-            };
+                Product product = new Product
+                {
+                    ImageUrl = ProductImageBox.Text,
+                    ProductName = ProductNameBox.Text,
+                    Barcode = int.Parse(BarcodeBox.Text),
+                    ProductPrice = decimal.Parse(PriceBox.Text),
+                    StockQuantity = int.Parse(StockQuantityBox.Text),
+                    Category = (Category)CategoryList.SelectedItem
+                };
 
-            if (await ls.PostProduct(product))
-            {
-                MessageBox.Show("Product created.");
-                ClearTextBoxes();
+                if (await ls.PostProduct(product))
+                {
+                    MessageBox.Show("Product created.");
+                    ClearTextBoxes();
+                }
+                else
+                {
+                    MessageBox.Show("Something went wrong.");
+                }
             }
-            else
+            catch (Exception)
             {
                 MessageBox.Show("Something went wrong.");
             }
-
         }
 
         #endregion
         #region ReadProducts
         public async void ReadProductsButton_Click(object sender, RoutedEventArgs e)
         {
-            await getAllProductsAsync();
-            repopulateProductList();
+            try
+            {
+                await getAllProductsAsync();
+                repopulateProductList();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Something went wrong.");
+            }
+
         }
         private void repopulateProductList()
         {
@@ -111,29 +124,52 @@ namespace WPFNav.StartingPoint.ManageNavigation
         }
         private async Task<List<Product>> getAllProductsAsync()
         {
-            return productList = await ls.GetAllProducts();
+            try
+            {
+                return productList = await ls.GetAllProducts();
+
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Something went wrong.");
+                return null;
+            }
         }
         public async void FilterProductsByName_Click(object sender, RoutedEventArgs e)
         {
-            if (String.IsNullOrWhiteSpace(ProductNameFilterBox.Text))
+            try
             {
-                MessageBox.Show("Type in text");
+                if (String.IsNullOrWhiteSpace(ProductNameFilterBox.Text))
+                {
+                    MessageBox.Show("Type in text");
+                }
+                else
+                {
+                    IEnumerable<Product> possibleSuspects = await getAllProductsAsync();
+                    possibleSuspects = possibleSuspects.Where(p => p.ToString().ToLower().Contains(ProductNameFilterBox.Text.ToLower()));
+                    productList = possibleSuspects.ToList();
+                    repopulateProductList();
+                }
             }
-            else
+            catch (Exception)
             {
-                IEnumerable<Product> possibleSuspects = await getAllProductsAsync();
-                possibleSuspects = possibleSuspects.Where(p => p.ToString().ToLower().Contains(ProductNameFilterBox.Text.ToLower()));
-                productList = possibleSuspects.ToList();
-                repopulateProductList();
+                MessageBox.Show("Something went wrong.");
             }
         }
         private async void ProductList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            try
+            {
             ListView v = (ListView)sender;
             if (v.HasItems)
             {
                 ListViewItem selectedItem = (ListViewItem)e.AddedItems[0];
                 product = await loadProduct(int.Parse(selectedItem.Uid));
+            }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Something went wrong.");
             }
         }
 
@@ -141,6 +177,8 @@ namespace WPFNav.StartingPoint.ManageNavigation
         #region UpdateProduct
         private async Task<Product> loadProduct(int productId)
         {
+            try
+            {
             Product productById = await ls.GetProduct(productId);
             ProductIdUpdateBox.Text = productById.ProductId.ToString();
             ProductNameUpdateBox.Text = productById.ProductName;
@@ -149,11 +187,18 @@ namespace WPFNav.StartingPoint.ManageNavigation
             StockQuantityUpdateBox.Text = productById.StockQuantity.ToString();
             CategoryUpdateList.SelectedItem = productById.Category;
             return productById;
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Something went wrong.");
+                return null;
+            }
         }
 
         public async void UpdateProductButton_Click(object sender, RoutedEventArgs e)
         {
-
+            try
+            {
             product.ImageUrl = ProductImageUpdateBox.Text;
             product.ProductId = int.Parse(ProductIdUpdateBox.Text);
             product.ProductName = ProductNameUpdateBox.Text;
@@ -176,6 +221,11 @@ namespace WPFNav.StartingPoint.ManageNavigation
                     MessageBox.Show("Failed to update. Please try again");
                 }
                 ReadProductsButton_Click(null, null);
+            }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Something went wrong.");
             }
         }
 

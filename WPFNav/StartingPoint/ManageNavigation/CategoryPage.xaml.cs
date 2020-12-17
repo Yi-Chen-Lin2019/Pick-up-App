@@ -46,17 +46,25 @@ namespace WPFNav.StartingPoint.ManageNavigation
         #region CreateCategory
         public async void CreateCategoryButton_Click(object sender, RoutedEventArgs e)
         {
-            Category category = new Category
+            try
             {
-                CategoryName = CategoryNameBox.Text
-            };
+                Category category = new Category
+                {
+                    CategoryName = CategoryNameBox.Text
+                };
 
-            if (await ls.PostCategory(category))
-            {
-                MessageBox.Show("Done");
-                ClearTextBoxes();
+                if (await ls.PostCategory(category))
+                {
+                    MessageBox.Show("Done");
+                    ClearTextBoxes();
+                }
+                else
+                {
+                    MessageBox.Show("Something went wrong, try again");
+                }
+
             }
-            else
+            catch (Exception)
             {
                 MessageBox.Show("Something went wrong, try again");
             }
@@ -68,28 +76,35 @@ namespace WPFNav.StartingPoint.ManageNavigation
         #region UpdateCategory
         public async void UpdateCategoryButton_Click(object sender, RoutedEventArgs e)
         {
-            int parsedValue;
-            if (String.IsNullOrWhiteSpace(OldCategoryNameBox.Text) || int.TryParse(OldCategoryNameBox.Text, out parsedValue))
+            try
             {
-                MessageBox.Show("Type in Name");
-            }
-            else
-            {
-                Category updatedCategory = await ls.GetCategory(OldCategoryNameBox.Text);
-                if (updatedCategory != null)
+                int parsedValue;
+                if (String.IsNullOrWhiteSpace(OldCategoryNameBox.Text) || int.TryParse(OldCategoryNameBox.Text, out parsedValue))
                 {
-                    updatedCategory.CategoryName = NewCategoryNameBox.Text;
-                };
-
-                if (await ls.UpdateCategory(updatedCategory))
-                {
-                    MessageBox.Show("Done");
-                    ClearTextBoxes();
+                    MessageBox.Show("Type in Name");
                 }
                 else
                 {
-                    MessageBox.Show("Something went wrong");
+                    Category updatedCategory = await ls.GetCategory(OldCategoryNameBox.Text);
+                    if (updatedCategory != null)
+                    {
+                        updatedCategory.CategoryName = NewCategoryNameBox.Text;
+                    };
+
+                    if (await ls.UpdateCategory(updatedCategory))
+                    {
+                        MessageBox.Show("Done");
+                        ClearTextBoxes();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Something went wrong");
+                    }
                 }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Something went wrong");
             }
         }
         #endregion
@@ -99,22 +114,36 @@ namespace WPFNav.StartingPoint.ManageNavigation
         #region ReadCategories
         public async void ReadCategoriesButton_Click(object sender, RoutedEventArgs e)
         {
-            List<Category> categoryList = await getAllCategoriesAsync();
-            CategoriesList.ItemsSource = categoryList;
+            try
+            {
+                List<Category> categoryList = await getAllCategoriesAsync();
+                CategoriesList.ItemsSource = categoryList;
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Something went wrong, try again");
+            }
         }
 
         public async void ReadCategoryByNameButton_Click(object sender, RoutedEventArgs e)
         {
-            if (String.IsNullOrWhiteSpace(ReadCategoryNameBox.Text))
+            try
             {
-                MessageBox.Show("Type in category name");
+                if (String.IsNullOrWhiteSpace(ReadCategoryNameBox.Text))
+                {
+                    MessageBox.Show("Type in category name");
+                }
+                else
+                {
+                    IEnumerable<Category> possibleSuspects = await getAllCategoriesAsync();
+                    possibleSuspects = possibleSuspects.Where(c => c.CategoryName.ToLower().Contains(ReadCategoryNameBox.Text.ToLower()));
+                    categories = possibleSuspects.ToList();
+                    CategoriesList.ItemsSource = categories;
+                }
             }
-            else
+            catch (Exception)
             {
-                IEnumerable<Category> possibleSuspects = await getAllCategoriesAsync();
-                possibleSuspects = possibleSuspects.Where(c => c.CategoryName.ToLower().Contains(ReadCategoryNameBox.Text.ToLower()));
-                categories = possibleSuspects.ToList();
-                CategoriesList.ItemsSource = categories;
+                MessageBox.Show("Something went wrong, try again");
             }
         }
         #endregion

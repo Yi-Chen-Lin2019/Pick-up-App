@@ -26,48 +26,70 @@ namespace WPFNav
         Order order;
         public ManageOrder(int orderId)
         {
-            InitializeComponent();
-            orders = new List<Order>();
-            loadOrders();
-            //loadOrder(orderId);
+            try
+            {
+                InitializeComponent();
+                orders = new List<Order>();
+                loadOrders();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         private async void loadOrders()
         {
-            LocalService service = new LocalService();
-            orders = await service.GetAllOrders();
-            orders = orders.OrderByDescending(x => x.OrderId).ToList();
-            OrderList.Items.Clear();
-            foreach (var item in orders)
+            try
             {
-                ListBoxItem listBoxItem = new ListBoxItem();
-                listBoxItem.Content = item.OrderId + " " + item.OrderStatus;
-                listBoxItem.Uid = item.OrderId.ToString();
-                OrderList.Items.Add(listBoxItem);
+                LocalService service = new LocalService();
+                orders = await service.GetAllOrders();
+                orders = orders.OrderByDescending(x => x.OrderId).ToList();
+                OrderList.Items.Clear();
+                foreach (var item in orders)
+                {
+                    ListBoxItem listBoxItem = new ListBoxItem();
+                    listBoxItem.Content = item.OrderId + " " + item.OrderStatus;
+                    listBoxItem.Uid = item.OrderId.ToString();
+                    OrderList.Items.Add(listBoxItem);
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Something went wrong.");
             }
         }
 
         private async void loadOrder(int orderId)
         {
-            LocalService service = new LocalService();
-            order = await service.GetOrder(orderId);
-            OrderInfo.Text = order.OrderId.ToString() + ": " + order.OrderStatus;
-            foreach (var item in order.OrderLineList)
+            try
             {
-                OrderInfo.Text += "\n " + item.Product.ProductName + ". Quantity: " + item.Quantity;
+                LocalService service = new LocalService();
+                order = await service.GetOrder(orderId);
+                OrderInfo.Text = order.OrderId.ToString() + ": " + order.OrderStatus;
+                foreach (var item in order.OrderLineList)
+                {
+                    OrderInfo.Text += "\n " + item.Product.ProductName + ". Quantity: " + item.Quantity;
+                }
+                OrderInfo.Text += "\n Ordered: " + order.OrderedTime.ToString();
+                OrderInfo.Text += "\n Pick-up time: " + order.PickUpTime.ToString();
+                OrderStatusList.Items.Clear();
+                foreach (var item in Enum.GetValues(typeof(Order.StatusEnum)).Cast<Order.StatusEnum>())
+                {
+                    OrderStatusList.Items.Add(item);
+                }
             }
-            OrderInfo.Text += "\n Ordered: " + order.OrderedTime.ToString();
-            OrderInfo.Text += "\n Pick-up time: " + order.PickUpTime.ToString();
-            OrderStatusList.Items.Clear();
-            foreach (var item in Enum.GetValues(typeof(Order.StatusEnum)).Cast<Order.StatusEnum>())
+            catch (Exception)
             {
-                OrderStatusList.Items.Add(item);
+                MessageBox.Show("Something went wrong.");
             }
+
         }
 
         private async void UpdateOrderButton_Click(object sender, RoutedEventArgs e)
         {
-           
+
             try
             {
                 if (null == OrderStatusList.SelectedValue)
@@ -89,29 +111,36 @@ namespace WPFNav
 
                     // OrderInfo.Text = "failed to update. please try again";
                 }
+
+
+                OrderStatusList.Visibility = Visibility.Hidden;
+                UpdateOrderButton.Visibility = Visibility.Hidden;
+                loadOrders();
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Failed to update. Please try again");
             }
-           
-            OrderStatusList.Visibility = Visibility.Hidden;
-            UpdateOrderButton.Visibility = Visibility.Hidden;
-            loadOrders();
         }
 
         private void OrderList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            try
+            {
                 ListBox s = (ListBox)sender;
                 if (s.HasItems)
                 {
-                ListBoxItem selectedItem = (ListBoxItem)e.AddedItems[0];
-                loadOrder(int.Parse(selectedItem.Uid));
-                OrderStatusList.Visibility = Visibility.Visible;
-                UpdateOrderButton.Visibility = Visibility.Visible;
+                    ListBoxItem selectedItem = (ListBoxItem)e.AddedItems[0];
+                    loadOrder(int.Parse(selectedItem.Uid));
+                    OrderStatusList.Visibility = Visibility.Visible;
+                    UpdateOrderButton.Visibility = Visibility.Visible;
+                }
             }
-          
-            
+            catch (Exception)
+            {
+                MessageBox.Show("Something went wrong.");
+            }
+
         }
     }
 }
