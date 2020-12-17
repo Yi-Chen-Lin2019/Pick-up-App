@@ -46,21 +46,23 @@ namespace WPFNav.StartingPoint.ManageNavigation
         {
             try
             {
-                Category category = new Category
+                if (System.Text.RegularExpressions.Regex.IsMatch(CategoryNameBox.Text, "^[a-zA-Z ]"))
                 {
-                    CategoryName = CategoryNameBox.Text
-                };
+                    Category category = new Category
+                    {
+                        CategoryName = CategoryNameBox.Text
+                    };
 
-                if (await ls.PostCategory(category))
-                {
-                    MessageBox.Show("Done");
-                    ClearTextBoxes();
+                    if (await ls.PostCategory(category))
+                    {
+                        MessageBox.Show("Done");
+                        ClearTextBoxes();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Something went wrong, try again");
+                    }
                 }
-                else
-                {
-                    MessageBox.Show("Something went wrong, try again");
-                }
-
             }
             catch (Exception)
             {
@@ -96,7 +98,7 @@ namespace WPFNav.StartingPoint.ManageNavigation
                 {
                     MessageBox.Show("Type in Name");
                 }
-                else
+                else if(System.Text.RegularExpressions.Regex.IsMatch(NewCategoryNameBox.Text, "^[a-zA-Z ]"))
                 {
                     Category updatedCategory = await ls.GetCategory(OldCategoryNameBox.Text);
                     if (updatedCategory != null)
