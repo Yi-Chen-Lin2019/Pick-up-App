@@ -37,7 +37,7 @@ namespace Model
         public override string ToString()
         {
             //return this.ProductName + ", " + this.ProductId + ", "+ this.Barcode + ", "+ this.ProductPrice + ", "+ this.StockQuantity;
-            return " Id= " + this.ProductId + ", Name= " + this.ProductName + ", Barcode= " + this.Barcode + ", Price= " + this.ProductPrice + ", Quantity= " + this.StockQuantity + ", Category name: "+this.Category.CategoryName + ", Category Id: "+this.Category.CategoryId;
+            return this.Barcode + "/-/ " + this.ProductName + " " + this.ProductPrice + "DKK, In Stock(" + this.StockQuantity + "), Category: "+this.Category.CategoryName;
         }
 
         public String ProductName { get; set; }
