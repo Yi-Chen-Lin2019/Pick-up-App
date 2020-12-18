@@ -31,7 +31,7 @@ namespace WebUI.Controllers
         {
             LocalService service = new LocalService();
             List<Product> foundProducts = await service.GetAllProducts();
-
+            foundProducts = foundProducts.Where(p => p.StockQuantity > 0).ToList();
             foreach (var item in foundProducts)
             {
                 products.Add(new ProductViewModel(item));
