@@ -70,6 +70,15 @@
                  TextWrapping="WrapWithOverflow"
                  PreviewTextInput="NumberValidationTextBox"/>
 
+        <TextBlock x:Name="CategoryNameTextBoxRequirement" Grid.Column="2"
+                   Grid.Row="4"
+                   Text="Letters only allowed"
+                   Grid.ColumnSpan="2"
+                   VerticalAlignment="Bottom"
+                   Margin="5 0 0 5"
+                   FontSize="10"
+                   />
+
 
         <!--Column 3-->
 
@@ -119,6 +128,14 @@
                  TextWrapping="WrapWithOverflow"
                  PreviewTextInput="NumberValidationTextBox"/>
 
+        <TextBlock x:Name="ReadCategoryNameBoxTextRequirement" Grid.Column="5"
+                   Grid.Row="6"
+                   Text="Letters only allowed"
+                   Grid.ColumnSpan="2"
+                   VerticalAlignment="Bottom"
+                   Margin="5 0 0 5"
+                   FontSize="10"
+                   />
         <!--Row 6-->
 
 
@@ -170,5 +187,14 @@
                  Margin="5 18 5 18"
                  TextWrapping="WrapWithOverflow"
                  PreviewTextInput="NumberValidationTextBox"/>
+
+        <TextBlock x:Name="NewCategoryNameBoxTextRequirement" Grid.Column="8"
+                   Grid.Row="4"
+                   Text="Letters only allowed"
+                   Grid.ColumnSpan="2"
+                   VerticalAlignment="Bottom"
+                   Margin="5 0 0 5"
+                   FontSize="10"
+                   />
     </Grid>
 </Page>
