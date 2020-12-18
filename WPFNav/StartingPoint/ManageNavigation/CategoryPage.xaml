@@ -67,7 +67,8 @@
                  Grid.Row="4"
                  Text=""
                  Margin="5 18 5 18"
-                 TextWrapping="WrapWithOverflow"/>
+                 TextWrapping="WrapWithOverflow"
+                 PreviewTextInput="NumberValidationTextBox"/>
 
 
         <!--Column 3-->
@@ -115,7 +116,8 @@
                  Grid.Row="6"
                  Text=""
                  Margin="5 18 5 18"
-                 TextWrapping="WrapWithOverflow"/>
+                 TextWrapping="WrapWithOverflow"
+                 PreviewTextInput="NumberValidationTextBox"/>
 
         <!--Row 6-->
 
@@ -166,6 +168,7 @@
                  Grid.Row="4"
                  Text=""
                  Margin="5 18 5 18"
-                 TextWrapping="WrapWithOverflow"/>
+                 TextWrapping="WrapWithOverflow"
+                 PreviewTextInput="NumberValidationTextBox"/>
     </Grid>
 </Page>

@@ -17,109 +17,16 @@ using WPFNav.Service;
 
 namespace WPFNav
 {
-    /// <summary>
+    /// Log in form for WPF client
     /// Interaction logic for LogInWindow.xaml
-    /// </summary>
-    public partial class LogInWindow : Window, INotifyPropertyChanged
+    /// login method is done using if statements blocks to check for user input and as latest stage, call authenticate
+    /// method to check user input information
+    public partial class LogInWindow : Window
     {
-        private string _userName;
-        private string _password;
-        public event PropertyChangedEventHandler PropertyChanged;
-
         public LogInWindow()
         {
             InitializeComponent();
-            //IsUsernameAndPasswordValid();
         }
-
-        public string UserName
-        {
-            get { return _userName; }
-            set
-            {
-                _userName = value;
-                OnPropertyChanged("UserName");
-            }
-        }
-
-        //private string Password
-        //{
-        //    get { return _password; }
-        //    set
-        //    {
-        //        _password = value;
-        //        OnPropertyChanged("Password");
-        //    }
-        //}
-
-        //public bool CanLogIn(ref string userName, ref string password)
-        //{
-        //    bool output = false;
-        //    //userName = this.UserName;
-        //    //password = this.Password;
-        //    if(userName.Length > 0 && password.Length > 0)
-        //    {
-        //        output = true;
-        //    }
-        //    return output;
-        //}
-
-        //public bool CanLogIn(string userName)
-        //{
-        //    bool output = false;
-        //    if (OnPropertyChanged(userName))
-        //    {
-        //        output = true;
-        //    }
-        //    return output;
-        //}
-
-        protected void OnPropertyChanged([CallerMemberName] string name = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
-
-        //private void LoginButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    if (!String.IsNullOrWhiteSpace(usrBox.Text))
-        //    {
-        //        MainWindow main = new MainWindow();
-        //        main.Show();
-        //        this.Close();
-        //    } else
-        //    {
-        //        MessageBox.Show("type in your username");
-        //    }
-        //}
-
-        //private void LoginButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    if (usrBox.Text != "" && pwdBox.SecurePassword.Length != 0)
-        //    {
-                
-        //        if (pwdBox.SecurePassword.Length == 1) //if user found it returns 1  
-        //        {
-
-        //            MainWindow obj = new MainWindow();
-        //            obj.Show(); //after login Redirect to second window  
-        //            this.Close(); 
-
-
-        //        }
-        //        else
-        //        {
-
-        //            MessageBox.Show("InValid UserId Or word");
-
-        //        }
-        //    }
-        //    else
-        //    {
-
-        //        MessageBox.Show("UserId and word Is Required");
-
-        //    }
-        //}
 
         public void LoginButton_Click(object sender, RoutedEventArgs e)
         {
@@ -141,11 +48,7 @@ namespace WPFNav
                 {
                     //save the token information
                     //this is how we get it when we need it later on:
-                    //Token token = Application.Current.Resources["TokenInfo"] as Token;
-                    //
-                    //var result = Task.Run(async () => await service.Authenticate(username, password)).Result;
                     Application.Current.Resources["TokenInfo"] = Task.Run(async () => await service.Authenticate(username, password)).Result; 
-                    //Application.Current.Resources["TokenInfo"] = await service.Authenticate(username, password);
                         MainWindow main = new MainWindow();
                         main.Show();
                         this.Close();
@@ -158,55 +61,6 @@ namespace WPFNav
 
         }
 
-        //public async Task Login()
-        //{
-        //    try
-        //    {
-        //        var result = await api.Authenticate(Username, Password);
-        //    } catch (Exception ex)
-        //    {
-        //        MessageBox.Show(ex.Message);
-        //    }
-        //}
-
-        //private void pwdBox_PasswordChanged(object sender, RoutedEventArgs e)
-        //{
-        //    //if (String.IsNullOrWhiteSpace(pwdBox.Password) && String.IsNullOrWhiteSpace(usrBox.Text))
-        //    //{
-        //    //    LoginButton.IsEnabled = false;
-        //    //}
-        //    //else
-        //    //{
-        //    //    LoginButton.IsEnabled = true;
-        //    //}
-
-        //    if (pwdBox.SecurePassword.Length == 0)
-        //    {
-        //        LoginButton.IsEnabled = false;
-        //    }
-        //    else
-        //    {
-        //        LoginButton.IsEnabled = true;
-        //    }
-        //}
-
-        public void IsUsernameAndPasswordValid()
-        {
-            //return (String.IsNullOrEmpty(usrBox.Text) && pwdBox.SecurePassword.Length == 0);
-            //bool canLogin = false;
-            if (pwdBox.SecurePassword.Length != 0 && !String.IsNullOrWhiteSpace(usrBox.Text))
-            {
-                LoginButton.IsEnabled = true;
-                //canLogin = false;
-            }
-            else
-            {
-                LoginButton.IsEnabled = false;
-                //canLogin = true;
-            }
-            //return canLogin;
-            ////return LoginButton.IsEnabled;
-        }
 
     }
 }

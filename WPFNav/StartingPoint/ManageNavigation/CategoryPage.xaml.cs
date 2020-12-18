@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -39,15 +40,17 @@ namespace WPFNav.StartingPoint.ManageNavigation
             }
         }
 
-
+        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^a-zA-Z]");
+            e.Handled = regex.IsMatch(e.Text);
+        }
 
         #region CreateCategory
         public async void CreateCategoryButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                if (System.Text.RegularExpressions.Regex.IsMatch(CategoryNameBox.Text, "^[a-zA-Z ]"))
-                {
                     Category category = new Category
                     {
                         CategoryName = CategoryNameBox.Text
@@ -62,7 +65,6 @@ namespace WPFNav.StartingPoint.ManageNavigation
                     {
                         MessageBox.Show("Something went wrong, try again");
                     }
-                }
             }
             catch (Exception)
             {
@@ -97,8 +99,7 @@ namespace WPFNav.StartingPoint.ManageNavigation
                 if (String.IsNullOrWhiteSpace(OldCategoryNameBox.Text) || int.TryParse(OldCategoryNameBox.Text, out parsedValue))
                 {
                     MessageBox.Show("Type in Name");
-                }
-                else if(System.Text.RegularExpressions.Regex.IsMatch(NewCategoryNameBox.Text, "^[a-zA-Z ]"))
+                } else
                 {
                     Category updatedCategory = await ls.GetCategory(OldCategoryNameBox.Text);
                     if (updatedCategory != null)
@@ -113,13 +114,13 @@ namespace WPFNav.StartingPoint.ManageNavigation
                     }
                     else
                     {
-                        MessageBox.Show("Something went wrong");
+                        MessageBox.Show("category was not updated");
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                MessageBox.Show("Something went wrong");
+                MessageBox.Show("Something went wrong " + ex.Message);
             }
         }
         #endregion
@@ -221,6 +222,5 @@ namespace WPFNav.StartingPoint.ManageNavigation
             }
         }
         #endregion
-
     }
 }
