@@ -16,15 +16,28 @@
         });
     }
 
-    function updateQuantity(productId, quantity) {
-        $.post('/ShoppingCart/UpdateQuantity',
-            { productId: productId, quantity: quantity }, function (data) {
-                if (data.success) {
-                }
-                else {
-                    alert("Failure!");
-                }
+    function updateQuantity(productId, quantity, quantityField) {
+        if (quantity > 0) {
+            $.post('/ShoppingCart/UpdateQuantity',
+                { productId: productId, quantity: quantity }, function (data) {
+                    if (data.success) {
+                    }
+                    else {
+                        alert("Failure!");
+                    }
+                });
+        }
+        else {
+            $.post('/ShoppingCart/UpdateQuantity',
+                { productId: productId, quantity: 1 }, function (data) {
+                    if (data.success) {
+                    }
+                    else {
+                        alert("Failure!");
+                    }
             });
+            quantityField.value = 1;
+        }
     }
 
     function sendOrder() {

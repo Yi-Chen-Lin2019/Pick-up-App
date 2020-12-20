@@ -1,5 +1,4 @@
-﻿//Register----------------------------------------------
-.register-box-container {
+﻿.register-box-container {
 
     .register-box {
         position: relative;
@@ -12,20 +11,16 @@
         margin-left: auto;
 
         .board {
-            padding: 10px;
+            padding: 40px 80px 40px 80px;
             box-shadow: 0 0 2px 1px #59b527;
             background-color: #e7e7e7;
             border-radius: 5px;
 
-            .center{
-                margin-right: auto;
-                margin-left: auto;
-                width: 300px;
+            label {
+                margin-left: 15px;
             }
 
-
-            .input {
-                cursor: text;
+            input[type="email"], input[type="password"], input[type="text"], input[type="number"] {
                 padding: 7px 7px;
                 margin: 0 9px 10px 9px;
                 width: 96%;
@@ -33,6 +28,7 @@
                 font-size: 18px;
                 border-radius: 5px;
                 border: none;
+                box-shadow: 0 0 1px 1px #bababa;
 
                 &:focus {
                     outline: none;
@@ -45,7 +41,7 @@
                 transition: 0.3s linear;
             }
 
-            .inputRegister {
+            input[type="submit"] {
                 margin: 30px 9px 10px 9px;
                 background: #59b527;
                 padding: 10px;
