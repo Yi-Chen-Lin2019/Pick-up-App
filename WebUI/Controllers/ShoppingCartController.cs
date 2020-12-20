@@ -61,6 +61,7 @@ namespace WebUI.Controllers
             var response = await service.PostOrder(OrderViewModel.Current);
             if (response.IsSuccessStatusCode)
             {
+                Session["Cart"] = null;
                 return this.Json(new { success = true, text = "Order placed correctly." });
             }
             else if (response.StatusCode == System.Net.HttpStatusCode.Conflict)
