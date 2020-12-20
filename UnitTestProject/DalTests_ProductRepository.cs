@@ -18,11 +18,11 @@ namespace UnitTestProject
 
         public DalTests_ProductRepository()
         {
-            category = new Category() { CategoryName = "TestCategory" + Guid.NewGuid().ToString().Substring(0,8)};
+            category = new Category() { CategoryName = "TestCategory" + Guid.NewGuid().ToString().Substring(0,4)};
             product = new Product();
             product.Barcode = DateTime.Now.Millisecond;
             product.ImageUrl = "asdf.jpg";
-            product.ProductName = "TestProduct" + Guid.NewGuid().ToString().Substring(0, 8);
+            product.ProductName = "TestProduct" + Guid.NewGuid().ToString().Substring(0, 4);
             product.ProductPrice = 99;
             product.StockQuantity = 99;
         }
