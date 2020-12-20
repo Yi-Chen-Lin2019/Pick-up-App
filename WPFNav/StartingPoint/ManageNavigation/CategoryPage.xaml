@@ -68,7 +68,9 @@
                  Text=""
                  Margin="5 18 5 18"
                  TextWrapping="WrapWithOverflow"
-                 PreviewTextInput="NumberValidationTextBox"/>
+                 PreviewTextInput="NumberValidationTextBox"
+                 CommandManager.PreviewExecuted="NameBox_PreviewExecuted"
+                 />
 
         <TextBlock x:Name="CategoryNameTextBoxRequirement" Grid.Column="2"
                    Grid.Row="4"
@@ -126,7 +128,8 @@
                  Text=""
                  Margin="5 18 5 18"
                  TextWrapping="WrapWithOverflow"
-                 PreviewTextInput="NumberValidationTextBox"/>
+                 PreviewTextInput="NumberValidationTextBox"
+                 CommandManager.PreviewExecuted="NameBox_PreviewExecuted"/>
 
         <TextBlock x:Name="ReadCategoryNameBoxTextRequirement" Grid.Column="5"
                    Grid.Row="6"
@@ -186,7 +189,8 @@
                  Text=""
                  Margin="5 18 5 18"
                  TextWrapping="WrapWithOverflow"
-                 PreviewTextInput="NumberValidationTextBox"/>
+                 PreviewTextInput="NumberValidationTextBox"
+                 CommandManager.PreviewExecuted="NameBox_PreviewExecuted"/>
 
         <TextBlock x:Name="NewCategoryNameBoxTextRequirement" Grid.Column="8"
                    Grid.Row="4"

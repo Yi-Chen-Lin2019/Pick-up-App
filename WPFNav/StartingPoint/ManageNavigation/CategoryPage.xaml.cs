@@ -31,20 +31,6 @@ namespace WPFNav.StartingPoint.ManageNavigation
             InitializeComponent();
         }
 
-        private void ClearTextBoxes()
-        {
-            foreach (UIElement ctl in CategoryGrid.Children)
-            {
-                if (ctl.GetType() == typeof(TextBox))
-                    ((TextBox)ctl).Text = string.Empty;
-            }
-        }
-
-        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
-        {
-            Regex regex = new Regex("[^a-zA-Z]");
-            e.Handled = regex.IsMatch(e.Text);
-        }
 
         #region CreateCategory
         public async void CreateCategoryButton_Click(object sender, RoutedEventArgs e)
@@ -222,5 +208,29 @@ namespace WPFNav.StartingPoint.ManageNavigation
             }
         }
         #endregion
+
+        private void NameBox_PreviewExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (e.Command == ApplicationCommands.Paste)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^a-zA-Z]");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+
+        private void ClearTextBoxes()
+        {
+            foreach (UIElement ctl in CategoryGrid.Children)
+            {
+                if (ctl.GetType() == typeof(TextBox))
+                    ((TextBox)ctl).Text = string.Empty;
+            }
+        }
+
     }
 }
