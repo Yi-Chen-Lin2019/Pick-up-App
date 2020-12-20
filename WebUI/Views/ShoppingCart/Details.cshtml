@@ -13,7 +13,7 @@
     <div class="product-quantity-price">
         <div class="quantity">
             Quantity: &nbsp &nbsp
-            <input type="number" autocomplete="off" min="0" style="height: 2rem; width: 4rem; " value="@Model.Quantity" onchange="updateQuantity(@Model.Product.ProductId, this.value)"/>
+            <input type="number" autocomplete="off" min="1" style="height: 2rem; width: 4rem; " value="@Model.Quantity" onchange="updateQuantity(@Model.Product.ProductId, this.value, this)"/>
         </div>
         <div class="price">
             @String.Format("{0:0.00} DKK", @Model.Product.ProductPrice)

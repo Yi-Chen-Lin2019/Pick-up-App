@@ -130,11 +130,12 @@ namespace WebUI.Controllers
             OrderViewModel shoppingCart = OrderViewModel.Current;
             foreach(OrderLineViewModel i in shoppingCart.OrderLineList)
             {
-                if (i.Product.ProductId == productId) i.Quantity = quantity;
+                if (i.Product.ProductId == productId)
+                {
+                    if (i.Quantity > 0) { i.Quantity = quantity; Session["Cart"] = shoppingCart; return this.Json(new { success = true }); }
+                }
             }
-
-            Session["Cart"] = shoppingCart;
-            return this.Json(new { success = true });
+            return this.Json(new { success = false });
         }
     }
 }

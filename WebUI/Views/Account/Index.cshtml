@@ -1,60 +1,38 @@
-﻿@model WebUI.ViewModels.RegisterViewModel
+﻿
+<script>
+    function validation() {
+        var password = document.querySelector("#password").value;
+        var conPassowrd = document.querySelector("#conPassword").value;
+        if (password === conPassowrd) {
+            document.querySelector("#conPassword").setCustomValidity("");
+        }
+        else {
+            document.querySelector("#conPassword").setCustomValidity("Passwords doesn't match.");
+        }
+    }
 
-@{
-    ViewBag.Title = "/Account/Register";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+</script>
 <div class="register-box-container">
     <div class="register-box">
-        @using (Html.BeginForm("Register", "Account", FormMethod.Post))
-        {
-            //@Html.ValidationSummary()
-            @Html.AntiForgeryToken()
-
-            <div class="board">
-                <div class="center">
-                    <div class="input">
-                        @Html.LabelFor(m => m.FirstName)
-                        @Html.TextBoxFor(m => m.FirstName, "", new { @class = "form-control", @placeholder = "First Name" })
-                        @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "badge badge-danger" })
-                    </div>
-                    <div class="input">
-                        @Html.LabelFor(m => m.LastName)
-                        @Html.TextBoxFor(m => m.LastName, "", new { @class = "form-control", @placeholder = "Last Name" })
-                        @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "badge badge-danger" })
-
-                    </div>
-                    <div class="input">
-                        @Html.LabelFor(m => m.Email)
-                        @Html.TextBoxFor(m => m.Email, "", new { @class = "form-control", @placeholder = "Email" })
-                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "badge badge-danger" })
-                        @if (ViewBag.error != null)
-                        {
-                            <span class="badge badge-danger">@ViewBag.error</span>
-                        }
-                    </div>
-                    <div class="input">
-                        @Html.LabelFor(m => m.PhoneNumber)
-                        @Html.TextBoxFor(m => m.PhoneNumber, "", new { @class = "form-control", @placeholder = "Phone Number" })
-                        @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "badge badge-danger" })
-                        @if (ViewBag.error != null)
-                        {
-                            <span class="badge badge-danger">@ViewBag.error</span>
-                        }
-                    </div>
-                    <div class="input">
-                        @Html.LabelFor(m => m.Password)
-                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password" })
-                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "badge badge-danger" })
-                    </div>
-                    <div class="input">
-                        @Html.LabelFor(m => m.ConfirmPassword)
-                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", @placeholder = "Confim Password" })
-                        @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "badge badge-danger" })
-                    </div>
-                    <input type="submit" name="submit" class="inputRegister" value="Register" />
-                </div>
-            </div>
-        }
+        <div class="board">
+            <fieldset>
+                <form action="~/Account/Register" method="post">
+                    @Html.AntiForgeryToken()
+                    <label name="email">Email</label>
+                    <input name="Email" id="email" type="email" placeholder="example@example.eg" required oninvalid="this.setCustomValidity('Please fill out this field.')" oninput="this.setCustomValidity('')" />
+                    <label name="FirstName">First Name</label>
+                    <input name="FirstName" id="firstName" type="text" placeholder="First Name" required oninvalid="this.setCustomValidity('Please fill out this field.')" oninput="this.setCustomValidity('')" />
+                    <label name="LastName">Last Name</label>
+                    <input name="LastName" id="lastName" type="text" placeholder="Last Name" required oninvalid="this.setCustomValidity('Please fill out this field.')" oninput="this.setCustomValidity('')" />
+                    <label name="Phone">Phone Number</label>
+                    <input name="PhoneNumber" id="phone" type="text" pattern="[0-9]{8,13}" placeholder="Phone Number" required oninvalid="this.setCustomValidity('Invalid Phone Number.')" oninput="this.setCustomValidity('')" />
+                    <label name="password">Password</label>
+                    <input name="Password" id="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" type="password" placeholder="Password" required oninvalid="this.setCustomValidity('Password must have 6 charactes including: big letter, small letter and a number.')" oninput="this.setCustomValidity('')" />
+                    <label name="password">Repeat Password</label>
+                    <input name="ConfirmPassword" id="conPassword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" type="password" placeholder="Confirm Password" required oninput="validation()" />
+                    <input type="submit" value="Register" />
+                </form>
+            </fieldset>
+        </div>
     </div>
 </div>
