@@ -34,11 +34,20 @@ namespace REST.Controllers
         {
         }
 
-        public AccountController(ApplicationUserManager userManager,
+        public AccountController(ApplicationUserManager userManager, 
             ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
         {
             UserManager = userManager;
             AccessTokenFormat = accessTokenFormat;
+        }
+
+        
+        private IAuthenticationManager AuthenticationManager
+        {
+            get
+            {
+                return Request.GetOwinContext().Authentication;
+            }
         }
 
         public ApplicationUserManager UserManager
@@ -52,9 +61,10 @@ namespace REST.Controllers
                 _userManager = value;
             }
         }
-
+        
         public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; private set; }
 
+       
         // GET api/Account/UserInfo
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
         [Route("UserInfo")]
@@ -336,14 +346,44 @@ namespace REST.Controllers
                 UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, PhoneNumber = model.PhoneNumber};
             
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
-            UserManager.AddToRole(user.Id, "Customer");
-
+            
             if (!result.Succeeded)
             {
                 return GetErrorResult(result);
-            } 
+            }
 
+            UserManager.AddToRole(user.Id, "Customer");
+
+            //send confirm email
+            string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+            var callbackUrl = new Uri(Url.Link("ConfirmEmailRoute", new { userId = user.Id, code = code }));
+            await UserManager.SendEmailAsync(user.Id, "Comfirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+            
             return Ok();
+        }
+
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("ConfirmEmail", Name = "ConfirmEmailRoute")]
+        public async Task<IHttpActionResult> ConfirmEmail(string userId = "", string code = "")
+        {
+            if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(code))
+            {
+                ModelState.AddModelError("", "User Id and Code are required");
+                return BadRequest(ModelState);
+            }
+
+            IdentityResult result = await UserManager.ConfirmEmailAsync(userId, code);
+
+            if (result.Succeeded)
+            {              
+                return Ok("Welcome!");
+            }
+            else
+            {
+                return GetErrorResult(result);
+            }
         }
 
         // POST api/Account/RegisterExternal

@@ -24,6 +24,8 @@
             <RowDefinition  Height="10"/>
         </Grid.RowDefinitions>
 
+        <Border Grid.Row="2" Grid.ColumnSpan="100" BorderBrush="Black" 
+        BorderThickness="0,1,0,0" Background="{x:Null}" />
         <!--Row 1-->
         <TextBlock x:Name="ManageProductText" Grid.Column="1" Grid.Row="1"
                    FontSize="20"

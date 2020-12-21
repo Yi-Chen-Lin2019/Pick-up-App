@@ -387,6 +387,8 @@ $RECYCLE.BIN/
 
 # User-specific files
 
+**/*.cache
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 
 # Mono auto generated files

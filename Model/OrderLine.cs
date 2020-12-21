@@ -11,19 +11,13 @@ namespace Model
         {
         }
 
-        public OrderLine(int Quantity)
+        public OrderLine(int Quantity, Product product)
         {
             this.Quantity = Quantity;
-        }
-        public OrderLine(int OrderLineId, int Quantity, int OrderId)
-        {
-            this.OrderLineId = OrderLineId;
-            this.Quantity = Quantity;
-            this.OrderId = OrderId;
+            this.Product = product;
         }
         [JsonIgnore]
         public int OrderLineId { get; set; }
-        public int OrderId { get; set; }
         public int Quantity { get; set; }
         public Product Product { get; set; }
     }

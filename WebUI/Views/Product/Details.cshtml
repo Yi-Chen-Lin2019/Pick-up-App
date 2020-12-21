@@ -24,13 +24,13 @@
     </div>*@
 
 @*String.Format("data:image/png;base64,{0}", Model.image*@
-<div class="item-photo-container" style="background-image: url(https://homepages.cae.wisc.edu/~ece533/images/zelda.png); background-repeat: no-repeat">
+<div class="item-photo-container" style="background-image: url('@Model.ImageUrl'); background-repeat: no-repeat">
     <div class="seeProduct-btn">
         See Product
 
     </div>
 
-    <div class="addToCart-btn" onclick='addToCart(@Model.id, "@Model.price", "@Model.name", "@Model.image")'>
+    <div class="addToCart-btn" onclick='addToCart(@Model.ProductId, "@Model.ProductPrice", "@Model.ProductName", "@Model.ImageUrl")'>
         Add to Cart
     </div>
 

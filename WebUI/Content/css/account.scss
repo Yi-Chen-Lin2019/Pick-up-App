@@ -1,5 +1,4 @@
-﻿//Register----------------------------------------------
-.register-box-container {
+﻿.register-box-container {
 
     .register-box {
         position: relative;
@@ -12,12 +11,12 @@
         margin-left: auto;
 
         .board {
-            padding: 10px;
+            padding: 40px 80px 40px 80px;
             box-shadow: 0 0 2px 1px #59b527;
             background-color: #e7e7e7;
             border-radius: 5px;
 
-            label{
+            label {
                 margin-left: 15px;
             }
 
@@ -61,7 +60,7 @@
     }
 }
 
-//User Profile-----------------------------------------------
+//Options-----------------------------------------------
 .option-container {
     position: absolute;
     width: 15rem;
@@ -91,8 +90,104 @@
 .option-view-container {
     position: absolute;
     left: 17rem;
-    height: 1rem;
+    top: -2rem;
+    height: auto;
     width: 60%;
-    background-color: aqua;
+}
+
+//Order History-----------------------------------------------
+.order-container {
+    width: 100%;
+    height: 7rem;
+    margin-bottom: 1rem;
+
+    .order-box {
+        height: 100%;
+        padding: 15px;
+        position: relative;
+        border: 1px solid lightgray;
+
+        .time-box {
+            position: relative;
+            float: left;
+
+            .ordered-time {
+                font-family: 'Lato', sans-serif;
+                font-size: 18px;
+                margin-bottom: 1rem;
+            }
+
+            .pick-up-time {
+                font-family: 'Lato', sans-serif;
+                font-size: 18px;
+            }
+        }
+
+        .price-status-box {
+            position: relative;
+            float: left;
+            left: 2rem;
+
+            .total-price {
+                font-family: 'Lato', sans-serif;
+                font-size: 18px;
+                margin-bottom: 1rem;
+            }
+
+            .status {
+                font-family: 'Lato', sans-serif;
+                font-size: 18px;
+            }
+        }
+
+        .view-btn {
+            cursor: pointer;
+            text-align: center;
+            vertical-align: middle;
+            font-family: 'Lato', sans-serif;
+            font-size: 22px;
+            border: 1px solid lightgray;
+            position: relative;
+            float: right;
+            height: 5rem;
+            width: 5rem;
+            transition-duration: 0.2s;
+            transition-timing-function: ease-in-out;
+
+            p {
+                position: relative;
+                top: 1.3rem;
+            }
+
+            &:hover {
+                background-color: #b0f39e;
+            }
+        }
+
+        .order-again-btn {
+            cursor: pointer;
+            text-align: center;
+            vertical-align: middle;
+            font-family: 'Lato', sans-serif;
+            font-size: 22px;
+            border: 1px solid lightgray;
+            position: relative;
+            float: right;
+            right: 1rem;
+            height: 5rem;
+            width: 5rem;
+            transition-duration: 0.2s;
+            transition-timing-function: ease-in-out;
+
+            p {
+                position: relative;
+                top: 0.3rem;
+            }
+
+            &:hover {
+                background-color: #b0f39e;
+            }
+        }
+    }
 }
 

@@ -9,8 +9,18 @@ namespace BusinessLayer
     {
         public IEnumerable<Category> GetAllCategories()
         {
-            IProductRepository pRepo = new ProductRepository();
-            return pRepo.GetAllCategories();
+            IEnumerable<Category> foundCategories;
+            try
+            {
+                IProductRepository pRepo = new ProductRepository();
+                foundCategories = pRepo.GetAllCategories();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                foundCategories = null;
+            }
+            return foundCategories;
 
         }
 
@@ -21,16 +31,16 @@ namespace BusinessLayer
             return pRepo.DeleteCategory(productID);
         }
         */
-        public bool UpdateCategory(Category product)
+        public bool UpdateCategory(Category category)
         {
             IProductRepository pRepo = new ProductRepository();
-            return pRepo.UpdateCategory(product);
+            return pRepo.UpdateCategory(category);
         }
 
-        public Category InsertCategory(Category product)
+        public Category InsertCategory(Category category)
         {
             IProductRepository pRepo = new ProductRepository();
-            return pRepo.InsertCategory(product);
+            return pRepo.InsertCategory(category);
         }
 
         public Category GetCategoryByName(string categoryName)

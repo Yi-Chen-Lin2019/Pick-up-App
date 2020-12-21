@@ -22,9 +22,10 @@ namespace WebUI.ViewModels
                 return cart;
             }
         }
-
-        public DateTime PickUpTime { get; set; }
+        public int OrderId { get; set; }
         public DateTime OrderedTime { get; set; }
+        public DateTime PickUpTime { get; set; }
+        public String OrderStatus { get; set; }
         public double TotalPrice { get; set; }
         public UserViewModel Customer { get; set; }
         public UserViewModel Employee { get; set; }
@@ -47,8 +48,8 @@ namespace WebUI.ViewModels
             {
                 OrderLine ol = new OrderLine();
                 ol.Product = new Product();
-                ol.Product.ProductId = item.product.id;
-                ol.Quantity = item.quantity;
+                ol.Product.ProductId = item.Product.ProductId;
+                ol.Quantity = item.Quantity;
             }
             o.PickUpTime = Current.PickUpTime;
             return o;

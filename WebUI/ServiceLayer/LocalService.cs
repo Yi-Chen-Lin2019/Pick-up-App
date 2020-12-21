@@ -33,6 +33,67 @@ namespace WebUI.ServiceLayer
             }
         }
 
+        public async Task<bool> GetUserOrders()
+        {
+            // Create URI
+            string useRestUrl = _restUrl + "Orders/UserId";
+            var uri = new Uri(string.Format(useRestUrl));
+            //
+            try
+            {
+                var response = await _client.GetAsync(uri);
+                if (response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    UserViewModel.Current.Orders = JsonConvert.DeserializeObject<List<OrderViewModel>>(content);
+                    List<OrderViewModel> orders = UserViewModel.Current.Orders;
+                }
+                else if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    throw (new HttpRequestValidationException(response.StatusCode.ToString()));
+                }
+                else
+                {
+                    throw (new Exception());
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return true;
+        }
+
+        public async Task<bool> Register(RegisterViewModel registeration)
+        {
+            bool registerOk;
+            string useRestUrl = _restUrl + "api/Account/Register";
+            var uri = new Uri(string.Format(useRestUrl));
+            try
+            {
+                var json = JsonConvert.SerializeObject(registeration);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                HttpResponseMessage response = null;
+                response = await _client.PostAsync(uri, content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    registerOk = true;
+                }
+                else
+                {
+                    registerOk = false;
+                    throw (new HttpRequestValidationException(response.StatusCode.ToString()));
+                }
+            }
+            catch
+            {
+                registerOk = false;
+            }
+
+            return registerOk;
+        }
         public async Task<Token> Authenticate(string username, string password)
         {
             var data = new FormUrlEncodedContent(new[]
@@ -55,17 +116,44 @@ namespace WebUI.ServiceLayer
                 }
                 else
                 {
-                    throw (new Exception(response.ReasonPhrase));
+                    return null;
                 }
             }
         }
 
-        public async Task<UserViewModel> GetPersonById(string id)
+        public async Task<bool> PutUserInfo(Person person)
+        {
+                bool PutOk = false;
+                string useRestUrl = _restUrl + "/Person/UpdateInfo";
+                var uri = new Uri(string.Format(useRestUrl, string.Empty));
+
+                try
+                {
+                    var json = JsonConvert.SerializeObject(person);
+                    var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                    HttpResponseMessage response = null;
+                    response = await _client.PutAsync(uri, content);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        PutOk = true;
+                    }
+                }
+                catch
+                {
+                    PutOk = false;
+                }
+
+            return PutOk;
+        }
+
+        public async Task<UserViewModel> GetUserInfo()
         {
             Person personFromService;
 
             // Create URI
-            string useRestUrl = _restUrl + "Persons/"+id.ToString();
+            string useRestUrl = _restUrl + "Person/Info";
             var uri = new Uri(string.Format(useRestUrl));
             //
             try
@@ -92,30 +180,25 @@ namespace WebUI.ServiceLayer
             return new UserViewModel(personFromService);
         }
 
-        public async Task<Boolean> PostOrder(Order order)
+        public async Task<HttpResponseMessage> PostOrder(OrderViewModel order)
         {
-            //// Create URI
-            //string useRestUrl = _restUrl + "Orders";
-            //var uri = new Uri(string.Format(useRestUrl));
-            
-            //try
-            //{
-            //    StringContent content = new StringContent(JsonConvert.SerializeObject(order));
-            //    var response = await _client.PostAsync(uri, content);
+            HttpResponseMessage response;
+            string useRestUrl = _restUrl + "Orders";
+            var uri = new Uri(string.Format(useRestUrl));
+            try
+            {
+                var json = JsonConvert.SerializeObject(order);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            //    if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
-            //    {
-            //        throw (new HttpRequestValidationException(response.StatusCode.ToString()));
-            //    }
-            //    else
-            //    {
-            //        throw (new Exception());
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw ex;
-            //}
+                response = await _client.PostAsync(uri, content);
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+
+            return response;
+            /*
             bool PostedOk;
             string useRestUrl = _restUrl + "Orders";
             var uri = new Uri(string.Format(useRestUrl));
@@ -147,7 +230,8 @@ namespace WebUI.ServiceLayer
             }
 
             return PostedOk;
-    }
+            */
+        }
 
         public async Task<List<Product>> GetAllProducts()
         {

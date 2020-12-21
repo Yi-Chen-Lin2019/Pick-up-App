@@ -7,12 +7,12 @@ namespace WebUI.ViewModels
 {
     public class OrderLineViewModel
     {
-        public int quantity { get; set; }
-        public ProductViewModel product { get; set; }
-        public OrderLineViewModel(int quantity, ProductViewModel product)
+        public int Quantity { get; set; }
+        public ProductViewModel Product { get; set; }
+        public OrderLineViewModel(int Quantity, ProductViewModel Product)
         {
-            this.quantity = quantity;
-            this.product = product;
+            this.Quantity = Quantity;
+            this.Product = Product;
         }
     }
 }

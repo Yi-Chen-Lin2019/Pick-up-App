@@ -25,104 +25,217 @@ namespace WPFNav.StartingPoint.ManageNavigation
     public partial class ProductPage : Page
     {
         LocalService ls = new LocalService();
+        Product product;
+        List<Product> productList = new List<Product>();
         public ProductPage()
         {
             InitializeComponent();
             LoadCategories();
         }
 
-        public async void LoadCategories()
+        private void ClearTextBoxes()
         {
-            List<Category> categoryList = await ls.GetAllCategories();
-            foreach (var category in categoryList)
+            foreach (UIElement ctl in ProductGrid.Children)
             {
-                CategoryList.Items.Add(category);
-                CategoryList.DisplayMemberPath = "CategoryName";
-                CategoryList.SelectedValuePath = "CategoryId";
-                CategoryUpdateList.Items.Add(category);
-                CategoryUpdateList.DisplayMemberPath = "CategoryName";
-                CategoryUpdateList.SelectedValuePath = "CategoryId";
+                if (ctl.GetType() == typeof(TextBox))
+                    ((TextBox)ctl).Text = string.Empty;
             }
         }
-        public async void ReadProductsButton_Click(object sender, RoutedEventArgs e)
-        {
-            //List<Product> productList;
-            //LocalService ls = new LocalService();
-            List<Product> productList = await ls.GetAllProducts();
 
-            ProductList.ItemsSource = productList;   
+        public async void LoadCategories()
+        {
+            try
+            {
+                List<Category> categoryList = await ls.GetAllCategories();
+                foreach (var category in categoryList)
+                {
+                    CategoryList.Items.Add(category);
+                    CategoryList.DisplayMemberPath = "CategoryName";
+                    CategoryList.SelectedValuePath = "CategoryId";
+                    CategoryUpdateList.Items.Add(category);
+                    CategoryUpdateList.DisplayMemberPath = "CategoryName";
+                    CategoryUpdateList.SelectedValuePath = "CategoryId";
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Please start API project, otherwise application can not get categories");
+            }
+
         }
 
-        
-        public async void UpdateProductButton_Click(object sender, RoutedEventArgs e)
+
+        #region CreateProduct
+        public async void CreateProductButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!String.IsNullOrWhiteSpace(ProductIdUpdateBox.Text))
+            try
             {
-                Product updatedProduct = await ls.GetProduct(int.Parse(ProductIdUpdateBox.Text));
-                if(updatedProduct != null)
+                Product product = new Product
                 {
-                    updatedProduct.ProductId = int.Parse(ProductIdUpdateBox.Text);
-                    updatedProduct.ProductName = ProductNameUpdateBox.Text;
-                    updatedProduct.Barcode = int.Parse(BarcodeUpdateBox.Text);
-                    updatedProduct.ProductPrice = decimal.Parse(PriceUpdateBox.Text);
-                    updatedProduct.StockQuantity = int.Parse(StockQuantityUpdateBox.Text);
-                    updatedProduct.Category = (Category)CategoryUpdateList.SelectedItem;
+                    ImageUrl = ProductImageBox.Text,
+                    ProductName = ProductNameBox.Text,
+                    Barcode = int.Parse(BarcodeBox.Text),
+                    ProductPrice = decimal.Parse(PriceBox.Text),
+                    StockQuantity = int.Parse(StockQuantityBox.Text),
+                    Category = (Category)CategoryList.SelectedItem
                 };
 
-                if (await ls.UpdateProduct(updatedProduct))
+                if (await ls.PostProduct(product))
                 {
-                    MessageBox.Show("done");
+                    MessageBox.Show("Product created.");
+                    ClearTextBoxes();
                 }
                 else
                 {
-                    MessageBox.Show("Something went wrong");
+                    MessageBox.Show("Something went wrong.");
                 }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Something went wrong.");
+            }
+        }
 
-
+        #endregion
+        #region ReadProducts
+        public async void ReadProductsButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                await getAllProductsAsync();
+                repopulateProductList();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Something went wrong.");
             }
 
         }
-
-
-        public async void ReadProductById_Click(object sender, RoutedEventArgs e)
+        private void repopulateProductList()
         {
-            if (String.IsNullOrWhiteSpace(ProductIdBox.Text))
+            ProductList.Items.Clear();
+            foreach (var item in productList)
             {
-                MessageBox.Show("type in id");
+                ListViewItem listViewItem = new ListViewItem();
+                listViewItem.Content = item.ToString();
+                listViewItem.Uid = item.ProductId.ToString();
+                ProductList.Items.Add(listViewItem);
+            }
+        }
+        private async Task<List<Product>> getAllProductsAsync()
+        {
+            try
+            {
+                return productList = await ls.GetAllProducts();
+
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Something went wrong.");
+                return null;
+            }
+        }
+        public async void FilterProductsByName_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (String.IsNullOrWhiteSpace(ProductNameFilterBox.Text))
+                {
+                    MessageBox.Show("Type in text");
+                }
+                else
+                {
+                    IEnumerable<Product> possibleSuspects = await getAllProductsAsync();
+                    possibleSuspects = possibleSuspects.Where(p => p.ToString().ToLower().Contains(ProductNameFilterBox.Text.ToLower()));
+                    productList = possibleSuspects.ToList();
+                    repopulateProductList();
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Something went wrong.");
+            }
+        }
+        private async void ProductList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+            ListView v = (ListView)sender;
+            if (v.HasItems)
+            {
+                ListViewItem selectedItem = (ListViewItem)e.AddedItems[0];
+                product = await loadProduct(int.Parse(selectedItem.Uid));
+            }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Something went wrong.");
+            }
+        }
+
+        #endregion
+        #region UpdateProduct
+        private async Task<Product> loadProduct(int productId)
+        {
+            try
+            {
+            Product productById = await ls.GetProduct(productId);
+            ProductIdUpdateBox.Text = productById.ProductId.ToString();
+            ProductNameUpdateBox.Text = productById.ProductName;
+            BarcodeUpdateBox.Text = productById.Barcode.ToString();
+            PriceUpdateBox.Text = productById.ProductPrice.ToString();
+            StockQuantityUpdateBox.Text = productById.StockQuantity.ToString();
+            CategoryUpdateList.SelectedItem = productById.Category;
+            return productById;
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Something went wrong.");
+                return null;
+            }
+        }
+
+        public async void UpdateProductButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+            product.ImageUrl = ProductImageUpdateBox.Text;
+            product.ProductId = int.Parse(ProductIdUpdateBox.Text);
+            product.ProductName = ProductNameUpdateBox.Text;
+            product.Barcode = int.Parse(BarcodeUpdateBox.Text);
+            product.ProductPrice = decimal.Parse(PriceUpdateBox.Text);
+            product.StockQuantity = int.Parse(StockQuantityUpdateBox.Text);
+            if (CategoryUpdateList.SelectedItem == null)
+            {
+                MessageBox.Show("Choose category");
             }
             else
             {
-                Product product = await ls.GetProduct(int.Parse(ProductIdBox.Text));
-                ProductByIdBox.Text = product.ToString();
+                product.Category = (Category)CategoryUpdateList.SelectedItem;
+                if (await ls.UpdateProduct(this.product))
+                {
+                    MessageBox.Show("Updated successfully");
+                }
+                else
+                {
+                    MessageBox.Show("Failed to update. Please try again");
+                }
+                ReadProductsButton_Click(null, null);
+            }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Something went wrong.");
             }
         }
 
-        public async void CreateProductButton_Click(object sender, RoutedEventArgs e)
-        {
-
-            Product product = new Product
-            {
-                ProductName = ProductNameBox.Text,
-                Barcode = int.Parse(BarcodeBox.Text),
-                ProductPrice = decimal.Parse(PriceBox.Text),
-                StockQuantity = int.Parse(StockQuantityBox.Text),
-                Category = (Category)CategoryList.SelectedItem
-            };
-
-            bool success;
-
-               if(await ls.PostProduct(product))
-            {
-                success = true;
-                MessageBox.Show("done");
-            } else
-            {
-                success = false;
-                MessageBox.Show("Something went wrong, try using unique barcode");
-            }
+        #endregion
 
 
-        }
+
+
+
+
 
     }
 }

@@ -7,22 +7,24 @@ namespace Model
 {
     public class Product
     {
-        public Product(String ProductName, int Barcode, decimal ProductPrice, int StockQuantity)
+        public Product(String ProductName, int Barcode, decimal ProductPrice, int StockQuantity, string ImageUrl)
         {
             this.ProductName = ProductName;
             this.Barcode = Barcode;
             this.ProductPrice = ProductPrice;
             this.StockQuantity = StockQuantity;
+            this.ImageUrl = ImageUrl;
         }
 
        
-        public Product(int ProductId, String ProductName, int Barcode, decimal ProductPrice, int StockQuantity, byte[] RowId, Int64 RowIdBig)
+        public Product(int ProductId, String ProductName, int Barcode, decimal ProductPrice, int StockQuantity, string ImageUrl, byte[] RowId, Int64 RowIdBig)
         {
             this.ProductId = ProductId;
             this.ProductName = ProductName;
             this.Barcode = Barcode;
             this.ProductPrice = ProductPrice;
             this.StockQuantity = StockQuantity;
+            this.ImageUrl = ImageUrl;
             this.RowId = RowId;
             this.RowIdBig = RowIdBig;
         }
@@ -30,10 +32,12 @@ namespace Model
 
         public int ProductId { get; set; }
 
+        public string ImageUrl { get; set; }
+
         public override string ToString()
         {
             //return this.ProductName + ", " + this.ProductId + ", "+ this.Barcode + ", "+ this.ProductPrice + ", "+ this.StockQuantity;
-            return " Id= " + this.ProductId + ", Name= " + this.ProductName + ", Barcode= " + this.Barcode + ", Price= " + this.ProductPrice + ", Quantity= " + this.StockQuantity + ", Category name: "+this.Category.CategoryName + ", Category Id: "+this.Category.CategoryId;
+            return this.Barcode + "/-/ " + this.ProductName + " " + this.ProductPrice + "DKK, In Stock(" + this.StockQuantity + "), Category: "+this.Category.CategoryName;
         }
 
         public String ProductName { get; set; }

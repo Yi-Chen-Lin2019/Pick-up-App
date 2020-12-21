@@ -58,11 +58,11 @@
 </div>
 
 <script>
-    function addToCart(productId, price, name, image) {
+    function addToCart(productId, price, name, ImageUrl) {
 
         $(function () {
             $.post('/ShoppingCart/AddToCart',
-                { productId: productId, price: price, name: name, image: image }, function (data) {
+                { productId: productId, price: price, name: name, ImageUrl: ImageUrl }, function (data) {
                     if (data.success) {
                         alert("Item added to cart.");
                     }
@@ -83,8 +83,8 @@
                 @Html.Partial("~/Views/Product/Details.cshtml", item)
             </div>
             <div class="product-title">
-                <p style="font-size: 20px;">&nbsp @item.name</p>
-                <p style="font-size: 14px;">&nbsp @String.Format("{0:0.00} DKK", item.price)</p>
+                <p style="font-size: 20px;">&nbsp @item.ProductName</p>
+                <p style="font-size: 14px;">&nbsp @String.Format("{0:0.00} DKK", item.ProductPrice)</p>
             </div>
         </div>
     }

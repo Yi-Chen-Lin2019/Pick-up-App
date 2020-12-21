@@ -5,10 +5,10 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:WPFNav.StartingPoint.ManageNavigation"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800" Background="AliceBlue"
+      d:DesignHeight="550" d:DesignWidth="800" Background="AliceBlue"
       Title="ProductPage">
 
-    <Grid>
+    <Grid x:Name="ProductGrid">
         <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="10"/>
                 <ColumnDefinition Width="*"/>
@@ -33,7 +33,14 @@
                 <RowDefinition  Height="*"/>
                 <RowDefinition  Height="10"/>
           </Grid.RowDefinitions>
-        
+
+        <Border Grid.Column="4" Grid.RowSpan="100" BorderBrush="Black" 
+        BorderThickness="1,0,0,0" Background="{x:Null}" />
+        <Border Grid.Column="6" Grid.RowSpan="100" BorderBrush="Black" 
+        BorderThickness="1,0,0,0" Background="{x:Null}" />
+        <Border Grid.Row="6" Grid.Column="4" Grid.ColumnSpan="2" Grid.RowSpan="100" BorderBrush="Black" 
+        BorderThickness="0,1,0,0" Background="{x:Null}" />
+
         <!--Row 1-->
         <TextBlock x:Name="CreateProductText" Text="Create product" Grid.Column="1"
                    Grid.Row="1" Margin="5 5 5 5" FontSize="20" 
@@ -42,21 +49,44 @@
                    VerticalAlignment="Center"
                    Grid.ColumnSpan="2"/>
 
-        <TextBlock x:Name="ReadProductText" Text="Read product" Grid.Column="4"
+        <TextBlock x:Name="ReadProductText" Text="Read products" Grid.Column="4"
                    Grid.Row="1" Margin="5 5 5 5" FontSize="20" 
                    TextWrapping="WrapWithOverflow"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    Grid.ColumnSpan="2"/>
 
-        <TextBlock x:Name="UpdateProductText" Text="Update product" Grid.Column="7"
-                   Grid.Row="1" Margin="5 5 5 5" FontSize="20" 
-                   TextWrapping="WrapWithOverflow"
-                   HorizontalAlignment="Center"
+        <TextBlock x:Name="ProductImageUpdate" Grid.Column="7"
+                   Grid.Row="1"
+                   Text="Product new image link:"
+                   HorizontalAlignment="Left"
                    VerticalAlignment="Center"
-                   Grid.ColumnSpan="2"/>
+                   TextWrapping="WrapWithOverflow"
+                   FontSize="15"/>
+
+        <TextBox x:Name="ProductImageUpdateBox" Grid.Column="8"
+                 Grid.Row="1"
+                 Text=""
+                 Margin="5 25 5 25"
+                 TextWrapping="WrapWithOverflow"
+                 />
 
         <!--Row 2-->
+        <TextBlock x:Name="ProductImage" Grid.Column="1"
+                   Grid.Row="2"
+                   Text="Product image link:"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Center"
+                   TextWrapping="WrapWithOverflow"
+                   FontSize="15"/>
+
+        <TextBox x:Name="ProductImageBox" Grid.Column="2"
+                 Grid.Row="2"
+                 Text=""
+                 Margin="5 25 5 25"
+                 TextWrapping="WrapWithOverflow"
+                 />
+        
         <TextBlock x:Name="ProductIdUpdate" Grid.Column="7"
                    Grid.Row="2"
                    Text="ProductId:"
@@ -68,7 +98,8 @@
                  Grid.Row="2"
                  Text=""
                  Margin="5 25 5 25"
-                 TextWrapping="WrapWithOverflow"/>
+                 TextWrapping="WrapWithOverflow"
+                 IsReadOnly="True"/>
         
         <!--Row 3-->
         <TextBlock x:Name="ProductName" Grid.Column="1"
@@ -135,7 +166,8 @@
                   Grid.Column="4"
                   Grid.ColumnSpan="2"
                   Grid.RowSpan="2"
-                  Grid.Row="4"></ListView>
+                  Grid.Row="4"
+                  SelectionChanged="ProductList_SelectionChanged"></ListView>
 
         <!--Row 5-->
         <TextBlock x:Name="Price" Grid.Column="1"
@@ -178,12 +210,12 @@
                  Margin="5 25 5 25"
                  TextWrapping="WrapWithOverflow"/>
         
-        <Button HorizontalAlignment="Stretch" x:Name="BtnReadProductById" 
+        <Button HorizontalAlignment="Stretch" x:Name="BtnFilterProductsByName" 
                 Grid.Column="4" 
                 Grid.ColumnSpan="2"
                 Grid.Row="6" 
                 Margin="20 20 20 20" 
-                Click="ReadProductById_Click" Content="Read product by id"/>
+                Click="FilterProductsByName_Click" Content="Apply filter"/>
 
         <TextBlock x:Name="StockQuantityUpdate" Grid.Column="7"
                    Grid.Row="6"
@@ -214,12 +246,12 @@
 
         <TextBlock x:Name="ProductId" Grid.Column="4"
                    Grid.Row="7"
-                   Text="Product id:"
+                   Text="Text to filter:"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    FontSize="15"/>
 
-        <TextBox x:Name="ProductIdBox" Grid.Column="5"
+        <TextBox x:Name="ProductNameFilterBox" Grid.Column="5"
                  Grid.Row="7"
                  Text=""
                  Margin="5 25 5 25"
@@ -244,15 +276,6 @@
                 Grid.Row="8" 
                 Margin="5 15 5 15" 
                 Click="CreateProductButton_Click" Content="Create product"/>
-
-        <TextBox x:Name="ProductByIdBox" Grid.Column="4"
-                 Grid.Row="8"
-                 Grid.ColumnSpan="2"
-                 IsReadOnly="True"
-                 Text=""
-                 Margin="5 5 5 5"
-                 TextWrapping="WrapWithOverflow"
-                 />
 
         <Button HorizontalAlignment="Stretch" x:Name="UpdateProductButton" 
                 Grid.Column="7" 

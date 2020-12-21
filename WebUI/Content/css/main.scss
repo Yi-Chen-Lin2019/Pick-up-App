@@ -165,11 +165,17 @@ $colorSecondary: $green;
         float: right;
     }
 
-    .user-name {
+    .login-text {
         font-size: 15px;
         margin-top: 1rem;
         margin-left: 1rem;
         float: right;
+    }
+
+    .user-name {
+        font-size: 14px;
+        word-break: break-all;
+        vertical-align: middle;
     }
 }
 
@@ -300,8 +306,9 @@ fieldset {
     }
 
     input[type="email"], input[type="password"] {
+        cursor: text;
         padding: 7px 5px;
-        margin: 10px 0;
+        margin-bottom: 10px;
         width: 96%;
         display: block;
         font-size: 18px;
@@ -321,6 +328,7 @@ fieldset {
     }
 
     input[type="submit"] {
+        cursor: pointer;
         background: #59b527;
         padding: 10px;
         font-size: 20px;
@@ -343,6 +351,7 @@ fieldset {
     border-radius: 5px;
 
     #register {
+        cursor: pointer;
         position: relative;
         top: 0.5rem;
         left: 11rem;

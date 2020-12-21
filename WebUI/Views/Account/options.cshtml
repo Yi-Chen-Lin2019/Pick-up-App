@@ -1,0 +1,13 @@
+﻿<div class="option-container">
+    <label onclick="profileInfo()">Change User Information</label>
+    <label onclick="profileOrders()" style="border-bottom: 1px solid lightgray;">Order History</label>
+</div>
+
+<script>
+    function profileInfo() {
+        window.location.href = '/Account/edit';
+    }
+    function profileOrders() {
+        window.location.href = '/Account/orders';
+    }
+</script>

@@ -6,11 +6,24 @@ namespace REST.Models
 {
     // Models used as parameters to AccountController actions.
 
+
     public class AddExternalLoginBindingModel
     {
         [Required]
         [Display(Name = "External access token")]
         public string ExternalAccessToken { get; set; }
+    }
+
+    public class ConfirmEmalBindingModel {
+
+        [Required]
+        [Display(Name = "User Id")]
+        public string UserId { get; set; }
+
+        [Required]
+        [DataType(DataType.Password)]
+        [Display(Name = "Password")]
+        public string Password { get; set; }
     }
 
     public class ChangePasswordBindingModel

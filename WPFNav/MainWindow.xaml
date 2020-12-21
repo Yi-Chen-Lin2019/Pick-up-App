@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFNav"
         mc:Ignorable="d"
-        Title="PickUpAppEmployeeClient" Height="600" Width="750" Background="AliceBlue"
+        Title="PickUpAppEmployeeClient" WindowState="Maximized" Background="AliceBlue"
         MinWidth="500" MinHeight="500">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -21,6 +21,9 @@
             <RowDefinition  Height="*"/>
             <RowDefinition  Height="10"/>
         </Grid.RowDefinitions>
+
+        <Border Grid.Row="2" Grid.ColumnSpan="100" Grid.RowSpan="100" BorderBrush="Black" 
+        BorderThickness="1,1,1,1" Background="{x:Null}" />
 
         <!--Row 1-->
         <TextBlock x:Name="HomeText" Grid.Column="1" Grid.Row="1"

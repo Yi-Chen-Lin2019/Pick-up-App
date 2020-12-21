@@ -12,7 +12,7 @@
 </head>
 <body>
     <script>
-        function redirectToHomePage(){
+        function redirectToHomePage() {
             window.location.href = '/';
         }
         function redirectToShoppingCart() {
@@ -21,6 +21,11 @@
         function redirectToRegister() {
             window.location.href = '/Account';
         }
+
+        function redirectToProfilePage() {
+            window.location.href = '/Account/Edit';
+        }
+
         function searchProduct() {
             window.location.href = '/Product/Search?query=' + document.querySelector('#searchTerm').value.toLowerCase();
         }
@@ -45,35 +50,66 @@
                             <i class="fa fa-search">GO</i>
                         </button>
                     </div>
-                 </div>
+                </div>
                 <div class="cartContainer" onclick="redirectToShoppingCart()">
                     <div class="cartIcon">
                         <img src="~/Content/img/CartIcon.svg" runat="server" style="height: 3rem; width: 3rem;" />
                         <div class="cartPrice">
-                            999999 DKK
+                            @if (Session["Cart"] is null)
+                            {
+                            <p>0 DKK</p>
+                            }
+                            else
+                            {
+                                var cart = (WebUI.ViewModels.OrderViewModel)Session["Cart"];
+                                double cartTotal = 0;
+                                foreach (var item in cart.OrderLineList)
+                                {
+                                    cartTotal += item.Product.ProductPrice * item.Quantity;
+                                }
+                                <p>@cartTotal DKK</p>
+                            }
                         </div>
                     </div>
                 </div>
                 <div class="user-profile-container">
-                    <div class="user-profile-box" onclick="LogInWindowOnClick()">
-                        <div class="user-icon">
-                            <img src="~/Content/img/UserIcon.svg" runat="server" style="height: 3rem; width: 3rem;" />
+                    @if (Session["TokenInfo"] is null)
+                    {
+                        <div class="user-profile-box" onclick="LogInWindowOnClick()">
+                            <div class="user-icon">
+                                <img src="~/Content/img/UserIcon.svg" runat="server" style="height: 3rem; width: 3rem;" />
+                            </div>
+                            <div class="login-text">
+                                LOG IN
+                            </div>
                         </div>
-                        <div class="user-name">
-                            LOG IN
+                    }
+                    else
+                    {
+                        var token = (WebUI.ViewModels.Token)Session["TokenInfo"];
+                        <div class="user-profile-box" onclick="redirectToProfilePage()">
+                            <div class="user-icon">
+                                <img src="~/Content/img/UserIcon.svg" runat="server" style="height: 3rem; width: 3rem;" />
+                            </div>
+                            <div class="user-name">
+                                Hello, <br />
+                                @token.UserName
+                            </div>
                         </div>
-                    </div>
+                    }
+
                     <div class="login loginDisable" id="login-id">
                         <div class="arrow-up"></div>
                         <div class="formholder">
                             <div class="randompad">
-                                <fieldset>
-                                    <label name="email">Email</label>
-                                    <input type="email" value="example@example.eg" />
-                                    <label name="password">Password</label>
-                                    <input type="password" />
-                                    <input type="submit" value="Login" />
-                                </fieldset>
+                                <form action="~/Account/Login" method="post">
+                                    @Html.AntiForgeryToken()
+                                    <label for="fname">Email:</label>
+                                    <input type="email" id="Email" name="Email" required>
+                                    <label for="lname">Password:</label>
+                                    <input type="password" id="Password" name="Password" required>
+                                    <input type="submit" value="Log In">
+                                </form>
                                 <label id="register" name="register" onclick="redirectToRegister()">Register</label>
                             </div>
                         </div>

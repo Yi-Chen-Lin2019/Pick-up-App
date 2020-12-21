@@ -1,25 +1,38 @@
 ﻿
-<body>
-    <div class="register-box-container">
-        <div class="register-box">
-            <div class="board">
-                <fieldset>
+<script>
+    function validation() {
+        var password = document.querySelector("#password").value;
+        var conPassowrd = document.querySelector("#conPassword").value;
+        if (password === conPassowrd) {
+            document.querySelector("#conPassword").setCustomValidity("");
+        }
+        else {
+            document.querySelector("#conPassword").setCustomValidity("Passwords doesn't match.");
+        }
+    }
+
+</script>
+<div class="register-box-container">
+    <div class="register-box">
+        <div class="board">
+            <fieldset>
+                <form action="~/Account/Register" method="post">
+                    @Html.AntiForgeryToken()
                     <label name="email">Email</label>
-                    <input type="email" value="example@example.eg" />
+                    <input name="Email" id="email" type="email" placeholder="example@example.eg" required oninvalid="this.setCustomValidity('Please fill out this field.')" oninput="this.setCustomValidity('')" />
                     <label name="FirstName">First Name</label>
-                    <input type="text" />
+                    <input name="FirstName" id="firstName" type="text" placeholder="First Name" required oninvalid="this.setCustomValidity('Please fill out this field.')" oninput="this.setCustomValidity('')" />
                     <label name="LastName">Last Name</label>
-                    <input type="text" />
-                    <label name="Phone">Phone</label>
-                    <input type="number" min="0" max="999999999999" />
+                    <input name="LastName" id="lastName" type="text" placeholder="Last Name" required oninvalid="this.setCustomValidity('Please fill out this field.')" oninput="this.setCustomValidity('')" />
+                    <label name="Phone">Phone Number</label>
+                    <input name="PhoneNumber" id="phone" type="text" pattern="[0-9]{8,13}" placeholder="Phone Number" required oninvalid="this.setCustomValidity('Invalid Phone Number.')" oninput="this.setCustomValidity('')" />
                     <label name="password">Password</label>
-                    <input type="password" />
+                    <input name="Password" id="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" type="password" placeholder="Password" required oninvalid="this.setCustomValidity('Password must have 6 charactes including: big letter, small letter and a number.')" oninput="this.setCustomValidity('')" />
                     <label name="password">Repeat Password</label>
-                    <input type="password" />
+                    <input name="ConfirmPassword" id="conPassword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" type="password" placeholder="Confirm Password" required oninput="validation()" />
                     <input type="submit" value="Register" />
-                </fieldset>
-            </div>
+                </form>
+            </fieldset>
         </div>
     </div>
-</body>
-
+</div>

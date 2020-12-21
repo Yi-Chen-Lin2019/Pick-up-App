@@ -25,54 +25,22 @@ namespace WebUI.Controllers
         {
             products = new List<ProductViewModel>();
             categories = new List<CategoryViewModel>();
-
-            //stubs
-            //Image image = new Bitmap(123, 321);
-            //System.IO.MemoryStream ms = new MemoryStream();
-            //image.Save(ms, ImageFormat.Jpeg);
-            //byte[] byteImage = ms.ToArray();
-            //string imageString = Convert.ToBase64String(byteImage);
-           
-            //categories.Add(new CategoryViewModel(1, "Cat 1"));
-            //categories.Add(new CategoryViewModel(2, "Cat 2"));
-            //categories.Add(new CategoryViewModel(3, "Cat 3"));
-
-            //for (int i = 0; i < 21; i++)
-            //{
-            //    if (i % 2 == 1)
-            //    {
-            //        products.Add(new ProductViewModel(i, "test Name " + i.ToString(), i + 13.50, imageString, categories[i % 3]));
-            //    }
-            //    else
-            //    {
-            //        SNProductViewModel sNProduct = new SNProductViewModel(i, "test Name " + i.ToString(), i + 33.5, imageString, categories[i % 3], "serialNo" + i.ToString());
-            //        products.Add(sNProduct);
-
-            //    }
-            //};
-
         }
 
         private async Task fetchItemsAsync()
         {
             LocalService service = new LocalService();
             List<Product> foundProducts = await service.GetAllProducts();
-
+            foundProducts = foundProducts.Where(p => p.StockQuantity > 0).ToList();
             foreach (var item in foundProducts)
             {
                 products.Add(new ProductViewModel(item));
 
-                //TODO do the categories properly
                 if (!categories.Any(cat => cat.id == item.Category.CategoryId))
                 {
                    categories.Add(new CategoryViewModel(item.Category));
                 }
             }
-
-            //foreach (var item in foundCategories)
-            //{
-            //    categories.Add(new CategoryViewModel(item));
-            //}
         }
 
         public async Task<ActionResult> Index(string sortOrder, int category = 0, int page = 1)
@@ -83,16 +51,16 @@ namespace WebUI.Controllers
             switch (sortOrder)
             {
                 case "price_desc":
-                    prods = prods.OrderByDescending(s => s.price).ToList();
+                    prods = prods.OrderByDescending(s => s.ProductPrice).ToList();
                     break;
                 case "price_asc":
-                    prods = prods.OrderBy(s => s.price).ToList();
+                    prods = prods.OrderBy(s => s.ProductPrice).ToList();
                     break;
                 case "name_asc":
-                    prods = prods.OrderByDescending(s => s.name).ToList();
+                    prods = prods.OrderByDescending(s => s.ProductName).ToList();
                     break;
                 case "name_desc":
-                    prods = prods.OrderBy(s => s.name).ToList();
+                    prods = prods.OrderBy(s => s.ProductName).ToList();
                     break;
                 default:
                     break;
@@ -104,7 +72,7 @@ namespace WebUI.Controllers
             }
 
             //Paging
-            int pageSize = 6;
+            int pageSize = 20;
             prods = prods.Skip(pageSize * (page-1)).Take(pageSize).ToList();
             IPagedList <ProductViewModel> prodVM = new StaticPagedList<ProductViewModel>(prods, page, pageSize, products.Count());
             return View(new ViewModels.BrowseViewModel() { categories = this.categories, products = prodVM });
@@ -116,8 +84,9 @@ namespace WebUI.Controllers
         {
             await fetchItemsAsync();
             List<ProductViewModel> prods = products;
-            prods = prods.FindAll(p => p.name.ToLower().Contains(query.ToLower()));
-            IPagedList<ProductViewModel> prodVM = new StaticPagedList<ProductViewModel>(prods,  1, 5, prods.Count());
+            prods = prods.FindAll(p => p.ProductName.ToLower().Contains(query.ToLower()));
+            int pageSize = 20;
+            IPagedList<ProductViewModel> prodVM = new StaticPagedList<ProductViewModel>(prods,  1, pageSize, prods.Count());
             return View("Index", new ViewModels.BrowseViewModel() { categories = this.categories, products = prodVM });
         }
 
